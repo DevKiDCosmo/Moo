@@ -11,8 +11,7 @@ add_definitions(-DEXPORTING_DLL)
 
 # Add the library target
 add_library(TheMathLib SHARED ${SOURCES}/library.cpp
-        src/numbertheory/av.cpp
-        src/numbertheory/av.h)
+        ${SOURCES}/numbertheory/av.cpp)
 
 # Optionally set properties (e.g., version, output name)
 
