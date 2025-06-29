@@ -15,19 +15,8 @@
 #include <cstring>
 
 extern "C" {
-    // Basisfunktionen
-    THEMATHLIBLIBRARY_API int    _addInteration(int n, int k);
-    THEMATHLIBLIBRARY_API double _pow(double base, int exponent);
-    THEMATHLIBLIBRARY_API double _sqrt(float number);
-    THEMATHLIBLIBRARY_API double _invsqrt(float number);
-    THEMATHLIBLIBRARY_API double _nroot(double number, int n, int iterations);
-
-    // Optional: Überladungen für _abs (falls wirklich benötigt)
-    /*
-    THEMATHLIBLIBRARY_API int    _abs(int n);
-    THEMATHLIBLIBRARY_API float  _absf(float n);
-    THEMATHLIBLIBRARY_API double _absd(double n);
-    */
+  THEMATHLIBLIBRARY_API int factorial(int n);
+  THEMATHLIBLIBRARY_API int binomial_coefficient(int n, int k);
 }
 
 #endif // THEMATHLIB_LIBRARY_H

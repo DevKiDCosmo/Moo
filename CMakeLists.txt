@@ -11,7 +11,8 @@ add_definitions(-DEXPORTING_DLL)
 
 # Add the library target
 add_library(TheMathLib SHARED ${SOURCES}/library.cpp
-        ${SOURCES}/numbertheory/av.cpp)
+        src/basics/factorial.cpp
+        src/basics/binomial_coefficient.cpp)
 
 # Optionally set properties (e.g., version, output name)
 

@@ -75,3 +75,9 @@ $$ \int $$
 - Produktbildung
 - Mittelwert (Durchschnitt)
 - Varianz, Standardabweichung
+
+
+# For contributors
+
+DLL only needs the cpp files, no need for the header files. For normal source implementation, you need the header files.
+Add import to `source_port.h` for the C++/C implementation.

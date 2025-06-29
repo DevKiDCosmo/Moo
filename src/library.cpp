@@ -24,12 +24,3 @@ BOOL APIENTRY DllMain(
     }
     return TRUE;
 }
-
-#include <cmath>
-
-extern "C" {
-    __declspec(dllexport)int _addInteration(int n, int k)
-    {
-        return (n + k) * k / 2;
-    }
-}
