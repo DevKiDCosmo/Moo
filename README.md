@@ -1,11 +1,3 @@
-<style>
-* {
-  font-family: "Times New Roman", Times, serif, "Noto Serif", serof;
-  line-height: 1.6;
-}
-</style>
-
-
 # Moo もう
 
 Moo is used for complex math calculations in a simple way. A library with millions of different formulars.
@@ -19,6 +11,8 @@ Moo is used for complex math calculations in a simple way. A library with millio
 For Moo to work, you (probably) need to install the following dependencies:
 - Kazu 数: For number bigger than 64bit.
 
+Download the latest release from the [Moo もう Releases](https://github.com/DevKiDCosmo/TheMathLib/releases)
+
 ## Linux 64bit
 
 ## MacOS 64bit
@@ -30,6 +24,10 @@ For Moo to work, you (probably) need to install the following dependencies:
 - Python, C, C++, C#, Java, Go, Rust, Ruby, PHP, Perl, Lua, Swift, Kotlin, Dart, JavaScript, TypeScript
 
 Source Code for C++/C and Python is available on GitHub: [Moo もう](https://github.com/DevKiDCosmo/TheMathLib).
+
+# DOCS
+
+Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.com/DevKiDCosmo/TheMathLib/wiki)
 
 # Features
 - Complex math calculations
