@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -39,3 +40,11 @@
 
 # debug information files
 *.dwo
+=======
+./cmake-build-debug-mingw
+./cmake-build-debug-visual-studio
+./cmake-build-release-mingw
+./cmake-build-release-visual-studio
+./cmake-build-relwithdebinfo-mingw
+./cmake-build-relwithdebinfo-visual-studio
+>>>>>>> 8d9ca5f (Initial commit)
