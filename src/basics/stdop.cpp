@@ -1,4 +1,4 @@
-// src/basics/stdop.cpp
+
 class moo
 {
 public:

@@ -9,66 +9,71 @@ Creating a new type with the most compactibility to every calculation or creatin
 converted by every function to it destined type of number set.
 
 For the use of dll, you must directly use the type `moo::number` for universal use, or for specific use, the correct
-type of number set, like `moo::natural_number` for natural numbers.
+type of number set, like `moo::natural_number` for natural numbers. There is a small problem, C cannot handle `structs`.
 
 ```cpp
 class moo {
-#include <cmath>
+#include <variant>
+#include <complex>
+#include <cassert>
 
 namespace moo {
 public:
-  using generic_number = std::variant<int, long, double, long double, std::complex<double>, Rational>;
+    // In numset
+    using generic_number = std::variant<int, long, double, long double, std::complex<double>, Rational>;
 
-  struct number { // can also be uninum or moo_number
-      std::variant<int, double, long double, std::complex<double>, Rational> value;  
-  };
+    struct number { // can also be uninum or moo_number
+        std::variant<int, double, long double, std::complex<double>, Rational> value;  
+    };
 
-  struct natural_number {
-      int value;
-  };
+    struct natural_number {
+        int value;
+    };
     
-  template<typename Base, typename Exp>
-  number exponentiation(Base base, Exp exp) {
-      double base_val, exp_val;
-  
-      if constexpr (std::is_same_v<Base, number>)
-          base_val = base.value;
-      else if constexpr (std::is_same_v<Base, natural_number>)
-          base_val = static_cast<double>(base.value);
-      else {
-          auto maybe_base = moo::conversen_in_n(base);
-          assert(maybe_base.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
-          base_val = maybe_base.value().value;
-      }
-  
-      if constexpr (std::is_same_v<Exp, number>)
-          exp_val = exp.value;
-      else if constexpr (std::is_same_v<Exp, natural_number>)
-          exp_val = static_cast<double>(exp.value);
-      else {
-          auto maybe_exp = moo::conversen_in_n(exp);
-          assert(maybe_exp.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
-          exp_val = maybe_exp.value().value;
-      }
-      
-      double result = 1.0;
-      double b = base.value;
-     int e = exp.value;
-     while (e > 0) {
-        if (e % 2 == 1)
-            result *= b;
-        b *= b;
-        e /= 2;
+    // In basics for exponentiation
+    template<typename Base, typename Exp>
+    number exponentiation(Base base, Exp exp) {
+        double base_val, exp_val;
+    
+        if constexpr (std::is_same_v<Base, number>)
+            base_val = base.value;
+        else if constexpr (std::is_same_v<Base, natural_number>)
+            base_val = static_cast<double>(base.value);
+        else {
+            auto maybe_base = moo::conversen_in_n(base);
+            assert(maybe_base.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
+            base_val = maybe_base.value().value;
+        }
+    
+        if constexpr (std::is_same_v<Exp, number>)
+            exp_val = exp.value;
+        else if constexpr (std::is_same_v<Exp, natural_number>)
+            exp_val = static_cast<double>(exp.value);
+        else {
+            auto maybe_exp = moo::conversen_in_n(exp);
+            assert(maybe_exp.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
+            exp_val = maybe_exp.value().value;
+        }
+        
+        double result = 1.0;
+        double b = base.value;
+        int e = exp.value;
+        while (e > 0) {
+            if (e % 2 == 1)
+                result *= b;
+            b *= b;
+            e /= 2;
+        }
+        return number{result};
     }
-    return number{result};
-  
-  }
 }
 ```
 
 E.g.:
 
 ```cpp
+#include <moo.hpp>
+
 moo::number x = {2.42f};
 moo::natural_number k = {5};
 auto result = moo::exponentiation(x, k); // Result: number{32.0}
