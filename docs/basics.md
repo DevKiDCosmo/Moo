@@ -22,52 +22,105 @@ types.
 Given the following code snippet, we can see how to handle different number types and perform exponentiation:
 
 ```cpp
-class moo {
+// May contain errors - this is a draft and notes for the basics of mathematical operations in C++ with MooLib.
+assert(false && "This is a draft and notes for the basics of mathematical operations in C++ with MooLib.");
 #include <variant>
 #include <complex>
 #include <cassert>
+#include <string>
+#include <optional>
+#include <cmath>
+#include <iostream>
 
-namespace moo {
+class moo {
 public:
     // In numset
-    using generic_number = std::variant<int, long, double, long double, std::complex<double>, Rational>;
+    struct rational {
+        long long numerator;
+        long long denominator;
+
+        rational(long long num = 0, long long denom = 1) : numerator(num), denominator(denom) {
+            if (denominator == 0) {
+                throw std::invalid_argument("Denominator cannot be 0");
+            }
+        }
+    };
+    
+    using generic_number = std::variant<int, long, double, long double, std::complex<double>, rational>;
 
     struct number { // can also be uninum or moo_number
-        std::variant<int, double, long double, std::complex<double>, Rational> value;  
+        std::variant<int, double, long double, std::complex<double>, rational> value;  
     };
 
     struct naturalNumber {
         int value;
     };
     
+    // In conversen
+    static double conversenDouble(const std::variant<int, double, long double, std::complex<double>, Rational>& v) {
+        return std::visit([](auto&& val) -> double {
+            using T = std::decay_t<decltype(val)>;
+            if constexpr (std::is_same_v<T, std::complex<double>>) {
+                return val.real(); // Nur Realteil
+            } else if constexpr (std::is_same_v<T, Rational>) {
+                return val.to_double(); // Dummy-Methode
+            } else {
+                return static_cast<double>(val);
+            }
+        }, v);
+    }
+    
+    static std::optional<naturalNumber> conversenNatural(const std::string& str) {
+        try {
+            return naturalNumber{ std::stoi(str) };
+        } catch (...) {
+            return std::nullopt;
+        }
+    }
+
+    static std::optional<number> conversenNumber(const std::string& str) {
+        try {
+            return number{ std::stod(str) };
+        } catch (...) {
+            return std::nullopt;
+        }
+    }
+    
+    ...
+    
+    template<typename Variant>
+    static double extractDouble(const Variant& var) {
+        static_assert(std::variant_size_v<Variant> > 0, "Variant must not be empty.");
+        return std::visit([](auto&& val) -> double {
+            using T = std::decay_t<decltype(val)>;
+               if constexpr (std::is_same_v<T, std::complex<double>>) {
+                   return val.real();
+               } else if constexpr (std::is_same_v<T, Rational>) {
+                   return val.to_double();
+               } else {
+                   return static_cast<double>(val);
+               }
+        }, var);
+    }
+
+    
     // In basics for exponentiation
     template<typename Base, typename Exp>
-    number exponentiation(Base base, Exp exp) {
-        double base_val, exp_val;
-    
-        if constexpr (std::is_same_v<Base, number>)
-            base_val = base.value;
-        else if constexpr (std::is_same_v<Base, naturalNumber>)
-            base_val = static_cast<double>(base.value);
-        else {
-            auto maybe_base = moo::conversenNatural(base);
-            assert(maybe_base.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
-            base_val = maybe_base.value().value;
-        }
-    
-        if constexpr (std::is_same_v<Exp, number>)
-            exp_val = exp.value;
-        else if constexpr (std::is_same_v<Exp, naturalNumber>)
-            exp_val = static_cast<double>(exp.value);
-        else {
-            auto maybe_exp = moo::conversenNatural(exp);
-            assert(maybe_exp.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
-            exp_val = maybe_exp.value().value;
-        }
+    static number exponentiation(Base base, Exp exp) {
+        
+        // Logic for verifying types and extracting values
+        static_assert(std::is_same_v<Base, number> || std::is_same_v<Base, naturalNumber>, "Base must be number or naturalNumber.");
+        static_assert(std::is_same_v<Exp, naturalNumber>, "Exponent must be naturalNumber.");
+        
+        moo::conversenNumber(base);
+        moo::conversenNatural(exp);
+        
+        assert(moo::extractDouble(exp.value) >= 0 && "Exponent must be non-negative.");
+        
         
         double result = 1.0;
-        double b = base.value;
-        int e = exp.value;
+        double b = moo::extractDouble(base.value);
+        int e = moo::extractDouble(exp.value);
         while (e > 0) {
             if (e % 2 == 1)
                 result *= b;
@@ -77,16 +130,22 @@ public:
         return number{result};
     }
     
-    exponentiationdll(std::string base, std::string exp) {
-        return exponentiation(moo::conversenNumber(moo::conversendll(base)), moo::conversenNatural(moo::conversendll(exp))).value;
+    double exponentiationdll(const std::string& base, const std::string& exp) {
+        auto base_num = moo::conversenNumber(moo::conversendll(base));
+        auto exp_num = moo::conversenNatural(moo::conversendll(exp));
+        auto result = exponentiation(base_num, exp_num);
+        return moo::conversenDouble(result.value);
     }
     
-    extern "C" {
-        double exponentiation(char* base_str, char* exp_str) {
-            return exponentiationdll(base_str, exp_str);
-        }    
-    }
 }
+
+// MOOLIB_API from library.h for DLL export with __declspec(dllexport)
+extern "C" {
+    MOOLIB_API double exponentiation(char* base_str, char* exp_str) {
+        return exponentiationdll(base_str, exp_str);
+    }    
+}
+
 ```
 
 E.g.:
@@ -97,6 +156,38 @@ E.g.:
 moo::number x = {2.42f};
 moo::naturalNumber k = {5};
 auto result = moo::exponentiation(x, k); // Result: number{32.0}
+```
+
+and with DLL usage:
+
+```cpp
+#include <windows.h>
+#include <iostream>
+
+typedef double (*exponentiation_func)(char*, char*);
+
+int main() {
+    HMODULE hMoo = LoadLibraryA("moo.dll");
+    if (!hMoo) {
+        std::cerr << "Error: moo.dll cannot be loaded." << std::endl;
+        return 1;
+    }
+
+    exponentiation_func exponentiation = (exponentiation_func)GetProcAddress(hMoo, "exponentiation");
+    if (!exponentiation) {
+        std::cerr << "Error: Function exponentiation cannot be found." << std::endl;
+        FreeLibrary(hMoo);
+        return 1;
+    }
+
+    char base[] = "2.42";
+    char exp[] = "5";
+    double result = exponentiation(base, exp);
+    std::cout << "Result: " << result << std::endl; // Result: 32.0
+
+    FreeLibrary(hMoo);
+    return 0;
+}
 ```
 
 ### Operation that can be done directly
