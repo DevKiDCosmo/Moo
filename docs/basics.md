@@ -1,4 +1,4 @@
-# Basic Operation for Calculation
+# Basic Operation for Calculation (Draft and Notes)
 
 > Basics of mathematical operations that can be performed directly or require function calls.
 > No formular or complex equation is needed, just the basic operations.
@@ -9,7 +9,17 @@ Creating a new type with the most compactibility to every calculation or creatin
 converted by every function to it destined type of number set.
 
 For the use of dll, you must directly use the type `moo::number` for universal use, or for specific use, the correct
-type of number set, like `moo::natural_number` for natural numbers. There is a small problem, C cannot handle `structs`.
+type of number set, like `moo::naturalNumber` for natural numbers. There is a small problem, C cannot handle `structs`.
+To fix this problem, we use pointers to the `moo::number` type, which can be used in C as well.
+
+For DLL usage, the function calls a function called `moo::conversendll`. It converts it to the nearest define type.
+With a chain like `moo::conversenNatural(moo::conversendll(x))`,
+it can convert the number to the nearest defined type in the number set, if the number is fitting in the restrainments.
+
+For ease, the `moo::conversendll` use a string to process instead creating the same function over and over for different
+types.
+
+Given the following code snippet, we can see how to handle different number types and perform exponentiation:
 
 ```cpp
 class moo {
@@ -26,7 +36,7 @@ public:
         std::variant<int, double, long double, std::complex<double>, Rational> value;  
     };
 
-    struct natural_number {
+    struct naturalNumber {
         int value;
     };
     
@@ -37,20 +47,20 @@ public:
     
         if constexpr (std::is_same_v<Base, number>)
             base_val = base.value;
-        else if constexpr (std::is_same_v<Base, natural_number>)
+        else if constexpr (std::is_same_v<Base, naturalNumber>)
             base_val = static_cast<double>(base.value);
         else {
-            auto maybe_base = moo::conversen_in_n(base);
+            auto maybe_base = moo::conversenNatural(base);
             assert(maybe_base.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
             base_val = maybe_base.value().value;
         }
     
         if constexpr (std::is_same_v<Exp, number>)
             exp_val = exp.value;
-        else if constexpr (std::is_same_v<Exp, natural_number>)
+        else if constexpr (std::is_same_v<Exp, naturalNumber>)
             exp_val = static_cast<double>(exp.value);
         else {
-            auto maybe_exp = moo::conversen_in_n(exp);
+            auto maybe_exp = moo::conversenNatural(exp);
             assert(maybe_exp.has_value() && "Base conversion failed: Invalid type or num set for exponentiation");
             exp_val = maybe_exp.value().value;
         }
@@ -66,6 +76,16 @@ public:
         }
         return number{result};
     }
+    
+    exponentiationdll(std::string base, std::string exp) {
+        return exponentiation(moo::conversenNumber(moo::conversendll(base)), moo::conversenNatural(moo::conversendll(exp))).value;
+    }
+    
+    extern "C" {
+        double exponentiation(char* base_str, char* exp_str) {
+            return exponentiationdll(base_str, exp_str);
+        }    
+    }
 }
 ```
 
@@ -75,7 +95,7 @@ E.g.:
 #include <moo.hpp>
 
 moo::number x = {2.42f};
-moo::natural_number k = {5};
+moo::naturalNumber k = {5};
 auto result = moo::exponentiation(x, k); // Result: number{32.0}
 ```
 

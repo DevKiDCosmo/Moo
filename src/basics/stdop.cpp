@@ -32,7 +32,7 @@ public:
 
 // @formatter:off
 extern "C" {
-    __declspec(dllexport) int abs(int x) { return moo::abs<int>(x); }
+    __declspec(dllexport) int abs_(int x) { return moo::abs<int>(x); }
     __declspec(dllexport) int min(int a, int b) { return moo::min<int>(a, b); }
     __declspec(dllexport) int max(int a, int b) { return moo::max<int>(a, b); }
 

@@ -24,7 +24,7 @@ MOOLIB_API int gcd(int n, int k);
 MOOLIB_API int lcm(int n, int k);
 
 // int-Versionen
-MOOLIB_API int abs(int x);
+MOOLIB_API int abs_(int x);
 MOOLIB_API int min(int a, int b);
 MOOLIB_API int max(int a, int b);
 
