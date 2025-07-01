@@ -22,14 +22,13 @@ CTYPE_MAP = {
     "int32_t": ctypes.c_int,
     "int16_t": ctypes.c_short,
     "uint16_t": ctypes.c_ushort,
-    "double": ctypes.c_double,
     # ggf. weitere Typen ergänzen
 }
 
 class TestMathDLL(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-build-debug-visual-studio/bin/moo.dll"))
+        dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-build-release-visual-studio/bin/MooMSVC.dll"))
         logging.info(f"Versuche DLL zu laden: {dll_path}")
         try:
             cls.math = ctypes.CDLL(dll_path)

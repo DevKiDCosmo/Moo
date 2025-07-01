@@ -9,8 +9,7 @@ logging.info(f"Versuche DLL zu laden: {dll_path}")
 math = ctypes.CDLL(dll_path)
 logging.info("DLL erfolgreich geladen. ✅")
 
-# Beispiel: Funktionsaufruf
-math.absolute.restype = ctypes.c_longlong
-math.absolute.argtypes = [ctypes.c_longlong]
-result = math.absolute(-53)
-print("absolute(-53) =", result)
+math.flmod.restype = ctypes.c_double
+math.flmod.argtypes = [ctypes.c_double, ctypes.c_double]
+result = math.flmod(24.3, 23.1)
+print("=", result)
