@@ -14,7 +14,7 @@ add_library(Moo SHARED ${SOURCES}/library.cpp
         src/basics/factorial.cpp
         src/basics/binom.cpp
         src/basics/stdop.cpp
-        src/numset/numsets.hpp)
+        src/datatype/datatypes.hpp)
 
 # Optionally set properties (e.g., version, output name)
 

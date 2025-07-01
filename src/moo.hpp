@@ -1,14 +1,14 @@
-// stdop.h
 #pragma once
 
-class moo
-{
+#include <cstdint>
+
+class moo {
 public:
-    static int abs(int x);
-    static int min(int a, int b);
-    static int max(int a, int b);
-    static int gcd(int a, int b);
-    static int lcm(int a, int b);
-    static int factorial(int n);
-    static int binomial_coefficient(int n, int k);
+    static int64_t absolute(int64_t x);
+    static int64_t min(int64_t a, int64_t b);
+    static int64_t max(int64_t a, int64_t b);
+    static int64_t gcd(int64_t a, int64_t b);
+    static int64_t lcm(int64_t a, int64_t b);
+    static int64_t factorial(int n);
+    static int64_t binom(int64_t n, int64_t k);
 };

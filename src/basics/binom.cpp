@@ -1,19 +1,21 @@
+#include <cstdint>
+
 class moo
 {
 public:
-    static int binomial_coefficient(int n, int k)
+    static int64_t binom(int64_t n, int64_t k)
     {
         if (k == 0 || k == n) return 1;
         if (k < 0 || k > n) return 0;
-        return binomial_coefficient(n - 1, k - 1) + binomial_coefficient(n - 1, k);
+        return binom(n - 1, k - 1) + binom(n - 1, k);
     }
 };
 
 // @formatter:off
 extern "C" {
-    __declspec(dllexport) int binom(int n, int k)
+    __declspec(dllexport) int64_t binom(int64_t n, int64_t k)
     {
-        return moo::binomial_coefficient(n, k);
+        return moo::binom(n, k);
     }
 }
 // @formatter:on

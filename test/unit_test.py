@@ -10,10 +10,25 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 
 test_results = []
 
+# Mapping von Typnamen zu ctypes
+CTYPE_MAP = {
+    "int": ctypes.c_int,
+    "double": ctypes.c_double,
+    "float": ctypes.c_float,
+    "uint8_t": ctypes.c_uint8,
+    "uint32_t": ctypes.c_uint32,
+    "uint64_t": ctypes.c_uint64,
+    "int64_t": ctypes.c_longlong,
+    "int32_t": ctypes.c_int,
+    "int16_t": ctypes.c_short,
+    "uint16_t": ctypes.c_ushort,
+    # ggf. weitere Typen ergänzen
+}
+
 class TestMathDLL(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-build-debug-visual-studio/bin/TheMathLib.dll"))
+        dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-build-debug-visual-studio/bin/moo.dll"))
         logging.info(f"Versuche DLL zu laden: {dll_path}")
         try:
             cls.math = ctypes.CDLL(dll_path)
@@ -27,7 +42,6 @@ class TestMathDLL(unittest.TestCase):
         start = time.time()
         try:
             result = func(*args)
-            # Float/double Vergleich mit Toleranz
             if isinstance(expected, float):
                 self.assertAlmostEqual(result, expected, places=6)
             else:
@@ -60,7 +74,12 @@ class TestMathDLL(unittest.TestCase):
                 func_name = row['FUNCTION']
                 expected = ast.literal_eval(row['RESULT'])
                 args = ast.literal_eval(row['ARGS'])
+                type_name = row.get('TYPE', 'long long')
+                ctype = CTYPE_MAP.get(type_name, ctypes.c_longlong)
                 func = getattr(self.math, func_name)
+                # Setze Rückgabe- und Argumenttypen
+                func.restype = ctype
+                func.argtypes = [ctype] * len(args)
                 self.run_test(func, *args, expected=expected)
 
 def export_results():
