@@ -13,7 +13,8 @@ add_definitions(-DEXPORTING_DLL)
 add_library(Moo SHARED ${SOURCES}/library.cpp
         src/basics/factorial.cpp
         src/basics/binom.cpp
-        src/basics/stdop.cpp)
+        src/basics/stdop.cpp
+        src/basics/permutation.cpp)
 
 # Optionally set properties (e.g., version, output name)
 
@@ -39,4 +40,3 @@ set_target_properties(Moo PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-

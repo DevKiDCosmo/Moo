@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 class moo {
 public:
@@ -9,11 +10,16 @@ public:
     static double  max(double a, double b);
     static int64_t gcd(int64_t a, int64_t b);
     static int64_t lcm(int64_t a, int64_t b);
-    static int64_t factorial(int n);
+    static int64_t fac(int n);
     static int64_t binom(int64_t n, int64_t k);
     static double  flmod(double a, double b);
     static int64_t mod(int64_t a, int64_t b);
 
     static double floor(double x);
     static double ceil(double x);
+    static int64_t idiv(double n, double k);
+
+    static int64_t* permutation(int n);
+    static void fpermutation(int64_t* ptr);
+    static int64_t* genpermutation(int n);
 };

@@ -42,6 +42,10 @@ public:
         double g = gcd(n, k);
         return static_cast<int64_t>(absolute(n / g * k));
     }
+
+    static int64_t idiv(double n, double k) {
+        return static_cast<int64_t>(floor(n / k));
+    }
 };
 
 // @formatter:off
@@ -54,9 +58,11 @@ extern "C" {
     __declspec(dllexport) int64_t gcd(int64_t a, int64_t b) { return moo::gcd(a, b); }
     __declspec(dllexport) int64_t lcm(int64_t n, int64_t k) { return moo::lcm(n, k); }
     __declspec(dllexport) double flmod(double a, double b) { return moo::flmod(a, b); }
-    __declspec(dllexport) double mod(int64_t a, int64_t b) { return moo::mod(a, b); }
+    __declspec(dllexport) int64_t mod(int64_t a, int64_t b) { return moo::mod(a, b); }
 
     __declspec(dllexport) double floor(double x) { return moo::floor(x); }
     __declspec(dllexport) double ceil(double x) { return moo::ceil(x); }
+
+    __declspec(dllexport) int64_t idiv(double a, double b) { return moo::idiv(a,b); }
 }
 // @formatter:on

@@ -272,3 +272,4 @@ mod;6;[16,10];int64_t
 mod;7;[17,10];int64_t
 mod;8;[18,10];int64_t
 mod;0;[240,120];int64_t
+idiv;1;[12,7];double
