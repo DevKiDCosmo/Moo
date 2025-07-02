@@ -23,11 +23,11 @@ math.permutation.argtypes = [ctypes.c_int64]
 math.clearptr.restype = None
 math.clearptr.argtypes = [ctypes.POINTER(ctypes.c_int64)]
 
-math.genpermutation.restype = ctypes.POINTER(ctypes.c_int64)
-math.genpermutation.argtypes = [ctypes.c_int64]
+math.genPerm.restype = ctypes.POINTER(ctypes.c_int64)
+math.genPerm.argtypes = [ctypes.c_int64]
 
 # Test: Fakultätstabelle
-n = 10
+n = 5
 ptr = math.permutation(n)
 if not ptr:
     logging.error("Fehler: NULL-Pointer von permutation zurückgegeben.")
@@ -38,9 +38,9 @@ else:
     print("Speicher für Fakultät freigegeben.")
 
 # Test: Alle Permutationen
-ptr_perm = math.genpermutation(n)
+ptr_perm = math.genPerm(n)
 if not ptr_perm:
-    logging.error("Fehler: NULL-Pointer von genpermutation zurückgegeben.")
+    logging.error("Fehler: NULL-Pointer von genPerm zurückgegeben.")
 else:
     from math import factorial
 

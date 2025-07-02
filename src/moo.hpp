@@ -19,8 +19,9 @@ public:
     static double  ceil(double x);
     static int64_t idiv(double n, double k);
 
-    static int64_t* permutation(int n);
+    static int64_t* factable(int n);
     static void     clearptr(const int64_t* ptr);
     static int64_t* genPerm(int n);
     static void     freePerm(int64_t* ptr);
+    static int64_t  permutation(int n, int k);
 };

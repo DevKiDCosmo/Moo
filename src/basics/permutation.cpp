@@ -6,7 +6,7 @@
 
 class moo {
 public:
-    static int64_t* permutation(int n) {
+    static int64_t* factable(int n) {
         if (n < 0 || n > 20) return nullptr;
 
         auto* result = static_cast<int64_t*>(malloc(sizeof(int64_t) * (n + 1)));
@@ -54,17 +54,28 @@ public:
         free(ptr);
     }
 
+    static int64_t permutation(int n, int k) {
+        if (n < 0 || k < 0 || k > n || n > 20) return -1;
+
+        int64_t fact = 1;
+        for (int i = n - k + 1; i <= n; ++i) {
+            if (fact > std::numeric_limits<int64_t>::max() / i) return -1;
+            fact *= i;
+        }
+
+        return fact;
+    }
+
 private:
     static void swap(int64_t& a, int64_t& b) {
         int64_t t = a;
-        a = b;
-        b = t;
+        a         = b;
+        b         = t;
     }
 
     static void permute(int64_t* arr, int l, int r, int64_t* out, int64_t& index) {
         if (l == r) {
-            for (int i = 0; i < r; ++i)
-                out[index * r + i] = arr[i];
+            for (int i = 0; i < r; ++i) out[index * r + i] = arr[i];
             ++index;
             return;
         }
@@ -78,19 +89,23 @@ private:
 };
 
 extern "C" {
-    __declspec(dllexport) int64_t* permutation(int n) {
-        return moo::permutation(n);
-    }
+__declspec(dllexport) int64_t* factable(int n) {
+    return moo::factable(n);
+}
 
-    __declspec(dllexport) void clearptr(const int64_t* ptr) {
-        moo::clearptr(ptr);
-    }
+__declspec(dllexport) void clearptr(const int64_t* ptr) {
+    moo::clearptr(ptr);
+}
 
-    __declspec(dllexport) int64_t* genPerm(int n) {
-        return moo::genPerm(n);
-    }
+__declspec(dllexport) int64_t* genPerm(int n) {
+    return moo::genPerm(n);
+}
 
-    __declspec(dllexport) void freePerm(int64_t* ptr) {
-        moo::freePerm(ptr);
-    }
+__declspec(dllexport) void freePerm(int64_t* ptr) {
+    moo::freePerm(ptr);
+}
+
+__declspec(dllexport) void permutation(int n, int k) {
+    moo::permutation(n, k);
+}
 }
