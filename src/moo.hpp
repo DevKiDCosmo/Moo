@@ -15,11 +15,12 @@ public:
     static double  flmod(double a, double b);
     static int64_t mod(int64_t a, int64_t b);
 
-    static double floor(double x);
-    static double ceil(double x);
+    static double  floor(double x);
+    static double  ceil(double x);
     static int64_t idiv(double n, double k);
 
     static int64_t* permutation(int n);
-    static void fpermutation(int64_t* ptr);
-    static int64_t* genpermutation(int n);
+    static void     clearptr(const int64_t* ptr);
+    static int64_t* genPerm(int n);
+    static void     freePerm(int64_t* ptr);
 };

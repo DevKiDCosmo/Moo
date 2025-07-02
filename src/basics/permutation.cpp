@@ -1,23 +1,22 @@
-#include <stdlib.h>
-
 #include <cstdint>
 #include <limits>
-#include <vector>
+#include <algorithm>
 
-#include "../library.h"
+// Never include the header file else inconsity.
 
 class moo {
 public:
     static int64_t* permutation(int n) {
-        if (n < 0 || n > 20) return nullptr; // 21! überläuft int64_t
+        if (n < 0 || n > 20) return nullptr;
 
-        auto* result = new int64_t[n + 1];
-        result[0]    = 1;
+        auto* result = static_cast<int64_t*>(malloc(sizeof(int64_t) * (n + 1)));
+        if (!result) return nullptr;
 
+        result[0] = 1;
         for (int i = 1; i <= n; ++i) {
             if (result[i - 1] > std::numeric_limits<int64_t>::max() / i) {
-                delete[] result;
-                return nullptr; // Überlauf vermeiden
+                free(result);
+                return nullptr;
             }
             result[i] = result[i - 1] * i;
         }
@@ -25,64 +24,73 @@ public:
         return result;
     }
 
-    static void fpermutation(int64_t* ptr) {
-        delete[] ptr;
+    static void clearptr(const int64_t* ptr) {
+        free(const_cast<int64_t*>(ptr));
     }
 
-    // TODO: Need to be fixed and optimized. Too slow for large n. Temporary using 64b int. Later 128b int.
-    static int64_t* genpermutation(int n) {
-        int64_t total = (n < 0 || n > 20) ? 0 : fac(n); // 21! - Overflow protection
-        if (total == 0) return nullptr;
+    static int64_t* genPerm(int n) {
+        if (n < 0 || n > 12) return nullptr; // 13! > 6 × 10^9 -> RAM Warnung
+        int64_t total = 1;
+        for (int i = 2; i <= n; ++i) total *= i;
 
         auto* result = static_cast<int64_t*>(malloc(sizeof(int64_t) * total * n));
         if (!result) return nullptr;
 
-        auto* a = static_cast<int64_t*>(malloc(sizeof(int64_t) * n));
-        if (!a) {
+        auto* base = static_cast<int64_t*>(malloc(sizeof(int64_t) * n));
+        if (!base) {
             free(result);
             return nullptr;
         }
-        for (int64_t i = 0; i < n; ++i) a[i] = i + 1;
+
+        for (int i = 0; i < n; ++i) base[i] = i + 1;
 
         int64_t index = 0;
-        generate(n, a, result, index);
-
-        free(a);
+        permute(base, 0, n, result, index);
+        free(base);
         return result;
     }
 
+    static void freePerm(int64_t* ptr) {
+        free(ptr);
+    }
+
 private:
-    static void generate(int64_t n, int64_t* a, int64_t* result, int64_t& index) {
-        if (n == 1) {
-            for (int64_t i = 0; i < index % n == 0 ? n : 0; ++i) {
-                result[index++] = a[i];
-            }
+    static void swap(int64_t& a, int64_t& b) {
+        int64_t t = a;
+        a = b;
+        b = t;
+    }
+
+    static void permute(int64_t* arr, int l, int r, int64_t* out, int64_t& index) {
+        if (l == r) {
+            for (int i = 0; i < r; ++i)
+                out[index * r + i] = arr[i];
+            ++index;
             return;
         }
 
-        for (int64_t i = 0; i < n; ++i) {
-            generate(n - 1, a, result, index);
-            if (n % 2 == 0) {
-                std::swap(a[i], a[n - 1]);
-            } else {
-                std::swap(a[0], a[n - 1]);
-            }
+        for (int i = l; i < r; ++i) {
+            swap(arr[l], arr[i]);
+            permute(arr, l + 1, r, out, index);
+            swap(arr[l], arr[i]);
         }
     }
 };
 
-
 extern "C" {
-__declspec(dllexport) int64_t* permutation(int n) {
-    return moo::permutation(n);
-}
+    __declspec(dllexport) int64_t* permutation(int n) {
+        return moo::permutation(n);
+    }
 
-__declspec(dllexport) void fpermutation(int64_t* ptr) {
-    moo::fpermutation(ptr);
-}
+    __declspec(dllexport) void clearptr(const int64_t* ptr) {
+        moo::clearptr(ptr);
+    }
 
-// INKONSISTENT HIER, weil reference pointer in generate
-__declspec(dllexport) int64_t* genpermutation(int n) {
-    return moo::genpermutation(n);
-};
+    __declspec(dllexport) int64_t* genPerm(int n) {
+        return moo::genPerm(n);
+    }
+
+    __declspec(dllexport) void freePerm(int64_t* ptr) {
+        moo::freePerm(ptr);
+    }
 }

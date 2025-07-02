@@ -22,8 +22,6 @@ BOOL APIENTRY DllMain(
         case DLL_PROCESS_DETACH: // A process unloads the DLL.
             std::cout << "DLL_PROCESS_DETACH" << std::endl;
             std::cout << "Moo v1.0.0B unloaded" << std::endl;
-            std::cout << "DLL unloaded from address: " << hModule << std::endl;
-            std::cout << "Thank you for using it." << std::endl;
             break;
     }
     return TRUE;

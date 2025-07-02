@@ -2,41 +2,54 @@ import os
 import ctypes
 import logging
 
+# Initialisiere Logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
-# Strukturdefinition für C-Schnittstelle
-class PermResult(ctypes.Structure):
-    _fields_ = [
-        ("data", ctypes.POINTER(ctypes.c_int64)),
-        ("count", ctypes.c_int64),
-        ("length", ctypes.c_int64),
-    ]
-
-# DLL-Pfad
-dll_path = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "../cmake-build-debug-visual-studio/bin/moo.dll")
-)
+# Absoluter Pfad zur DLL
+dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-build-debug-visual-studio/bin/moo.dll"))
 
 # DLL laden
-math = ctypes.CDLL(dll_path)
+try:
+    math = ctypes.CDLL(dll_path)
+    logging.info("DLL erfolgreich geladen ✅")
+except OSError as e:
+    logging.error(f"DLL konnte nicht geladen werden: {e}")
+    exit(1)
 
-# Signaturen definieren
-math.genpermutation.restype = PermResult
-math.genpermutation.argtypes = [ctypes.c_int]
-math.fpermutation.restype = None
-math.fpermutation.argtypes = [ctypes.POINTER(PermResult)]
+# Funktionssignaturen setzen
+math.permutation.restype = ctypes.POINTER(ctypes.c_int64)
+math.permutation.argtypes = [ctypes.c_int64]
 
-# Permutationsdaten abrufen
-n = 4
-res = math.genpermutation(n)
-if not bool(res.data):
-    print("Fehler: NULL-Pointer von C++ zurückgegeben.")
+math.clearptr.restype = None
+math.clearptr.argtypes = [ctypes.POINTER(ctypes.c_int64)]
+
+math.genpermutation.restype = ctypes.POINTER(ctypes.c_int64)
+math.genpermutation.argtypes = [ctypes.c_int64]
+
+# Test: Fakultätstabelle
+n = 10
+ptr = math.permutation(n)
+if not ptr:
+    logging.error("Fehler: NULL-Pointer von permutation zurückgegeben.")
 else:
-    print(f"Permutationen für n = {n}:")
-    for i in range(res.count):
-        perm = [res.data[i * res.length + j] for j in range(res.length)]
-        print(perm)
-    # Speicher in C++ freigeben
-    math.fpermutation(ctypes.byref(res))
-    print("Speicher erfolgreich freigegeben.")
-print("Fertig.")
+    fakultaet = [ptr[i] for i in range(n + 1)]
+    print(f"{n}! Tabelle =", fakultaet)
+    math.clearptr(ptr)
+    print("Speicher für Fakultät freigegeben.")
+
+# Test: Alle Permutationen
+ptr_perm = math.genpermutation(n)
+if not ptr_perm:
+    logging.error("Fehler: NULL-Pointer von genpermutation zurückgegeben.")
+else:
+    from math import factorial
+
+    total = factorial(n)
+    print(f"Alle {total} Permutationen von 0 bis {n-1}:")
+    for i in range(total):
+        start = i * n
+        perm = [ptr_perm[start + j] for j in range(n)]
+        print(f"{i + 1}: {perm}")
+
+    math.clearptr(ptr_perm)
+    print("Speicher für Permutationen freigegeben.")

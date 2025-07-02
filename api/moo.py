@@ -11,7 +11,7 @@ class moo:
         dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), f"./{file}"))
         self.moo = ctypes.CDLL(dll_path)
 
-    def absolute(self, x):
+    def abs(self, x):
         """
         Calculate the absolute value of a number.
         :param x: Number to calculate the absolute value of.

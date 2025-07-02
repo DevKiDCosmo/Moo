@@ -4,7 +4,7 @@ class moo {
 public:
     static double absolute(double x) {
         if (x == 0) return 0;
-        return x < (0) ? -x : x;
+        return x < 0 ? -x : x;
     }
 
     static double min(double a, double b) {
@@ -34,12 +34,12 @@ public:
     }
 
     static int64_t gcd(int64_t a, int64_t b) {
-        return b == 0 ? a : gcd(b, static_cast<int64_t>(mod(a, b)));
+        return b == 0 ? a : gcd(b, mod(a, b));
     }
 
     static int64_t lcm(int64_t n, int64_t k) {
         if (n == 0 || k == 0) return 0;
-        double g = gcd(n, k);
+        auto g = gcd(n, k);
         return static_cast<int64_t>(absolute(n / g * k));
     }
 
@@ -60,8 +60,8 @@ extern "C" {
     __declspec(dllexport) double flmod(double a, double b) { return moo::flmod(a, b); }
     __declspec(dllexport) int64_t mod(int64_t a, int64_t b) { return moo::mod(a, b); }
 
-    __declspec(dllexport) double floor(double x) { return moo::floor(x); }
-    __declspec(dllexport) double ceil(double x) { return moo::ceil(x); }
+    __declspec(dllexport) double dfloor(double x) { return moo::floor(x); }
+    __declspec(dllexport) double dceil(double x) { return moo::ceil(x); }
 
     __declspec(dllexport) int64_t idiv(double a, double b) { return moo::idiv(a,b); }
 }

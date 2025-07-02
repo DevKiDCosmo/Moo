@@ -28,14 +28,16 @@ MOOLIB_API double  max(double a, double b);
 MOOLIB_API int64_t mod(int64_t a, int64_t b);
 MOOLIB_API double  flmod(double a, double b);
 
-MOOLIB_API double floor(double x);
-MOOLIB_API double ceil(double x);
+MOOLIB_API double dfloor(double x); // double floor - to prevent conflicts with std::floor etc.
+MOOLIB_API double dceil(double x);  // Both in the std - conflict by release build - no conflict by debug build
 
 MOOLIB_API int64_t idiv(double n, double k);
 
-MOOLIB_API int64_t* permutation(int n);
-MOOLIB_API void     fpermutation(int64_t* ptr);
-MOOLIB_API int64_t* genpermutation(int n);
+MOOLIB_API int64_t* permutation(int n); // n+1 Werte
+MOOLIB_API void     clearptr(const int64_t* ptr);
+
+MOOLIB_API int64_t* genPerm(int n); // n! Permutationen mit Länge n
+MOOLIB_API void     freePerm(int64_t* ptr);
 }
 
 #endif // MOO_LIBRARY_H

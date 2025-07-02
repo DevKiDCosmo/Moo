@@ -5,12 +5,12 @@ public class Moo {
     public interface MooLib extends Library {
         MooLib INSTANCE = Native.load("moo", MooLib.class);
 
-        double absolute(double x);
+        double abs(double x);
         long idiv(double a, double b);
         long floor(double a, double b);
     }
 
-    public static double absolute(double x) {
+    public static double abs(double x) {
         return MooLib.INSTANCE.absolute(x);
     }
 
