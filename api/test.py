@@ -50,7 +50,8 @@ def test_moo():
     print(math.min(10, 3))
     print(math.max(10, 3))
 
-
+    print(math.combination(10, 5))
+    print(math.permutation(10, 5))
 
 
 if __name__ == "__main__":

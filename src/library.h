@@ -39,6 +39,7 @@ MOOLIB_API void     clearptr(const int64_t* ptr);
 MOOLIB_API int64_t* genPerm(int n); // n! Permutationen mit Länge n
 MOOLIB_API void     freePerm(int64_t* ptr);
 MOOLIB_API int64_t  permutation(int n, int k);
+MOOLIB_API int64_t  combination(int n, int k);
 }
 
 #endif // MOO_LIBRARY_H

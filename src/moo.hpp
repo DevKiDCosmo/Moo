@@ -23,4 +23,5 @@ public:
     static int64_t* genPerm(int n);
     static void     freePerm(int64_t* ptr);
     static int64_t  permutation(int n, int k);
+    static int64_t  combination(int n, int k);
 };

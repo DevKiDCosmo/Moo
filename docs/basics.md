@@ -30,9 +30,12 @@
 | ✅           | $\displaystyle\binom{n}{k}$                                                 | Binomial coefficient            | int64_t            | int64_t, int64_t  | ✅         | `moo::binom`                    | `binom`       | `binom`               | Python        |       |
 | ✅           | $\displaystyle L = \{ x = \mathrm{len}(\sigma(n)) \vert x \in \mathbb{N}\}$ | Factorial Table                 | int64_t*           | int               | ✅         | `moo::factable` `moo::clearptr` | `factable`    | `factable` `clearptr` | Python        |       |
 | ✅           | $\displaystyle P (n,k) = \frac{n!}{(n - k)!}$                               | Permutation                     | int64_t            | int, int          | ✅         | `moo::permutation`              | `permutation` | `permutation`         | Python        |       |
+| ✅           | $\displaystyle C (n,k) = \frac{n!}{k!(n - k)!}$                             | Combination                     | int64_t            | int, int          | ✅         | `moo::combination`              | `combination` | `combination`         | Python        |       |
 | ✅           | $\displaystyle\sigma(n)$                                                    | Array of Permutation            | int64_t*           | int               | ✅         | `moo::genPerm` `moo::freePerm`  | `genPerm`     | `genPerm` `freePerm`  | Python        |       |
 | ✅           | $\max(a,b)$                                                                 | Maximum                         | double             | double, double    | ✅         | `moo::max`                      | `max`         | `max`                 | Python        |       |
 | ✅           | $\min(a,b)$                                                                 | Minimum                         | double             | double, double    | ✅         | `moo::min`                      | `min`         | `min`                 | Python        |       |
+| ❌           |                                                                             | Prime factorization             |                    |                   | ❌         |                                 |               |                       |               |       |
+| ❌           | $a^{-1} \mod m $                                                            | Inverse modulo                  |                    |                   | ❌         |                                 |               |                       |               |       |
 
 is odd, is even, is prime, etc.
 

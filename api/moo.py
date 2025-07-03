@@ -154,6 +154,17 @@ class moo:
         self.moo.permutation.argtypes = [ctypes.c_int, ctypes.c_int]
         return self.moo.permutation(ctypes.c_int(n), ctypes.c_int(k))
 
+    def combination(self, n: int, k: int) -> int:
+        """
+        Calculate the number of combination of n items taken k at a time.
+        :param n: Total number of items.
+        :param k: Number of items to choose.
+        :return: Number of combination.
+        """
+        self.moo.combination.restype = ctypes.c_int64
+        self.moo.combination.argtypes = [ctypes.c_int, ctypes.c_int]
+        return self.moo.combination(ctypes.c_int(n), ctypes.c_int(k))
+
     def genPerm(self, n: int) -> list:
         """
         Generate all permutations of numbers from 0 to n-1.

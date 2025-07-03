@@ -85,6 +85,11 @@ int64_t moo::permutation(int n, int k) {
     return fact;
 }
 
+int64_t moo::combination(int n, int k) {
+    if (n < 0 || k < 0 || k > n || n > 20) return -1;
+    return int64_t(fac(n) / (fac(k) * fac(n - k)));
+}
+
 extern "C" {
 __declspec(dllexport) int64_t* factable(int n) {
     return moo::factable(n);
@@ -104,5 +109,9 @@ __declspec(dllexport) void freePerm(int64_t* ptr) {
 
 __declspec(dllexport) void permutation(int n, int k) {
     moo::permutation(n, k);
+}
+
+__declspec(dllexport) void combination(int n, int k) {
+    moo::combination(n, k);
 }
 }
