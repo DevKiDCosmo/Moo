@@ -1,0 +1,112 @@
+[
+  {
+    "name": "absolute",
+    "params": [{"name": "x", "type": "double"}],
+    "return": "double",
+    "desc": "Absolute value of a number"
+  },
+  {
+    "name": "idiv",
+    "params": [{"name": "a", "type": "double"}, {"name": "b", "type": "double"}],
+    "return": "int64",
+    "desc": "Integer division"
+  },
+  {
+    "name": "dfloor",
+    "params": [{"name": "a", "type": "double"}],
+    "return": "int64",
+    "desc": "Round down to integer (floor)"
+  },
+  {
+    "name": "dceil",
+    "params": [{"name": "a", "type": "double"}],
+    "return": "int64",
+    "desc": "Round up to integer (ceil)"
+  },
+  {
+    "name": "gcd",
+    "params": [{"name": "a", "type": "int64"}, {"name": "b", "type": "int64"}],
+    "return": "int64",
+    "desc": "Greatest common divisor"
+  },
+  {
+    "name": "lcm",
+    "params": [{"name": "a", "type": "int64"}, {"name": "b", "type": "int64"}],
+    "return": "int64",
+    "desc": "Least common multiple"
+  },
+  {
+    "name": "mod",
+    "params": [{"name": "a", "type": "int64"}, {"name": "b", "type": "int64"}],
+    "return": "int64",
+    "desc": "Integer modulo"
+  },
+  {
+    "name": "flmod",
+    "params": [{"name": "a", "type": "double"}, {"name": "b", "type": "double"}],
+    "return": "double",
+    "desc": "Floating-point modulo"
+  },
+  {
+    "name": "fac",
+    "params": [{"name": "n", "type": "int64"}],
+    "return": "int64",
+    "desc": "Factorial"
+  },
+  {
+    "name": "binom",
+    "params": [{"name": "n", "type": "int64"}, {"name": "k", "type": "int64"}],
+    "return": "int64",
+    "desc": "Binomial coefficient"
+  },
+  {
+    "name": "factable",
+    "params": [{"name": "n", "type": "int64"}],
+    "return": "int64*",
+    "desc": "Factorial table from 0 to n (pointer to array)",
+    "clear": "clearptr"
+  },
+  {
+    "name": "clearptr",
+    "params": [{"name": "ptr", "type": "int64*"}],
+    "return": "void",
+    "desc": "Memory release for factable"
+  },
+  {
+    "name": "permutation",
+    "params": [{"name": "n", "type": "int"}, {"name": "k", "type": "int"}],
+    "return": "int64",
+    "desc": "Number of permutations"
+  },
+  {
+    "name": "combination",
+    "params": [{"name": "n", "type": "int"}, {"name": "k", "type": "int"}],
+    "return": "int64",
+    "desc": "Number of combinations"
+  },
+  {
+    "name": "genPerm",
+    "params": [{"name": "n", "type": "int64"}],
+    "return": "int64*",
+    "desc": "All permutations (pointer to array)",
+    "clear": "freePerm"
+  },
+  {
+    "name": "freePerm",
+    "params": [{"name": "ptr", "type": "int64*"}],
+    "return": "void",
+    "desc": "Memory release for genPerm"
+  },
+  {
+    "name": "max",
+    "params": [{"name": "a", "type": "double"}, {"name": "b", "type": "double"}],
+    "return": "double",
+    "desc": "Maximum of two numbers"
+  },
+  {
+    "name": "min",
+    "params": [{"name": "a", "type": "double"}, {"name": "b", "type": "double"}],
+    "return": "double",
+    "desc": "Minimum of two numbers"
+  }
+]

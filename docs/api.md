@@ -30,3 +30,11 @@ These language are supported:
 - [OCaml API](
 - [V API](
 - [Zig API](
+
+# Universal Source of Truth
+
+The Moo もう library is designed to be a universal source of truth for complex mathematical calculations, providing a
+wide range of functionalities across various programming languages. The API allows developers to easily integrate
+advanced mathematical capabilities into their applications, ensuring high performance and accuracy.
+
+The source of truth for the APIs is `sot.api`, which contains all definitions.
