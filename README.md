@@ -8,15 +8,40 @@ Moo is used for complex math calculations in a simple way. A library with millio
 
 ### Installation
 
-For Moo to work, you (probably) need to install the following dependencies:
-- Kazu 数: For number bigger than 64bit.
+1. Select the desire programming language you want to use.
+2. Download the latest released api from the [Moo もう Releases]()
+3. Extract the downloaded file.
+4. Copy the .dll and the .* to your project.
+5. Ensure that the .dll is in the same directory as your executable or in a directory that is included in your system's
+   PATH environment variable.
+
+### For C++/C
+
+You have two options to use Moo もう in C++/C:
+
+1. Use the provided .dll file and include the `moo_dll.hpp` header file in your project.
+2. Use the source code directly by including the `moo.hpp` header file and linking against the provided .lib file.
 
 Download the latest release from the [Moo もう Releases](https://github.com/DevKiDCosmo/TheMathLib/releases)
 
 ## Linux 64bit
 
-## MacOS 64bit
+### Installation
 
+1. Select the desire programming language you want to use.
+2. Download the latest released api from the [Moo もう Releases]()
+3. Extract the downloaded file.
+4. Copy the .so and the .* to your project. Pay attention to the architecture of your system (x86_64, arm64, etc.) and
+   the prefix of the file. It should be `UNIX` for the code files for Linux.
+5. Ensure that the .so is in the same directory as your executable or in a directory that is included in your system's
+   LD_LIBRARY_PATH environment variable.
+
+### For C++/C
+
+You have two options to use Moo もう in C++/C:
+
+1. Use the provided .so file and include the `UNIX-moo_dll.hpp` header file in your project.
+2. Use the source code directly by including the `UNIX-moo.hpp` header file and linking against the provided .a file.
 
 # Export
 
@@ -30,6 +55,7 @@ Source Code for C++/C and Python is available on GitHub: [Moo もう](https://gi
 Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.com/DevKiDCosmo/TheMathLib/wiki)
 
 # Features
+
 - Complex math calculations
 - Millions of different formulas
 - Easy to use
@@ -47,12 +73,9 @@ Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.
 - Extensible with plugins
 
 
-
-
 - Calculation by GPU and CPU
 - NPU compatible
 - Multi-threading support
-
 
 $$ \int $$
 
@@ -76,8 +99,7 @@ $$ \int $$
 - Mittelwert (Durchschnitt)
 - Varianz, Standardabweichung
 
-
 # For contributors
 
 DLL only needs the cpp files, no need for the header files. For normal source implementation, you need the header files.
-Add import to `source_port.h` for the C++/C implementation.
+Add import to `moo.hpp` for the C++/C implementation.
