@@ -192,9 +192,9 @@ class moo:
         :param b: Second number.
         :return: Maximum of the two numbers.
         """
-        self.moo.max.restype = ctypes.c_int64
-        self.moo.max.argtypes = [ctypes.c_int64, ctypes.c_int64]
-        return self.moo.max(ctypes.c_int64(a), ctypes.c_int64(b))
+        self.moo.max.restype = ctypes.c_double
+        self.moo.max.argtypes = [ctypes.c_double, ctypes.c_double]
+        return self.moo.max(a, b)
 
     def min(self, a: int, b: int) -> int:
         """
@@ -203,6 +203,6 @@ class moo:
         :param b: Second number.
         :return: Minimum of the two numbers.
         """
-        self.moo.min.restype = ctypes.c_int64
-        self.moo.min.argtypes = [ctypes.c_int64, ctypes.c_int64]
-        return self.moo.min(ctypes.c_int64(a), ctypes.c_int64(b))
+        self.moo.min.restype = ctypes.c_double
+        self.moo.min.argtypes = [ctypes.c_double, ctypes.c_double]
+        return self.moo.min(a, b)

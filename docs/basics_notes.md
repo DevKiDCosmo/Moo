@@ -190,7 +190,6 @@ int main() {
 }
 ```
 
-
 Second day on trying how to solve the problem mit nums.
 My idea for today is to use for the function the type like `int` or `double`
 instead of `moo::number` and then convert it to the desired number set.
@@ -199,7 +198,6 @@ For the type that should be used it is important to use the type that the functi
 operation can handle. For example, if the function is $\vert x \vert$, it can handle `int`, `double`, and `long double`.
 So it should use for the function call the type `double` or `long double` to handle the operation.
 `int` would not be a good choice, because it can not handle negative numbers.
-
 
 ### Operation that can be done directly
 

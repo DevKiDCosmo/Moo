@@ -31,7 +31,7 @@ def test_moo():
 
     print(math.permutation(5, 3))
 
-    n = 5
+    n = 3
     ptr = math.factable(n)
     if not ptr:
         print("Error: NULL pointer returned from permutation.")
