@@ -57,8 +57,11 @@ jobs:
     
 
     - name: Compile C++ Test with Lua Embedded
+      shell: cmd
       run: |
-        cl lua-src\main.cpp /I build /link build\lua.lib /OUT:LuaTest.exe
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
+        && cl lua-src\main.cpp /I build /link build\lua.lib /DLL /OUT:LuaTest.exe
+    
 
     - name: Copy Lua Files
       run: |
