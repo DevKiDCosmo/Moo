@@ -48,11 +48,11 @@ jobs:
     - name: Setup Build Environment
       run: |
         mkdir build
-        copy lua\src\lua.lib build\
-        copy lua\src\lua.h build\
-        copy lua\src\lualib.h build\
-        copy lua\src\lauxlib.h build\
-        copy lua\src\lua.dll build\
+        copy lua-src\src\lua.lib build\
+        copy lua-src\src\lua.h build\
+        copy lua-src\src\lualib.h build\
+        copy lua-src\src\lauxlib.h build\
+        copy lua-src\src\lua.dll build\
 
     - name: Compile C++ Test with Lua Embedded
       run: |
