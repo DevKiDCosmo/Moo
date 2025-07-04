@@ -25,12 +25,15 @@ jobs:
       with:
         arch: x64
 
-    - name: Compile Lua with MSVC
+    - name: Compile Lua Core with MSVC
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
-        && cd lua ^
-        && nmake -f Makefile.win
+        && cd lua\src ^
+        && cl /c /O2 /W3 /DLUA_BUILD_AS_DLL *.c ^
+        && lib /OUT:lua.lib *.obj ^
+        && link /DLL /OUT:lua.dll *.obj
+    
 
     - name: Setup Build Environment
       run: |
