@@ -13,11 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Lua 5.4 manually
-        run: |
-          curl -L -o lua.zip https://sourceforge.net/projects/luabinaries/files/5.4.6/Windows%20Executables/lua-5.4.6_Win64_bin.zip/download
-          tar -xf lua.zip
-          echo "${{ github.workspace }}/lua-5.4.6_Win64_bin" >> $GITHUB_PATH
+      - uses: leafo/gh-actions-lua@v11
+        with:
+          luaVersion: "5.4"
       
 
       - name: Copy required files
