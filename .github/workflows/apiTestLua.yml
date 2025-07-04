@@ -14,25 +14,30 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Download Lua 5.4.6
+    - name: Clone Lua source
       run: |
-        curl -L -o lua.tar.gz https://www.lua.org/ftp/lua-5.4.6.tar.gz
-        tar -xvf lua.tar.gz
-        move lua-5.4.6 lua
+        git clone https://github.com/lua/lua.git lua-src
 
-    - name: Setup MSVC Environment
-      uses: TheMrMilchmann/setup-msvc-dev@v3
-      with:
-        arch: x64
-
-    - name: Compile Lua Core with MSVC
+    - name: Compile Lua with MSVC
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
-        && cd lua\src ^
-        && cl /c /O2 /W3 /DLUA_BUILD_AS_DLL *.c ^
+        && cd lua-src ^
+        && cl /c /O2 /DLUA_BUILD_AS_DLL ^
+          src\lapi.c src\lcode.c src\lctype.c src\ldebug.c src\ldo.c src\ldump.c src\lfunc.c ^
+          src\lgc.c src\llex.c src\lmem.c src\lobject.c src\lopcodes.c src\lparser.c ^
+          src\lstate.c src\lstring.c src\ltable.c src\ltm.c src\lundump.c src\lvm.c ^
+          src\lzio.c src\lauxlib.c src\lbaselib.c src\lcorolib.c src\ldblib.c ^
+          src\liolib.c src\lmathlib.c src\loslib.c src\lstrlib.c src\ltablib.c ^
+          src\lutf8lib.c src\loadlib.c src\linit.c ^
         && lib /OUT:lua.lib *.obj ^
         && link /DLL /OUT:lua.dll *.obj
+
+    - name: Copy Lua output
+      run: |
+        mkdir lua-bin
+        copy lua-src\*.dll lua-bin\
+        copy lua-src\*.lib lua-bin\
     
 
     - name: Setup Build Environment
