@@ -14,15 +14,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Clone Lua source
+    - name: Clone and Extract Lua Source
       run: |
-          curl -L https://www.lua.org/ftp/lua-5.4.8.tar.gz -o lua.tar.gz
+        curl -L https://www.lua.org/ftp/lua-5.4.8.tar.gz -o lua.tar.gz
+        mkdir lua-src
+        tar -xzf lua.tar.gz -C lua-src --strip-components=1
+    
 
     - name: Compile Lua with MSVC
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
-        && cd lua-5.4.8/src ^
+        && cd lua-src/lua-5.4.8/src ^
         && cl /c /O2 /DLUA_BUILD_AS_DLL ^
           src\lapi.c src\lcode.c src\lctype.c src\ldebug.c src\ldo.c src\ldump.c src\lfunc.c ^
           src\lgc.c src\llex.c src\lmem.c src\lobject.c src\lopcodes.c src\lparser.c ^
