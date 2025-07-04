@@ -20,11 +20,17 @@ jobs:
         tar -xvf lua.tar.gz
         move lua-5.4.6 lua
 
+    - name: Setup MSVC Environment
+      uses: TheMrMilchmann/setup-msvc-dev@v3
+      with:
+        arch: x64
+
     - name: Compile Lua with MSVC
       shell: cmd
       run: |
-        cd lua
-        "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" && nmake -f Makefile.win
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
+        && cd lua ^
+        && nmake -f Makefile.win
 
     - name: Setup Build Environment
       run: |
