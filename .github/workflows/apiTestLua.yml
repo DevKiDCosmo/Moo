@@ -1,4 +1,5 @@
-name: Testing API Lua
+name: Build and Run Lua Test with C++
+
 on:
   push:
     branches: [ main ]
@@ -10,25 +11,40 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - uses: leafo/gh-actions-lua@v11
-        with:
-          luaVersion: "5.4"
-      
+    - name: Download Lua 5.4.6
+      run: |
+        curl -L -o lua.tar.gz https://www.lua.org/ftp/lua-5.4.6.tar.gz
+        tar -xvf lua.tar.gz
+        move lua-5.4.6 lua
 
-      - name: Copy required files
-        run: |
-          mkdir testdir
-          copy api\moo.lua testdir\
-          copy api\run.lua testdir\
-          copy api\Moo.dll testdir\
+    - name: Compile Lua with MSVC
+      shell: cmd
+      run: |
+        cd lua
+        "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" && nmake -f Makefile.win
 
-      - name: Run Test
-        run: |
-          lua testdir\run.lua
+    - name: Setup Build Environment
+      run: |
+        mkdir build
+        copy lua\src\lua.lib build\
+        copy lua\src\lua.h build\
+        copy lua\src\lualib.h build\
+        copy lua\src\lauxlib.h build\
+        copy lua\src\lua.dll build\
 
-      - name: Running Unit Tests (Not implemented)
-        run: |
-          echo "Running unit tests"
+    - name: Compile C++ Test with Lua Embedded
+      run: |
+        cl src\main.cpp /I build /link build\lua.lib /OUT:LuaTest.exe
+
+    - name: Copy Lua Files
+      run: |
+        mkdir testdir
+        copy src\testdir\*.lua testdir\
+        copy src\testdir\Moo.dll testdir\
+
+    - name: Run Executable
+      run: |
+        LuaTest.exe
