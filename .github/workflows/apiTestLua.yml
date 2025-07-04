@@ -58,13 +58,13 @@ jobs:
 
     - name: Compile C++ Test with Lua Embedded
       run: |
-        cl src\main.cpp /I build /link build\lua.lib /OUT:LuaTest.exe
+        cl lua-src\main.cpp /I build /link build\lua.lib /OUT:LuaTest.exe
 
     - name: Copy Lua Files
       run: |
         mkdir testdir
-        copy src\testdir\*.lua testdir\
-        copy src\testdir\Moo.dll testdir\
+        copy lua-src\testdir\*.lua testdir\
+        copy lua-src\testdir\Moo.dll testdir\
 
     - name: Run Executable
       run: |
