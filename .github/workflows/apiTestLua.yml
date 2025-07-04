@@ -16,13 +16,13 @@ jobs:
 
     - name: Clone Lua source
       run: |
-        git clone https://github.com/lua/lua.git lua-src
+          curl -L https://www.lua.org/ftp/lua-5.4.8.tar.gz -o lua.tar.gz
 
     - name: Compile Lua with MSVC
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
-        && cd lua-src ^
+        && cd lua-5.4.8/src ^
         && cl /c /O2 /DLUA_BUILD_AS_DLL ^
           src\lapi.c src\lcode.c src\lctype.c src\ldebug.c src\ldo.c src\ldump.c src\lfunc.c ^
           src\lgc.c src\llex.c src\lmem.c src\lobject.c src\lopcodes.c src\lparser.c ^
