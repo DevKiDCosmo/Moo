@@ -21,7 +21,7 @@ jobs:
       - name: Copy required files
         run: |
           mkdir -p testdir
-          cp api/Moo.py testdir/
+          cp api/moo.py testdir/
           cp api/test.py testdir/
           if [ -f requirements.txt ]; then cp requirements.txt testdir/; fi
 
