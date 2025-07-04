@@ -22,7 +22,7 @@ jobs:
         run: |
           mkdir testdir
           copy api\moo.py testdir\
-          copy api\test.py testdir\
+          copy api\run.py testdir\
           copy api\Moo.dll testdir\
 
       - name: Set up Python venv and install requirements
@@ -34,7 +34,7 @@ jobs:
       - name: Run Test
         run: |
           venv\Scripts\activate
-          python testdir\test.py
+          python testdir\run.py
 
       - name: Running Unit Tests
         run: |
