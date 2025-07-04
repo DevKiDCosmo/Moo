@@ -24,14 +24,14 @@ jobs:
           copy api\moo.py testdir\
           copy api\test.py testdir\
           copy api\Moo.dll testdir\
-          if exist requirements.txt copy requirements.txt testdir\
+          if (exist requirements.txt) copy requirements.txt testdir\
 
       - name: Set up Python venv and install requirements
         run: |
           python -m venv venv
           venv\Scripts\activate
           python -m pip install --upgrade pip
-          if exist testdir\requirements.txt pip install -r testdir\requirements.txt
+          if (exist testdir\requirements.txt) pip install -r testdir\requirements.txt
 
       - name: Run Test
         run: |
