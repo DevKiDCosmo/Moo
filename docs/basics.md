@@ -31,7 +31,7 @@
 | ✅           | $\displaystyle L = \{ x = \mathrm{len}(\sigma(n)) \vert x \in \mathbb{N}\}$ | Factorial Table                     | int64_t*           | int               | ✅         | `moo::factable` `moo::clearptr` | `factable`    | `factable` `clearptr` |       |
 | ✅           | $\displaystyle P (n,k) = \frac{n!}{(n - k)!}$                               | Permutation                         | int64_t            | int, int          | ✅         | `moo::permutation`              | `permutation` | `permutation`         |       |
 | ✅           | $\displaystyle C (n,k) = \frac{n!}{k!(n - k)!}$                             | Combination                         | int64_t            | int, int          | ✅         | `moo::combination`              | `combination` | `combination`         |       |
-| ✅           | $\displaystyle\sigma(n)$                                                    | Array of Permutation                | int64_t*           | int               | ✅         | `moo::genPerm` `moo::freePerm`  | `genPerm`     | `genPerm` `freePerm`  |       |
+| ✅           | $\displaystyle\sigma(n)$                                                    | Array of Permutation                | int64_t*           | int               | ✅         | `moo::genPerm` `moo::freeptr`   | `genPerm`     | `genPerm` `freeptr`   |       |
 | ✅           | $\max(a,b)$                                                                 | Maximum                             | double             | double, double    | ✅         | `moo::max`                      | `max`         | `max`                 |       |
 | ✅           | $\min(a,b)$                                                                 | Minimum                             | double             | double, double    | ✅         | `moo::min`                      | `min`         | `min`                 |       |
 | ❌           |                                                                             | Prime factorization                 |                    |                   | ❌         |                                 |               |                       |       |
@@ -53,8 +53,6 @@
 | ❌           |                                                                             | Linear interpolation                |                    |                   | ❌         |                                 |               |                       |       |
 | ❌           |                                                                             | Is odd                              |                    |                   | ❌         |                                 |               |                       |       |
 | ❌           |                                                                             | Is even                             |                    |                   | ❌         |                                 |               |                       |       |
-
-Later: Integral, Formulas, Geometrics
 
 [^1]: For `moo::flmod`, no unit test are done. But according to formulars
 like $ \displaystyle a \mod b = a - b \cdot \left\lfloor \frac{a}{b} \right\rfloor $ I am sure that the function is

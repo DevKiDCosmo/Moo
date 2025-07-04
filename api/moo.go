@@ -20,7 +20,7 @@ void clearptr(int64_t* ptr);
 int64_t permutation(int n, int k);
 int64_t combination(int n, int k);
 int64_t* genPerm(int64_t n);
-void freePerm(int64_t* ptr);
+void freeptr(int64_t* ptr);
 double max(double a, double b);
 double min(double a, double b);
 */
@@ -103,7 +103,7 @@ func (Moo) GenPerm(n int64) ([][]int64, error) {
 	if ptr == nil {
 		return nil, errors.New("NULL pointer returned from genPerm function")
 	}
-	defer C.freePerm(ptr)
+	defer C.freeptr(ptr)
 	total := int64(1)
 	for i := int64(1); i <= n; i++ {
 		total *= i

@@ -16,7 +16,7 @@ ffi.cdef[[
     int64_t permutation(int n, int k);
     int64_t combination(int n, int k);
     int64_t* genPerm(int64_t n);
-    void freePerm(int64_t* ptr);
+    void freeptr(int64_t* ptr);
     double max(double a, double b);
     double min(double a, double b);
 ]]
@@ -99,7 +99,7 @@ function moo.genPerm(n)
         end
         result[#result+1] = perm
     end
-    lib.freePerm(ptr)
+    lib.freeptr(ptr)
     return result
 end
 

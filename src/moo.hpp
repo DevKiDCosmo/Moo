@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+#include <variant>
 
 class moo {
 public:
@@ -21,7 +23,7 @@ public:
     static int64_t* factable(int n);
     static void     clearptr(const int64_t* ptr);
     static int64_t* genPerm(int n);
-    static void     freePerm(int64_t* ptr);
+    static void     freeptr(int64_t* ptr);
     static int64_t  permutation(int n, int k);
     static int64_t  combination(int n, int k);
 };

@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "moo.hpp"
+
 #ifndef MOO_LIBRARY_H
 #define MOO_LIBRARY_H
 
@@ -37,7 +39,7 @@ MOOLIB_API int64_t* factable(int n); // n+1 Werte
 MOOLIB_API void     clearptr(const int64_t* ptr);
 
 MOOLIB_API int64_t* genPerm(int n); // n! Permutationen mit Länge n
-MOOLIB_API void     freePerm(int64_t* ptr);
+MOOLIB_API void     freeptr(int64_t* ptr);
 MOOLIB_API int64_t  permutation(int n, int k);
 MOOLIB_API int64_t  combination(int n, int k);
 }

@@ -96,7 +96,7 @@ public class Moo {
             }
             result.add(perm);
         }
-        MooLib.INSTANCE.freePerm(ptr);
+        MooLib.INSTANCE.freeptr(ptr);
         return result;
     }
 

@@ -45,16 +45,21 @@ You have two options to use Moo もう in C++/C:
 
 # Export
 
-- .dll, .so, .dylib, .a, .lib, .pyd, .pyo, .pyc, .pyd, .pyo, .pyc
+- .dll, .so, .a, .lib
 - Python, C, C++, C#, Java, Go, Rust, Ruby, PHP, Perl, Lua, Swift, Kotlin, Dart, JavaScript, TypeScript
 
 Source Code for C++/C and Python is available on GitHub: [Moo もう](https://github.com/DevKiDCosmo/TheMathLib).
 
 # DOCS
 
-Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.com/DevKiDCosmo/TheMathLib/wiki)
+Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.com/DevKiDCosmo/TheMathLib/wiki) or under the `docs` folder.
 
 # Features
+
+- Calculation by GPU and CPU
+- NPU compatible
+- Multi-threading support
+
 
 - Complex math calculations
 - Millions of different formulas
@@ -71,35 +76,3 @@ Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.
 - Supports various mathematical operations
 - User-friendly interface
 - Extensible with plugins
-
-
-- Calculation by GPU and CPU
-- NPU compatible
-- Multi-threading support
-
-$$ \int $$
-
-- Addition
-- Subtraktion
-- Multiplikation
-- Division
-- Potenzieren (Exponentiation)
-- Wurzelziehen (z. B. Quadratwurzel)
-- Logarithmus
-- Modulo (Rest bei Division)
-- Fakultät
-- Sinus, Kosinus, Tangens (Trigonometrie)
-- Arcsinus, Arkuskosinus, Arkustangens
-- Hyperbolische Funktionen (sinh, cosh, tanh)
-- Absolutbetrag
-- Minimum, Maximum
-- Rundung (auf/ab/kaufmännisch)
-- Summation
-- Produktbildung
-- Mittelwert (Durchschnitt)
-- Varianz, Standardabweichung
-
-# For contributors
-
-DLL only needs the cpp files, no need for the header files. For normal source implementation, you need the header files.
-Add import to `moo.hpp` for the C++/C implementation.

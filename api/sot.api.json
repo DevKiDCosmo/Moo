@@ -89,10 +89,10 @@
     "params": [{"name": "n", "type": "int64"}],
     "return": "int64*",
     "desc": "All permutations (pointer to array)",
-    "clear": "freePerm"
+    "clear": "freeptr"
   },
   {
-    "name": "freePerm",
+    "name": "freeptr",
     "params": [{"name": "ptr", "type": "int64*"}],
     "return": "void",
     "desc": "Memory release for genPerm"

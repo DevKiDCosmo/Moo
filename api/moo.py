@@ -190,9 +190,9 @@ class moo:
             perm = [ptr_perm[start + j] for j in range(n)]
             result.append(perm)
 
-        self.moo.freePerm.restype = None
-        self.moo.freePerm.argtypes = [ctypes.POINTER(ctypes.c_int64)]
-        self.moo.freePerm(ptr_perm)
+        self.moo.freeptr.restype = None
+        self.moo.freeptr.argtypes = [ctypes.POINTER(ctypes.c_int64)]
+        self.moo.freeptr(ptr_perm)
 
         return result
 

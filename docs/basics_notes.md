@@ -199,30 +199,141 @@ operation can handle. For example, if the function is $\vert x \vert$, it can ha
 So it should use for the function call the type `double` or `long double` to handle the operation.
 `int` would not be a good choice, because it can not handle negative numbers.
 
-### Operation that can be done directly
+### Drafts to Variable and Calculation with Formulas.
 
-- $+$, $-$, $\cdot$, $\div$: Basic arithmetic operations.
+Later: Integral, Formulas, Geometrics
 
-### Operation that needs a function call
+`auto x = moo::var("x")`
+`moo::interval(0, 10, 1, moo::sqrt(x), x, ...);`
 
-- $x^k$: Exponentiation. - Calculating by $\ln \to x^k \equiv e^{k \cdot \ln(x)}$
-- $\sqrt{x}$: Square root of $x$.
-- $\sqrt[k]{x}$: $k$-th root of $x$.
-- $\ln(x)$: Natural logarithm of $x$.
-- $\log_k(x)$: Logarithm of $x$ to the base $k$.
-- $\exp(x)$: Exponential function, $e^x$.
-- $\sin(x)$, $\cos(x)$, $\tan(x)$: Trigonometric functions.
-- $\arcsin(x)$, $\arccos(x)$, $\arctan(x)$: Inverse trigonometric functions.
-- $\sinh(x)$, $\cosh(x)$, $\tanh(x)$: Hyperbolic functions.
-- $\mathrm{arcsinh}{(x)}, \mathrm{arccosh}{(x)}, \mathrm{arctanh}{(x)}$: Inverse hyperbolische Funktionen.
-- ✅ $\vert x \vert$: Absolute value of $x$.
-- $\lfloor x \rfloor$: Floor function, the greatest integer less than or equal to $x$.
-- $\lceil x \rceil$: Ceiling function, the smallest integer greater than or equal to $x$.
-- ✅ $\gcd(a, b)$: Greatest common divisor of $a$ and $b$.
-- ✅ $\mathrm{lcm}(a, b)$: Least common multiple of $a$ and $b$.
-- $\mathrm{mod}(a, b)$: Modulus operation, $a \mod b$.
-- ✅ $n!$: Factorial of $n$, denoted as $n!$.
-- ✅ $\displaystyle\binom{n}{k}$: Binomial coefficient, the number of ways to choose $k$ elements from a set of $n$
-  elements.
-- $\displaystyle\sigma(n) : n = \{x,_1, x_2, \dots, x_n: x \in \mathbb{R}\}$: Permutation, the number of ways to
-  arrange $k$ elements from a set of $n$ elements.
+Start, End, Step, Function, Variable...
+
+Variable could be created by strings or by `moo::var("x")`.
+Moo numbers etc.
+
+```c++
+struct moo::var_ {
+    std::string name;
+    moo::var(std::string n) : name(n) {}
+    moo::num value;
+};
+
+moo::var (std::string name) {
+    return moo::var_(name);
+}
+
+moo::varset (moo::var_ v, moo::num n) {
+    v.value = n;
+    return v;
+}
+
+struct moo::num {
+    std::variant<double, int64_t, uint64_t, float, int32_t, uint32_t> value;
+    moo::num(std::variant<double, int64_t, uint64_t, float, int32_t, uint32_t> v) : value(v) {}
+    moo::num operator+(const moo::num& other) const { return moo::num(value + other.value); }
+    moo::num operator-(const moo::num& other) const { return moo::num(value - other.value); }
+    moo::num operator*(const moo::num& other) const { return moo::num(value * other.value); }
+    moo::num operator/(const moo::num& other) const { return moo::num(value / other.value); }
+};
+```
+
+Probably usig again Pointers and references to avoid copying the whole object and to make it C compactible.
+
+```c++
+typedef struct {
+    int type; // 0=double, 1=int64_t, 2=uint64_t, 3=float, 4=int32_t, 5=uint32_t
+    union {
+        double d;
+        int64_t i64;
+        uint64_t u64;
+        float f;
+        int32_t i32;
+        uint32_t u32;
+    } value;
+} moo_num;
+
+typedef struct {
+    char* name;    // Dynamisch allokierter String
+    moo_num* value; // Pointer auf Zahl
+} moo_var_;
+
+#include <stdlib.h>
+#include <string.h>
+moo_var_* moo_var_create(const char* name, moo_num* value) {
+    moo_var_* v = (moo_var_*)malloc(sizeof(moo_var_));
+    v->name = strdup(name);
+    v->value = value;
+    return v;
+}
+
+void moo_var_free(moo_var_* v) {
+    free(v->name);
+    free(v->value);
+    free(v);
+}
+```
+
+Standard without `moo::var_`
+
+```c++
+
+int64_t function(int64_t x, int64_t y) {
+    return x * y;
+}
+
+moo::i = nullptr; // Placeholder for the interval variable
+int64_t* x = 10;
+
+auto* result = moo::interval(0, 10, 1, 2, function, x, moo::i);
+
+// i is the interval variable, x is the variable for the function and constant
+// Start, End, Step, Arg Legth, Function Name, Variable
+```
+
+```c++
+std::vector<int64_t> moo::interval(
+    int64_t start, int64_t end, int64_t step, int64_t argCount,
+    std::function<int64_t(const std::vector<int64_t>&)> func,
+    const std::vector<int64_t*>& vars
+) {
+    if (step <= 0 || start > end) {
+        throw std::invalid_argument("Invalid interval arguments.");
+    }
+    if (!func) {
+        throw std::invalid_argument("Function cannot be empty.");
+    }
+    if (vars.empty() || vars.size() != static_cast<size_t>(argCount)) {
+        throw std::invalid_argument("Wrong size of vars.");
+    }
+
+    // Finde die Position der Intervall-Variable (nullptr)
+    int64_t iterationIndex = -1;
+    for (int64_t i = 0; i < argCount; ++i) {
+        if (vars[i] == nullptr) {
+            iterationIndex = i;
+            break;
+        }
+    }
+    if (iterationIndex == -1) {
+        throw std::invalid_argument("Interval fixpoint nullptr not found in vars.");
+    }
+
+    std::vector<int64_t> result;
+    std::vector<int64_t> varValues(argCount);
+
+    // Initialisiere bekannte Variablen
+    for (int64_t i = 0; i < argCount; ++i) {
+        if (vars[i] != nullptr) {
+            varValues[i] = *vars[i];
+        }
+    }
+
+    for (int64_t i = start; i <= end; i += step) {
+        varValues[iterationIndex] = i;
+        result.push_back(func(varValues));
+    }
+    return result;
+}
+```
+
+This doesn't need cleaning after execution, because the result is stored in a pointer.

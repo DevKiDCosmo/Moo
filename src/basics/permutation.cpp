@@ -69,7 +69,7 @@ int64_t* moo::genPerm(int n) {
     return result;
 }
 
-void moo::freePerm(int64_t* ptr) {
+void moo::freeptr(int64_t* ptr) {
     free(ptr);
 }
 
@@ -103,8 +103,8 @@ __declspec(dllexport) int64_t* genPerm(int n) {
     return moo::genPerm(n);
 }
 
-__declspec(dllexport) void freePerm(int64_t* ptr) {
-    moo::freePerm(ptr);
+__declspec(dllexport) void freeptr(int64_t* ptr) {
+    moo::freeptr(ptr);
 }
 
 __declspec(dllexport) void permutation(int n, int k) {

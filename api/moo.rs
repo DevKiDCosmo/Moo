@@ -93,7 +93,7 @@ impl Moo {
             panic!("n cannot be 0.");
         }
         let func: Symbol<unsafe extern "C" fn(c_longlong) -> *mut c_longlong> = self.lib.get(b"genPerm").unwrap();
-        let free: Symbol<unsafe extern "C" fn(*mut c_longlong)> = self.lib.get(b"freePerm").unwrap();
+        let free: Symbol<unsafe extern "C" fn(*mut c_longlong)> = self.lib.get(b"freeptr").unwrap();
         let ptr = func(n);
         if ptr.is_null() {
             panic!("NULL pointer returned from genPerm function.");

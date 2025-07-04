@@ -52,7 +52,7 @@ public class Moo
     private static extern IntPtr genPerm(long n);
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-    private static extern void freePerm(IntPtr ptr);
+    private static extern void freeptr(IntPtr ptr);
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     public static extern double max(double a, double b);
@@ -93,7 +93,7 @@ public class Moo
             }
             result.Add(perm);
         }
-        freePerm(ptr);
+        freeptr(ptr);
         return result;
     }
 }
