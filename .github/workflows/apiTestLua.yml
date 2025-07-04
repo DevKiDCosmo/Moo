@@ -43,6 +43,8 @@ jobs:
         mkdir lua-bin
         copy lua-src\*.dll lua-bin\
         copy lua-src\*.lib lua-bin\
+        dir lua-bin
+        dir lua-src
     
 
     - name: Setup Build Environment
