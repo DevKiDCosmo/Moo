@@ -36,6 +36,8 @@ jobs:
           venv\Scripts\activate
           python testdir\test.py
 
-      - name: Running Unit Tests (Not Implemented)
+      - name: Running Unit Tests
         run: |
-          echo "Running Unit Tests not implemented yet"
+          copy test\unit_test.py testdir\
+          copy test\test.csv testdir\
+          python testdir\unit_test.py
