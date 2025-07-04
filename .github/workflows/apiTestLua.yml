@@ -44,25 +44,23 @@ jobs:
         copy lua-src\*.dll lua-bin\
         copy lua-src\*.lib lua-bin\
         dir lua-bin
-        dir lua-src
-    
 
     - name: Setup Build Environment
       shell: cmd
       run: |
         mkdir build
-        copy lua-src\lua.lib build\
-        copy lua-src\lua.h build\
-        copy lua-src\lualib.h build\
-        copy lua-src\lauxlib.h build\
-        copy lua-src\lua.dll build\
+        copy lua-bin\lua.lib build\
+        copy lua-src\src\lua.h build\
+        copy lua-src\src\lualib.h build\
+        copy lua-bin\lua.dll build\
+        copy api\run.cpp lua-src\
     
 
     - name: Compile C++ Test with Lua Embedded
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
-        && cl lua-src\main.cpp /I build /link build\lua.lib /OUT:LuaTest.exe
+        && cl lua-src\run.cpp /I build /link build\lua.lib /OUT:LuaTest.exe
     
 
     - name: Copy Lua Files
