@@ -23,6 +23,7 @@ jobs:
           mkdir -p testdir
           cp api/moo.py testdir/
           cp api/test.py testdir/
+          cp api/moo.dll testdir/
           if [ -f requirements.txt ]; then cp requirements.txt testdir/; fi
 
       - name: Set up Python venv und installiere requirements
