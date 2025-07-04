@@ -16,7 +16,7 @@ jobs:
 
     - name: Clone Lua source
       run: |
-        git clone https://github.com/lua/lua.git src
+        git clone https://github.com/lua/lua.git lua-src
 
     - name: Compile Lua with MSVC
       shell: cmd
