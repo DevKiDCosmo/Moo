@@ -7,33 +7,33 @@ on:
 
 jobs:
   build:
-      runs-on: ubuntu-latest
+      runs-on: windows-latest
 
       steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Copy required files
         run: |
-          mkdir -p testdir
-          cp api/moo.py testdir/
-          cp api/test.py testdir/
-          cp api/moo.dll testdir/
-          if [ -f requirements.txt ]; then cp requirements.txt testdir/; fi
+          mkdir testdir
+          copy api\moo.py testdir\
+          copy api\test.py testdir\
+          copy api\Moo.dll testdir\
+          if exist requirements.txt copy requirements.txt testdir\
 
-      - name: Set up Python venv und installiere requirements
+      - name: Set up Python venv and install requirements
         run: |
-          python3 -m venv venv
-          . venv/bin/activate
-          pip install --upgrade pip
-          if [ -f testdir/requirements.txt ]; then pip install -r testdir/requirements.txt; fi
+          python -m venv venv
+          venv\Scripts\activate
+          python -m pip install --upgrade pip
+          if exist testdir\requirements.txt pip install -r testdir\requirements.txt
 
       - name: Run Test
         run: |
-          . venv/bin/activate
-          python testdir/test.py
+          venv\Scripts\activate
+          python testdir\test.py
