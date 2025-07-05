@@ -10,35 +10,89 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup Build Environment
-      shell: cmd
-      run: |
-        mkdir build
-        copy src\*.* build\
-        copy CMakeLists.txt build\
+      - name: Setup Build Environment
+        shell: cmd
+        run: |
+          mkdir build
+          copy src\*.* build\
+          copy CMakeLists.txt build\
 
-    - name: Compile C++ Code with CMAKE
-      shell: cmd
-      run: |
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        cd build
-        cmake -G "Visual Studio 17 2022" -A x64 ..
-        cmake --build . --config Release
+      - name: Compile C++ Code with CMAKE
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          cd build
+          cmake -G "Visual Studio 17 2022" -A x64 ..
+          cmake --build . --config Release
 
-    - name: Copy Build Artifacts
-      run: |
-        cd ..
-        mkdir artifact
-        copy Moo\build\bin\Release\Moo.dll artifact\
-        copy Moo\build\lib\Release\Moo.lib artifact\
-        copy Moo\build\lib\Release\Moo.exp artifact\
-        dir artifact
+      - name: Copy Build Artifacts
+        run: |
+          cd ..
+          mkdir artifact
+          copy Moo\build\bin\Release\Moo.dll artifact\
+          copy Moo\build\lib\Release\Moo.lib artifact\
+          copy Moo\build\lib\Release\Moo.exp artifact\
+          dir artifact
 
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: MooArtifacts
-        path: artifact/
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MooArtifacts
+          path: Moo/artifact/
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build -t moo-image .
+
+      - name: Run Docker Container
+        run: |
+          docker run --name moo-container -d moo-image
+
+      - name: List Docker Containers
+        run: docker ps -a
+
+      - name: Stop and Remove Docker Container
+        run: |
+          docker stop moo-container
+          docker rm moo-container
+  ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Build Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Compile C++ Code with CMAKE
+        run: |
+          mkdir build
+          cp src/* build/
+          cp CMakeLists.txt build/
+          cd build
+          cmake ..
+          make
+
+      - name: Copy Build Artifacts
+        run: |
+          mkdir artifact
+          cp build/libMoo.so artifact/
+          ls artifact
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MooArtifacts
+          path: artifact/
