@@ -18,6 +18,7 @@ jobs:
       run: |
         mkdir build
         copy src\*.* build\
+        copy src\*\*.* build\
         copy CMakeLists.txt build\
 
     - name: Compile C++ Code with CMAKE
@@ -27,13 +28,12 @@ jobs:
         cd build
         cmake -G "Visual Studio 17 2022" -A x64 ..
         cmake --build . --config Release
-        dir .
 
     - name: Copy Build Artifacts
       run: |
         cd ..
         mkdir artifact
-        copy build\bin\Release\Moo.dll artifact\
-        copy build\lib\Release\Moo.lib artifact\
-        copy build\lib\Release\Moo.exp artifact\
+        copy TheMathLib\build\bin\Release\Moo.dll artifact\
+        copy TheMathLib\build\lib\Release\Moo.lib artifact\
+        copy TheMathLib\build\lib\Release\Moo.exp artifact\
         dir artifact
