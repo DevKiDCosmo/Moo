@@ -18,7 +18,7 @@ jobs:
       run: |
         mkdir build
         copy src\*.* build\
-        copy src\*\*.* build\
+        
         copy CMakeLists.txt build\
 
     - name: Compile C++ Code with CMAKE
@@ -33,7 +33,7 @@ jobs:
       run: |
         cd ..
         mkdir artifact
-        copy TheMathLib\build\bin\Release\Moo.dll artifact\
-        copy TheMathLib\build\lib\Release\Moo.lib artifact\
-        copy TheMathLib\build\lib\Release\Moo.exp artifact\
+        copy Moo\build\bin\Release\Moo.dll artifact\
+        copy Moo\build\lib\Release\Moo.lib artifact\
+        copy Moo\build\lib\Release\Moo.exp artifact\
         dir artifact
