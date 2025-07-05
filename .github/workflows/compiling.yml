@@ -166,7 +166,7 @@ jobs:
         run: |
           echo "Running tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.compiler }}"
           echo "Placeholder test: Always true"
-          test 1 -eq 1
+          assert true, "Not implemented"
   
 
   test_windows:
@@ -225,7 +225,7 @@ jobs:
       - name: Run API Tests
         run: |
           echo "Running API tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.compiler }}"
-          test 1 -eq 1
+          assert true, "Not implemented"
 
   test_macos_api:
     needs: macos
