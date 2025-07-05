@@ -77,7 +77,7 @@ jobs:
           sudo apt-get install -y build-essential cmake
           sudo apt-get install -y ${{ matrix.compiler }}
           sudo apt-get install -y make
-          sudo apt-get upgrade -y
+          #sudo apt-get upgrade -y
 
       - name: Setup Build Environment
         run: |
@@ -87,8 +87,7 @@ jobs:
       - name: GCC Build
         if: matrix.compiler == 'gcc'
         run: |
-          cd build
-          ls .
+          cd build/src
           gcc -shared -o moo.so -fPIC moo.hpp
 
       - name: Copy Build Artifacts
@@ -112,4 +111,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Not implemented
-        run: echo "MacOS build is not implemented yet"
+        run: |
+          echo "MacOS build is not implemented yet"
+          assert false, "MacOS build is not implemented yet"
