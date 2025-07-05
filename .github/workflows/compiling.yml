@@ -131,6 +131,20 @@ jobs:
       - name: Build with ${{ matrix.vector.cc }} on ${{ matrix.vector.image }}
         run: echo "Building with ${{ matrix.vector.cc }} on ${{ matrix.vector.image }}"
 
+      - name: Checking Matrix Variables
+        run: |
+          echo "Job Name: ${{ matrix.vector.jobname }}"
+          echo "Operating System: ${{ matrix.vector.os }}"
+          echo "Compiler: ${{ matrix.vector.cc }}"
+          echo "Image: ${{ matrix.vector.image }}"
+          if [ -z "${{ matrix.vector.cc }}" ]; then
+            echo "No compiler specified, defaulting to clang"
+            echo "CC: clang"
+            echo "CC=clang" >> $GITHUB_ENV
+          else
+            echo "Using compiler: ${{ matrix.vector.cc }}"
+          fi
+
       - name: Update and Install Dependencies
         run: |
           if command -v apt-get > /dev/null; then
