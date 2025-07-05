@@ -59,31 +59,50 @@ jobs:
 
   unixbased:
     needs: config
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     strategy:
-      max-parallel: 2
+      fail-fast: false
       matrix:
-        os: [ ubuntu-latest, debian-latest ]
-        compiler: [ gcc ]
+        vector:
+          - jobname: test-debian
+            image: debian:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-ubuntu
+            image: ubuntu:latest
+            os: ubuntu-latest
+            cc: gcc
+    name: ${{ matrix.vector.jobname }} (${{ matrix.vector.image }})
+    container: ${{ matrix.vector.image }}
+    env:
+      jobname: ${{ matrix.vector.jobname }}
+      CC: ${{ matrix.vector.cc }}
+      CI_JOB_IMAGE: ${{ matrix.vector.image }}
     steps:
       - uses: actions/checkout@v4
-      - name: Build with ${{ matrix.compiler }} on ${{ matrix.os }}
-        run: echo "Building with ${{ matrix.compiler }} on ${{ matrix.os }}"
+
+      - name: Build with ${{ matrix.vector.cc }} on ${{ matrix.vector.image }}
+        run: echo "Building with ${{ matrix.vector.cc }} on ${{ matrix.vector.image }}"
 
       - name: Update and Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential cmake make ${{ matrix.compiler }}
-          sudo apt-get upgrade -y
+          if command -v apt-get > /dev/null; then
+            apt-get update
+            apt-get install -y build-essential cmake make ${{ matrix.vector.cc }}
+            apt-get upgrade -y
+          elif command -v apk > /dev/null; then
+            apk add --no-cache build-base cmake make ${{ matrix.vector.cc }}
+          elif command -v dnf > /dev/null; then
+            dnf install -y gcc gcc-c++ cmake make
+          fi
 
       - name: Setup Build Environment
         run: |
-          mkdir build
+          mkdir -p build
           cp -r src build/
 
       - name: GCC Build
-        if: matrix.compiler == 'gcc'
+        if: matrix.vector.cc == 'gcc'
         run: |
           cd build/src
           gcc -Ofast -shared -o moofast.so -fPIC moo.hpp
@@ -95,19 +114,15 @@ jobs:
 
       - name: Copy Build Artifacts
         run: |
-          mkdir artifact
-          cp build/src/moo.so artifact/
-          cp build/src/moofast.so artifact/
-          cp build/src/mooO3.so artifact/
-          cp build/src/mooDebug.so artifact/
-          cp build/src/mooSize.so artifact/
+          mkdir -p artifact
+          cp build/src/moo*.so artifact/
           ls artifact
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Moo-SO-Artifacts-${{ matrix.os }}-${{ matrix.compiler }}
-          path: artifact/*.*
+          name: Moo-SO-Artifacts-${{ matrix.vector.jobname }}
+          path: artifact/*.so
 
   macos:
     needs: config
@@ -187,3 +202,40 @@ jobs:
         run: |
           echo "Running API tests for Moo on ${{ matrix.os }} with ${{ matrix.compiler }}"
           assert true, "This is a placeholder for actual API tests"
+
+  test_macos_api:
+    needs: macos
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run MacOS API Tests
+        run: |
+          echo "Running API tests for Moo on MacOS"
+          assert true, "This is a placeholder for actual API tests"
+
+  test_macos:
+    needs: macos
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run MacOS Tests
+        run: |
+          echo "Running tests for Moo on MacOS"
+          assert true, "This is a placeholder for actual tests"
+
+  finishing:
+    needs: [test_windows, test_unixbased, test_macos, test_windows_api, test_unixbased_api, test_macos_api]
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Finalize Build
+        run: |
+          echo "All tests completed successfully. Finalizing build."
+          assert true, "This is a placeholder for finalization steps"
