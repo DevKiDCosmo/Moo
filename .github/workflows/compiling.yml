@@ -58,8 +58,8 @@ jobs:
           path: D:\a\Moo\artifact
 
   unixbased:
-    runs-on: ${{ matrix.os }}
     needs: config
+    runs-on: ${{ matrix.os }}
 
     strategy:
       max-parallel: 2
@@ -110,8 +110,8 @@ jobs:
           path: artifact/*.*
 
   macos:
-    runs-on: macos-latest
     needs: config
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
@@ -121,3 +121,69 @@ jobs:
         run: |
           echo "MacOS build is not implemented yet"
           assert false, "MacOS build is not implemented yet"
+
+  test_unixbased:
+    needs: unixbased
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      max-parallel: 2
+      matrix:
+        os: [ ubuntu-latest, debian-latest ]
+        compiler: [ gcc ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test with ${{ matrix.compiler }} on ${{ matrix.os }}
+        run: echo "Testing with ${{ matrix.compiler }} on ${{ matrix.os }}"
+
+      - name: Run Tests
+        run: |
+          echo "Running tests for Moo on ${{ matrix.os }} with ${{ matrix.compiler }}"
+          assert true, "This is a placeholder for actual tests"
+
+  test_windows:
+    needs: windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Windows Tests
+        shell: cmd
+        run: |
+          echo "Running tests for Moo on Windows"
+          assert true, "This is a placeholder for actual tests"
+
+  test_windows_api:
+    needs: windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run API Tests
+        shell: cmd
+        run: |
+          echo "Running API tests for Moo on Windows"
+          assert true, "This is a placeholder for actual API tests"
+
+  test_unixbased_api:
+    needs: unixbased
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      max-parallel: 2
+      matrix:
+        os: [ ubuntu-latest, debian-latest ]
+        compiler: [ gcc ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test API with ${{ matrix.compiler }} on ${{ matrix.os }}
+        run: echo "Testing API with ${{ matrix.compiler }} on ${{ matrix.os }}"
+
+      - name: Run API Tests
+        run: |
+          echo "Running API tests for Moo on ${{ matrix.os }} with ${{ matrix.compiler }}"
+          assert true, "This is a placeholder for actual API tests"
