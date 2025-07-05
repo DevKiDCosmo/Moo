@@ -76,6 +76,14 @@ jobs:
             image: alpine:latest
             os: ubuntu-latest
             cc: gcc
+          - jobname: test-fedora
+            image:  fedora:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-ubuntu-clang
+            image: ubuntu:latest
+            os: ubuntu-latest
+            cc: clang
     name: ${{ matrix.vector.jobname }} (${{ matrix.vector.image }})
     container: ${{ matrix.vector.image }}
     env:
@@ -114,6 +122,17 @@ jobs:
           gcc -Os -shared -o mooSize.so -fPIC moo.hpp
           gcc -Og -shared -o mooDebug.so -fPIC moo.hpp
           gcc -shared -o moo.so -fPIC moo.hpp
+          ls .
+
+      - name: Clang Build
+        if: matrix.vector.cc == 'clang'
+        run: |
+          cd build/src
+          clang -Ofast -shared -o moofast.so -fPIC moo.hpp
+          clang -O3 -shared -o mooO3.so -fPIC moo.hpp
+          clang -Os -shared -o mooSize.so -fPIC moo.hpp
+          clang -Og -shared -o mooDebug.so -fPIC moo.hpp
+          clang -shared -o moo.so -fPIC moo.hpp
           ls .
 
       - name: Copy Build Artifacts
