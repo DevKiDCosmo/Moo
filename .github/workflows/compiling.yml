@@ -72,6 +72,10 @@ jobs:
             image: ubuntu:latest
             os: ubuntu-latest
             cc: gcc
+          - jobname: test-alpine
+            image: alpine:latest
+            os: ubuntu-latest
+            cc: gcc
     name: ${{ matrix.vector.jobname }} (${{ matrix.vector.image }})
     container: ${{ matrix.vector.image }}
     env:
