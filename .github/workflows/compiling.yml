@@ -163,7 +163,7 @@ jobs:
           ls .
 
       - name: Clang Build
-        if: matrix.vector.cc == 'clang'
+        if: matrix.vector.cc != 'gcc' # If nothing is defined, it defaults to clang
         run: |
           cd build/src
           clang -Ofast -shared -o moofast.so -fPIC moo.hpp
