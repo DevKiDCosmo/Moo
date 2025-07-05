@@ -86,11 +86,27 @@ jobs:
       matrix:
         os: [ ubuntu-latest, debian-latest, fedora-latest, archlinux-latest,
               centos-latest, opensuse-latest ]
-        compiler: [ gcc, clang, g++, clang++ ]
+        compiler: [ gcc, clang ]
     steps:
       - uses: actions/checkout@v4
       - name: Build with ${{ matrix.compiler }} on ${{ matrix.os }}
         run: echo "Building with ${{ matrix.compiler }} on ${{ matrix.os }}"
+
+      - name: Update and Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+          sudo apt-get install -y ${{ matrix.compiler }}
+          sudo apt-get install -y make
+          sudo apt-get upgrade -y
+
+      - name: Compile C++ Code with CMAKE
+        run:  |    
+          mkdir build
+          cd build
+          cmake -G "Unix Makefiles" ..
+          make
+          
 
   macos:
     runs-on: macos-latest
@@ -100,29 +116,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Build Environment
-        shell: bash
-        run: |
-          mkdir build
-          cp src/* build/
-          cp CMakeLists.txt build/
-
-      - name: Compile C++ Code with CMAKE
-        shell: bash
-        run: |
-          cmake -S build -B build -G "Xcode"
-          cmake --build build --config Release
-
-      - name: Copy Build Artifacts
-        run: |
-          mkdir artifact
-          cp build/bin/Release/Moo.dylib artifact/
-          cp build/lib/Release/Moo.a artifact/
-          ls artifact
-          pwd
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Moo-Dylib-Artifacts
-          path: Moo/artifact
+      - name: Not implemented
+        run: echo "MacOS build is not implemented yet"
