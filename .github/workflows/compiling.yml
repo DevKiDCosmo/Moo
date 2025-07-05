@@ -88,12 +88,20 @@ jobs:
         if: matrix.compiler == 'gcc'
         run: |
           cd build/src
+          gcc -Ofast -shared -o moofast.so -fPIC moo.hpp
+          gcc -O3 -shared -o mooO3.so -fPIC moo.hpp
+          gcc -Os -shared -o mooSize.so -fPIC moo.hpp
+          gcc -Og -shared -o mooDebug.so -fPIC moo.hpp
           gcc -shared -o moo.so -fPIC moo.hpp
 
       - name: Copy Build Artifacts
         run: |
           mkdir artifact
           cp build/src/moo.so artifact/
+          cp build/src/moofast.so artifact/
+          cp build/src/mooO3.so artifact/
+          cp build/src/mooDebug.so artifact/
+          cp build/src/mooSize.so artifact/
           ls artifact
 
       - name: Upload Artifacts
