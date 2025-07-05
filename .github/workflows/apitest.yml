@@ -7,6 +7,7 @@ on:
 
 jobs:
   build_python:
+    name: Test Python API
     runs-on: windows-latest
 
     steps:
@@ -42,10 +43,67 @@ jobs:
         copy test\test.csv testdir\
         python testdir\unit_test.py
   build_lua:
+    name: Build and Test Lua API
     runs-on: windows-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Not implemented
-        run: echo "Lua test is not implemented yet"
+      - name: Clone and Extract Lua Source
+        run: |
+          curl -L https://www.lua.org/ftp/lua-5.4.8.tar.gz -o lua.tar.gz
+          mkdir lua-src
+          tar -xzf lua.tar.gz -C lua-src --strip-components=1
+
+      - name: Compile Lua with MSVC
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          cd lua-src
+          cl /c /O2 /DLUA_BUILD_AS_DLL ^
+            src\lapi.c src\lcode.c src\lctype.c src\ldebug.c src\ldo.c src\ldump.c src\lfunc.c ^
+            src\lgc.c src\llex.c src\lmem.c src\lobject.c src\lopcodes.c src\lparser.c ^
+            src\lstate.c src\lstring.c src\ltable.c src\ltm.c src\lundump.c src\lvm.c ^
+            src\lzio.c src\lauxlib.c src\lbaselib.c src\lcorolib.c src\ldblib.c ^
+            src\liolib.c src\lmathlib.c src\loslib.c src\lstrlib.c src\ltablib.c ^
+            src\lutf8lib.c src\loadlib.c src\linit.c
+          
+          lib /OUT:lua.lib *.obj
+          
+          link /DLL /OUT:lua.dll *.obj
+
+
+      - name: Copy Lua output
+        run: |
+          mkdir lua-bin
+          copy lua-src\*.dll lua-bin\
+          copy lua-src\*.lib lua-bin\
+          dir lua-bin
+
+      - name: Setup Build Environment
+        shell: cmd
+        run: |
+          mkdir build
+          copy lua-bin\lua.lib build\
+          copy lua-src\src\*.* build\
+          copy lua-bin\lua.dll build\
+          copy api\run.cpp lua-src\
+
+
+      - name: Compile C++ Test with Lua Embedded
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" ^
+          && cl lua-src\run.cpp /I build /link build\lua.lib /OUT:LuaTest.exe
+
+
+      - name: Copy Lua Files
+        run: |
+          mkdir testdir
+          copy lua-src\testdir\*.lua testdir\
+          copy lua-src\testdir\Moo.dll testdir\
+
+      - name: Run Executable
+        run: |
+          LuaTest.exe
