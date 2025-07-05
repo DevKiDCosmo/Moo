@@ -63,10 +63,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest, debian-latest, fedora-latest, archlinux-latest, centos-latest, opensuse-latest ]
+        os: [ ubuntu-latest, debian-latest ]
         compiler: [ gcc ]
-        pkg_update: [ "sudo apt-get update", "sudo dnf -y update", "sudo pacman -Syu --noconfirm", "sudo zypper refresh", "sudo yum -y update" ]
-        pkg_install: [ "sudo apt-get install -y build-essential cmake gcc make", "sudo dnf install -y @development-tools cmake gcc make", "sudo pacman -S --noconfirm base-devel cmake gcc make", "sudo zypper install -y -t pattern devel_C_C++ cmake gcc make", "sudo yum groupinstall -y 'Development Tools' && sudo yum install -y cmake gcc make" ]
     steps:
       - uses: actions/checkout@v4
       - name: Build with ${{ matrix.compiler }} on ${{ matrix.os }}
@@ -74,8 +72,9 @@ jobs:
 
       - name: Update and Install Dependencies
         run: |
-          eval "${{ matrix.pkg_update }}"
-          eval "${{ matrix.pkg_install }}"
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake make ${{ matrix.compiler }}
+          sudo apt-get upgrade -y
 
       - name: Setup Build Environment
         run: |
