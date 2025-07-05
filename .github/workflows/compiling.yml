@@ -322,6 +322,31 @@ jobs:
           echo "Running tests for Moo on MacOS"
           assert true, "This is a placeholder for actual tests"
 
+  packing_unixbased:
+    needs: unixbased
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Unix Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: Moo-SO-Artifacts-*
+          path: unix-artifacts
+
+      - name: Pack Unix Artifacts
+        run: |
+          tar -czvf unix-artifacts.tar.gz -C unix-artifacts .
+          ls -lh unix-artifacts.tar.gz
+
+      - name: Upload Unix Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Moo-SO-All-Unix
+          path: unix-artifacts.tar.gz
+
   finishing:
     needs: [test_windows, test_unixbased, test_macos, test_windows_api, test_unixbased_api, test_macos_api]
     runs-on: windows-latest
