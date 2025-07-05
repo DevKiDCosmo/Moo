@@ -50,8 +50,7 @@ jobs:
       run: |
         mkdir build
         copy lua-bin\lua.lib build\
-        copy lua-src\src\lua.h build\
-        copy lua-src\src\lualib.h build\
+        copy lua-src\src\*.* build\
         copy lua-bin\lua.dll build\
         copy api\run.cpp lua-src\
     
