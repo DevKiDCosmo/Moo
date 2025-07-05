@@ -1,10 +1,7 @@
 #include "library.h"
 
-#if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
-#else
-#include <dlfcn.h>
-#endif
+
 #include <iostream>
 
 BOOL APIENTRY DllMain(
