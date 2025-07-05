@@ -31,7 +31,7 @@ MOOLIB_API int64_t mod(int64_t a, int64_t b);
 MOOLIB_API double  flmod(double a, double b);
 
 MOOLIB_API double dfloor(double x); // double floor - to prevent conflicts with std::floor etc.
-MOOLIB_API double dceil(double x);  // Both in the std - conflict by release build - no conflict by debug build
+MOOLIB_API double dceil(double x);  // Both in the std - conflict by release buildinf - no conflict by debug buildinf
 
 MOOLIB_API int64_t idiv(double n, double k);
 

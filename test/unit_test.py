@@ -29,7 +29,7 @@ CTYPE_MAP = {
 class TestMathDLL(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-build-debug-visual-studio/bin/moo.dll"))
+        dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-buildinf-debug-visual-studio/bin/moo.dll"))
         logging.info(f"Versuche DLL zu laden: {dll_path}")
         try:
             cls.math = ctypes.CDLL(dll_path)

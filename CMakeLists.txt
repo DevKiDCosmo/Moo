@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.30)
 project(Moo)
 
 set(CMAKE_CXX_STANDARD 26)
-set(CMAKE_GENERATOR_PLATFORM x64)  # For 64-bit build
+set(CMAKE_GENERATOR_PLATFORM x64)  # For 64-bit buildinf
 # set(CMAKE_GENERATOR_PLATFORM Win32)  # For 32-bit
 
 set(SOURCES src)

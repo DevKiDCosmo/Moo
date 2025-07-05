@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 # Absoluter Pfad zur DLL
-dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-build-debug-visual-studio/bin/moo.dll"))
+dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../cmake-buildinf-debug-visual-studio/bin/moo.dll"))
 logging.info(f"Versuche DLL zu laden: {dll_path}")
 math = ctypes.CDLL(dll_path)
 logging.info("DLL erfolgreich geladen. ✅")
