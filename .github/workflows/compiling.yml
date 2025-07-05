@@ -137,13 +137,14 @@ jobs:
           echo "Operating System: ${{ matrix.vector.os }}"
           echo "Compiler: ${{ matrix.vector.cc }}"
           echo "Image: ${{ matrix.vector.image }}"
+          
           if [ -z "${{ matrix.vector.cc }}" ]; then
             echo "No compiler specified, defaulting to clang"
-            echo "CC: clang"
-            echo "cc=clang" >> $GITHUB_ENV
+            echo "CC=clang" >> $GITHUB_ENV
           else
             echo "Using compiler: ${{ matrix.vector.cc }}"
-          fi
+            echo "CC=${{ matrix.vector.cc }}" >> $GITHUB_ENV
+          fi 
 
       - name: Update and Install Dependencies
         run: |
