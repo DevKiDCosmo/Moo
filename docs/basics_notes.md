@@ -282,7 +282,7 @@ int64_t function(int64_t x, int64_t y) {
 }
 
 moo::i = nullptr; // Placeholder for the interval variable
-int64_t* x = 10;
+int64_t x = 10;
 
 auto* result = moo::interval(0, 10, 1, 2, function, x, moo::i);
 
@@ -337,3 +337,15 @@ std::vector<int64_t> moo::interval(
 ```
 
 This doesn't need cleaning after execution, because the result is stored in a pointer.
+
+The problem is that C cannot access the function of other language. So we create a small API in C++ that can be used in
+C. We use the function: `moo::executefunc(funcname, params...)`. On the other side we can see what the dll wants to run
+and execute it in the native API environment. The system could be a Socket or a listener that reads the function name of
+the list.
+
+The format will be like `[id, foo, 1, 2, 3]` and it is equal to the function call `foo(1, 2, 3)`.
+
+If a listerner is implemented we should also add the function `moo::executedfunc(id)`. Because the listerner knows the
+id it can delete the function from the list. Also the execution is always done from the smallest id to the highest id.
+
+The `moo::executefunc` awaits in the program as long as it is not executed.
