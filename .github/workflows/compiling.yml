@@ -62,6 +62,7 @@ jobs:
     needs: config
 
     strategy:
+      max-parallel: 2
       matrix:
         os: [ ubuntu-latest, debian-latest ]
         compiler: [ gcc ]
@@ -106,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Moo-SO-Artifacts-${{ matrix.os }}-${{ matrix.compiler }}
-          path: artifact/moo.so
+          path: artifact/*.*
 
   macos:
     runs-on: macos-latest
