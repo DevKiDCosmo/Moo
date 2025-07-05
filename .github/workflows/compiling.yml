@@ -18,7 +18,6 @@ jobs:
       run: |
         mkdir build
         copy src\*.* build\
-        
         copy CMakeLists.txt build\
 
     - name: Compile C++ Code with CMAKE
@@ -37,3 +36,9 @@ jobs:
         copy Moo\build\lib\Release\Moo.lib artifact\
         copy Moo\build\lib\Release\Moo.exp artifact\
         dir artifact
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: MooArtifacts
+        path: artifact/

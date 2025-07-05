@@ -22,7 +22,7 @@ You have two options to use Moo もう in C++/C:
 1. Use the provided .dll file and include the `moo_dll.hpp` header file in your project.
 2. Use the source code directly by including the `moo.hpp` header file and linking against the provided .lib file.
 
-Download the latest release from the [Moo もう Releases](https://github.com/DevKiDCosmo/TheMathLib/releases)
+Download the latest release from the [Moo もう Releases](https://github.com/DevKiDCosmo/Moo/releases)
 
 ## Linux 64bit
 
@@ -48,11 +48,11 @@ You have two options to use Moo もう in C++/C:
 - .dll, .so, .a, .lib
 - Python, C, C++, C#, Java, Go, Rust, Ruby, PHP, Perl, Lua, Swift, Kotlin, Dart, JavaScript, TypeScript
 
-Source Code for C++/C and Python is available on GitHub: [Moo もう](https://github.com/DevKiDCosmo/TheMathLib).
+Source Code for C++/C and Python is available on GitHub: [Moo もう](https://github.com/DevKiDCosmo/Moo).
 
 # DOCS
 
-Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.com/DevKiDCosmo/TheMathLib/wiki) or under the `docs` folder.
+Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.com/DevKiDCosmo/Moo/wiki) or under the `docs` folder.
 
 # Features
 
