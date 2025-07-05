@@ -137,14 +137,14 @@ jobs:
           echo "Operating System: ${{ matrix.vector.os }}"
           echo "Compiler: ${{ matrix.vector.cc }}"
           echo "Image: ${{ matrix.vector.image }}"
-          
           if [ -z "${{ matrix.vector.cc }}" ]; then
-            echo "No compiler specified, defaulting to clang"
-            echo "CC=clang" >> $GITHUB_ENV
+            echo "No compiler specified, defaulting to gcc"
+            echo "CC: gcc"
+            echo "cc=gcc" >> $GITHUB_ENV
+            echo "Using default compiler: ${{ matrix.vector.cc }}"
           else
             echo "Using compiler: ${{ matrix.vector.cc }}"
-            echo "CC=${{ matrix.vector.cc }}" >> $GITHUB_ENV
-          fi 
+          fi
 
       - name: Update and Install Dependencies
         run: |
@@ -164,7 +164,7 @@ jobs:
           cp -r src build/
 
       - name: GCC Build
-        if: matrix.vector.cc == 'gcc'
+        if: matrix.vector.cc != 'clang' # If nothing is defined, it defaults to gcc
         run: |
           cd build/src
           gcc -Ofast -shared -o moofast.so -fPIC moo.hpp
@@ -175,7 +175,7 @@ jobs:
           ls .
 
       - name: Clang Build
-        if: matrix.vector.cc != 'gcc' # If nothing is defined, it defaults to clang
+        if: matrix.vector.cc == 'clang'
         run: |
           cd build/src
           clang -Ofast -shared -o moofast.so -fPIC moo.hpp
