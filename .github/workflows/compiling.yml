@@ -140,7 +140,7 @@ jobs:
           if [ -z "${{ matrix.vector.cc }}" ]; then
             echo "No compiler specified, defaulting to clang"
             echo "CC: clang"
-            echo "CC=clang" >> $GITHUB_ENV
+            echo "cc=clang" >> $GITHUB_ENV
           else
             echo "Using compiler: ${{ matrix.vector.cc }}"
           fi
