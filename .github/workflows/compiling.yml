@@ -27,12 +27,13 @@ jobs:
         cd build
         cmake -G "Visual Studio 17 2022" -A x64 ..
         cmake --build . --config Release
+        dir .
 
-    - name: Artifact
+    - name: Copy Build Artifacts
       run: |
         cd ..
         mkdir artifact
-        copy build\Release\*.exe artifact\
-        copy build\Release\*.dll artifact\
-        copy build\Release\*.lib artifact\
+        copy build\bin\Release\Moo.dll artifact\
+        copy build\lib\Release\Moo.lib artifact\
+        copy build\lib\Release\Moo.exp artifact\
         dir artifact
