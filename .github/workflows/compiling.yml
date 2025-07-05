@@ -88,6 +88,7 @@ jobs:
         if: matrix.compiler == 'gcc'
         run: |
           cd build
+          ls build
           gcc -shared -o moo.so -fPIC moo.hpp
 
       - name: Copy Build Artifacts
