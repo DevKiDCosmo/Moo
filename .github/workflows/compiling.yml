@@ -1,0 +1,38 @@
+name: Compiling C++ Code
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Build Environment
+      shell: cmd
+      run: |
+        mkdir build
+        copy src\*.* build\
+        copy CMakeLists.txt build\
+
+    - name: Compile C++ Code with CMAKE
+      shell: cmd
+      run: |
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        cd build
+        cmake -G "Visual Studio 17 2022" -A x64 ..
+        cmake --build . --config Release
+
+    - name: Artifact
+      run: |
+        cd ..
+        mkdir artifact
+        copy build\Release\*.exe artifact\
+        copy build\Release\*.dll artifact\
+        copy build\Release\*.lib artifact\
+        dir artifact

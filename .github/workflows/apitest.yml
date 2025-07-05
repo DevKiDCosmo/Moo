@@ -1,4 +1,4 @@
-name: Testing API Python
+name: Testing API
 on:
   push:
     branches: [ main ]
