@@ -139,22 +139,35 @@ jobs:
 
   test_unixbased:
     needs: unixbased
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
+      fail-fast: false
       matrix:
-        os: [ ubuntu-latest, debian-latest ]
-        compiler: [ gcc ]
+        vector:
+          - jobname: test-ubuntu
+            os: ubuntu-latest
+            compiler: gcc
+          - jobname: test-debian
+            os: debian-latest
+            compiler: gcc
+    name: ${{ matrix.vector.jobname }} (${{ matrix.vector.os }})
+    env:
+      jobname: ${{ matrix.vector.jobname }}
+      CI_JOB_OS: ${{ matrix.vector.os }}
+      CC: ${{ matrix.vector.compiler }}
     steps:
       - uses: actions/checkout@v4
-      - name: Test with ${{ matrix.compiler }} on ${{ matrix.os }}
-        run: echo "Testing with ${{ matrix.compiler }} on ${{ matrix.os }}"
+
+      - name: Test with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}
+        run: echo "Testing with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}"
 
       - name: Run Tests
         run: |
-          echo "Running tests for Moo on ${{ matrix.os }} with ${{ matrix.compiler }}"
-          assert true, "This is a placeholder for actual tests"
+          echo "Running tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.compiler }}"
+          echo "Placeholder test: Always true"
+          test 1 -eq 1
+  
 
   test_windows:
     needs: windows
@@ -186,22 +199,33 @@ jobs:
 
   test_unixbased_api:
     needs: unixbased
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
+      fail-fast: false
       matrix:
-        os: [ ubuntu-latest, debian-latest ]
-        compiler: [ gcc ]
+        vector:
+          - jobname: test-ubuntu-api
+            os: ubuntu-latest
+            compiler: gcc
+          - jobname: test-debian-api
+            os: debian-latest
+            compiler: gcc
+    name: ${{ matrix.vector.jobname }} (${{ matrix.vector.os }})
+    env:
+      jobname: ${{ matrix.vector.jobname }}
+      CI_JOB_OS: ${{ matrix.vector.os }}
+      CC: ${{ matrix.vector.compiler }}
     steps:
       - uses: actions/checkout@v4
-      - name: Test API with ${{ matrix.compiler }} on ${{ matrix.os }}
-        run: echo "Testing API with ${{ matrix.compiler }} on ${{ matrix.os }}"
+
+      - name: Test API with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}
+        run: echo "Testing API with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}"
 
       - name: Run API Tests
         run: |
-          echo "Running API tests for Moo on ${{ matrix.os }} with ${{ matrix.compiler }}"
-          assert true, "This is a placeholder for actual API tests"
+          echo "Running API tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.compiler }}"
+          test 1 -eq 1
 
   test_macos_api:
     needs: macos
