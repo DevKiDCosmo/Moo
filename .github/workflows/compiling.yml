@@ -82,7 +82,7 @@ jobs:
       - name: Setup Build Environment
         run: |
           mkdir build
-          cp src/* build/
+          cp -r src build/
 
       - name: GCC Build
         if: matrix.compiler == 'gcc'
