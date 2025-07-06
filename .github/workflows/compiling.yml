@@ -402,23 +402,11 @@ jobs:
           - jobname: test-windows-api-python
             os: windows-latest
             api: python
-            precom: [ "pyton -m pip install --upgrade pip", "python -m pip install unittest", "python -m pip install pytest", "python -m venv venv", "venv\Scripts\activate", "python -m pip install --upgrade pip" ]
-            prebuild: true
             extension: .py
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Environment
-        if: matrix.vector.prebuild == true
-        run: |
-          echo "Setting up environment for ${{ matrix.vector.api }}"
-          if [ -n "${{ matrix.vector.precom }}" ]; then
-              for cmd in "${{ matrix.vector.precom }}"; do
-              echo "Running pre-command: $cmd"
-              $cmd
-              done
-          fi
 
       - name: Download DLL
         uses: actions/download-artifact@v4
