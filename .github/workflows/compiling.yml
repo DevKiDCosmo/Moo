@@ -365,7 +365,6 @@ jobs:
     needs: unixbased
     runs-on: ubuntu-latest
     strategy:
-
       fail-fast: false
       matrix:
         vector:
@@ -407,6 +406,10 @@ jobs:
           # Supported until 2026-08-31.
           - jobname: debian-11
             image: debian:11
+        testvector:
+          - jobname: test-windows-api-python
+            api: python3
+            extension: .py
     name: ${{ matrix.vector.jobname }} (${{ matrix.vector.os }})
     env:
       jobname: ${{ matrix.vector.jobname }}
@@ -415,10 +418,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run API Tests
-        run: |
-          echo "Running API tests for Moo on ${{ matrix.vector.os }}"
-          assert true, "Not implemented"
+      - name: Download SO Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: Moo-SO-Artifacts-${{ matrix.vector.jobname }}
+
+      - name: Create Runtime Environment
+        run: | 
+          mkdir runtime-${{ matrix.vector.api }}
+          cp api/${{ matrix.testvector.api }}/* runtime-${{ matrix.vector.api }}/
+          cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.api }}/
+
+      # TODO: Conducting TESTs
 
   test_macos_api:
     needs: macos
