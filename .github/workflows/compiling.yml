@@ -242,7 +242,7 @@ jobs:
       - name: Copy Build Artifacts
         run: |
           mkdir -p artifact
-          cp build\lib\libMoo.dylib artifact/
+          cp build/lib/libMoo.dylib artifact/
           ls artifact
 
       - name: Upload Artifacts
