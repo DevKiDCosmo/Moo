@@ -1,6 +1,7 @@
 #include <cstdint>
 #include "../moo.hpp"
 #include "../export.h"
+#include <cmath>
 
 double moo::absolute(double x) {
     if (x == 0) return 0;
@@ -49,12 +50,12 @@ int64_t moo::idiv(double n, double k) {
 
 double moo::pow(double base, int64_t exp) {
     if (base == 0 && exp <= 0) return 0; // 0^0 ist undefiniert, aber wir geben 0 zurück
-    if (exp == 0) return 1; // Jede Zahl hoch 0 ist 1
+    if (exp == 0) return 1;              // Jede Zahl hoch 0 ist 1
 
-    bool neg_exp = exp < 0;
+    bool    neg_exp = exp < 0;
     int64_t abs_exp = neg_exp ? -exp : exp;
-    double result = 1.0;
-    double b = base;
+    double  result  = 1.0;
+    double  b       = base;
 
     // Exponentiation by squaring
     while (abs_exp > 0) {
@@ -69,11 +70,15 @@ double moo::pow(double base, int64_t exp) {
 double moo::exp(double x) {
     if (x == 0) return 1; // e^0 = 1
     if (x < -709.782712893384) return 0;
+#if defined(_WIN32)
     if (x > 709.782712893384) return std::numeric_limits<double>::infinity();
+#else
+    if (x > 709.782712893384) return 1.0 / 0.0;
+#endif
 
-    double sum = 1.0;
-    double term = 1.0;
-    int64_t n = 1;
+    double  sum  = 1.0;
+    double  term = 1.0;
+    int64_t n    = 1;
 
     while (term > 1e-15 || term < -1e-15) {
         term *= x / n;
@@ -85,20 +90,20 @@ double moo::exp(double x) {
 }
 
 double moo::log(double x, double base) {
-    if (x <= 0 || base <= 1) return 0; // log(x) ist undefiniert für x <= 0 oder base <= 1
+    if (x <= 0 || base <= 1) return 0;               // log(x) ist undefiniert für x <= 0 oder base <= 1
     if (base == 10) return moo::ln(x) / moo::ln(10); // log_10(x)
-    if (base == 2) return moo::ln(x) / moo::ln(2); // log_2(x)
-    return moo::ln(x) / moo::ln(base); // log_base(x)
+    if (base == 2) return moo::ln(x) / moo::ln(2);   // log_2(x)
+    return moo::ln(x) / moo::ln(base);               // log_base(x)
 }
 
 double moo::ln(double x) {
     if (x <= 0) return 0;
     if (x == 1) return 0; // ln(1) = 0
 
-    double sum = 0.0;
-    double term = (x - 1) / (x + 1);
+    double sum          = 0.0;
+    double term         = (x - 1) / (x + 1);
     double term_squared = term * term;
-    double n = 1.0;
+    double n            = 1.0;
 
     while (term > 1e-15 || term < -1e-15) {
         sum += term / n;
@@ -111,12 +116,12 @@ double moo::ln(double x) {
 
 double moo::fpow(double base, double exp) {
     if (base == 0 && exp <= 0) return 0; // 0^0 ist undefiniert, aber wir geben 0 zurück
-    if (exp == 0) return 1; // Jede Zahl hoch 0 ist 1
+    if (exp == 0) return 1;              // Jede Zahl hoch 0 ist 1
 
-    bool neg_exp = exp < 0;
+    bool   neg_exp = exp < 0;
     double abs_exp = neg_exp ? -exp : exp;
-    double result = 1.0;
-    double b = base;
+    double result  = 1.0;
+    double b       = base;
 
     if (static_cast<int64_t>(abs_exp) == abs_exp) {
         return moo::pow(base, static_cast<int64_t>(abs_exp));
