@@ -6,42 +6,6 @@ on:
     branches: [ main ]
 
 jobs:
-  build_python:
-    name: Test Python API
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
-
-    - name: Copy required files
-      run: |
-        mkdir testdir
-        copy api\python\moo.py testdir\
-        copy api\python\run.py testdir\
-        copy api\python\Moo.dll testdir\
-
-    - name: Set up Python venv and install requirements
-      run: |
-        python -m venv venv
-        venv\Scripts\activate
-        python -m pip install --upgrade pip
-
-    - name: Run Test
-      run: |
-        venv\Scripts\activate
-        python testdir\run.py
-
-    - name: Running Unit Tests
-      run: |
-        copy test\unit_test.py testdir\
-        copy test\test.csv testdir\
-        python testdir\unit_test.py
   build_lua:
     name: Build and Test Lua API
     runs-on: windows-latest

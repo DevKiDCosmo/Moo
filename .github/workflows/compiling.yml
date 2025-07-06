@@ -402,8 +402,7 @@ jobs:
           - jobname: test-windows-api-python
             os: windows-latest
             api: python
-            precom: [ "pyton -m pip install --upgrade pip", "python -m pip install unittest", "python -m pip install pytest",
-                      "python -m venv venv", "venv\Scripts\activate", "python -m pip install --upgrade pip" ]
+            precom: [ "pyton -m pip install --upgrade pip", "python -m pip install unittest", "python -m pip install pytest", "python -m venv venv", "venv\Scripts\activate", "python -m pip install --upgrade pip" ]
             prebuild: true
             extension: .py
     steps:
@@ -428,7 +427,7 @@ jobs:
         run: |
           mkdir runtime-${{ matrix.vector.api }}
           xcopy api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }} /E /I /Y
-          copy Moo.dll runtime-${{  matrix.vector.api}}\      
+          copy Moo.dll runtime-${{ matrix.vector.api }}\      
 
       - name: Run Windows API Tests
         run: |
