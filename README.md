@@ -76,3 +76,10 @@ Documentation is available on the GitHub Wiki: [Moo もう Wiki](https://github.
 - Supports various mathematical operations
 - User-friendly interface
 - Extensible with plugins
+
+
+
+# Reading a Shared Library
+- Windows: `dumpbin /exports moo.dll > exports.txt` 
+- Linux: `nm -D moo.so > exports.txt` or `readelf -s moo.so > exports.txt`
+- macOS: `nm -gU moo.dylib > exports.txt`

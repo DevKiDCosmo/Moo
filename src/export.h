@@ -4,10 +4,8 @@
   #ifdef MOOLIB_EXPORTS
     #define MOOLIB_API __declspec(dllexport)
   #else
-    #define MOOLIB_API __declspec(dllexport)
+    #define MOOLIB_API __declspec(dllimport)
   #endif
-#elif defined(__GNUC__) && __GNUC__ >= 4
-  #define MOOLIB_API __attribute__((visibility("default")))
 #else
-  #define MOOLIB_API
+  #define MOOLIB_API __attribute__((visibility("default")))
 #endif
