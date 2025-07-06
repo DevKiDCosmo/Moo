@@ -67,6 +67,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+
       - name: Setup Build Environment
         shell: cmd
         run: |
@@ -79,11 +81,13 @@ jobs:
         run: |
           python -m pip install meson ninja
 
-      - name: Compile C++ Code with Meson
-        shell: cmd
-        run: |
-          meson setup build --buildtype=release --backend=ninja
-          meson compile -Cpp build
+      - name: Setup
+        shell: pwsh
+        run: meson setup build --vsenv -Dbuildtype=release -Dperl=disabled -Dcredential_helpers=wincred
+
+      - name: Compile
+        shell: pwsh
+        run: meson compile -C build
 
       - name: Copy Build Artifacts
         run: |
