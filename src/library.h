@@ -32,6 +32,12 @@ MOOLIB_API int64_t* genPerm(int n); // n! Permutationen mit Länge n
 MOOLIB_API void     freeptr(int64_t* ptr);
 MOOLIB_API int64_t  permutation(int n, int k);
 MOOLIB_API int64_t  combination(int n, int k);
+MOOLIB_API double   dpow(double base, int64_t exp);
+MOOLIB_API double   fpow(double base, double exp);
+
+MOOLIB_API double dexp(double x);
+MOOLIB_API double dlog(double x, double base);
+MOOLIB_API double ln(double x);
 }
 
 #endif // MOO_LIBRARY_H

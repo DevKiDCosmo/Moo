@@ -217,3 +217,56 @@ class moo:
         self.moo.min.restype = ctypes.c_double
         self.moo.min.argtypes = [ctypes.c_double, ctypes.c_double]
         return self.moo.min(a, b)
+
+    def pow(self, x: float, b: int) -> float:
+        """
+        Calculate the power of a number.
+        :param x: Base number.
+        :param b: Exponent.
+        :return: Result of x raised to the power of b.
+        """
+        self.moo.dpow.restype = ctypes.c_double
+        self.moo.dpow.argtypes = [ctypes.c_double, ctypes.c_int]
+        return self.moo.dpow(ctypes.c_double(x), ctypes.c_int(b))
+
+    def fpow(self, x: float, b: float) -> float:
+        """
+        Calculate the floating-point power of a number.
+        :param x: Base number.
+        :param b: Exponent.
+        :return: Result of x raised to the power of b.
+        """
+        self.moo.fpow.restype = ctypes.c_double
+        self.moo.fpow.argtypes = [ctypes.c_double, ctypes.c_double]
+        return self.moo.fpow(ctypes.c_double(x), ctypes.c_double(b))
+
+    def log(self, x: float, base: float = 10.0) -> float:
+        """
+        Calculate the logarithm of a number with a specified base.
+        :param x: Number to calculate the logarithm of.
+        :param base: Base of the logarithm (default is 10).
+        :return: Logarithm of the number with the specified base.
+        """
+        self.moo.dlog.restype = ctypes.c_double
+        self.moo.dlog.argtypes = [ctypes.c_double, ctypes.c_double]
+        return self.moo.dlog(ctypes.c_double(x), ctypes.c_double(base))
+
+    def ln(self, x: float) -> float:
+        """
+        Calculate the natural logarithm of a number.
+        :param x: Number to calculate the natural logarithm of.
+        :return: Natural logarithm of the number.
+        """
+        self.moo.ln.restype = ctypes.c_double
+        self.moo.ln.argtypes = [ctypes.c_double]
+        return self.moo.ln(ctypes.c_double(x))
+
+    def exp(self, x: float) -> float:
+        """
+        Calculate the exponential of a number.
+        :param x: Number to calculate the exponential of.
+        :return: Exponential of the number.
+        """
+        self.moo.dexp.restype = ctypes.c_double
+        self.moo.dexp.argtypes = [ctypes.c_double]
+        return self.moo.dexp(ctypes.c_double(x))

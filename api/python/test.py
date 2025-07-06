@@ -52,6 +52,11 @@ def test_moo():
 
     print(math.combination(10, 5))
     print(math.permutation(10, 5))
+    print(math.log(2493.0, 1.23))
+    print(math.ln(3294.2))
+    print(math.exp(2.71828))
+    print(math.pow(4, 2))
+    print(math.fpow(24.4, 3.32))
 
 
 if __name__ == "__main__":

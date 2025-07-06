@@ -26,4 +26,10 @@ public:
     static void     freeptr(int64_t* ptr);
     static int64_t  permutation(int n, int k);
     static int64_t  combination(int n, int k);
+    static double   pow(double base, int64_t exp);
+    static double   fpow(double base, double exp);
+
+    static double ln(double x);
+    static double log(double x, double base = 10.0);
+    static double exp(double x);
 };
