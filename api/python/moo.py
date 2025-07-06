@@ -1,5 +1,6 @@
 import os
 import ctypes
+from sys import platform
 
 
 class moo:
@@ -8,8 +9,19 @@ class moo:
         Initialize the moo class by loading the moo.dll file.
         This file should be located in the same directory as this script.
         """
-        dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), f"./{file}"))
-        self.moo = ctypes.CDLL(dll_path)
+        if file != "moo.dll":
+            if platform == "linux" or platform == "linux2":
+                file = "libMoo.so"
+            elif platform == "darwin":
+                file = "libMoo.dylib"
+            else:
+                file = "moo.dll"
+
+        try:
+            dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), f"./{file}"))
+            self.moo = ctypes.CDLL(dll_path)
+        except OSError as e:
+            raise OSError(f"Could not load the shared object '{file}'. Ensure it exists in the same directory as this script. Error: {e}")
 
     def abs(self, x):
         """

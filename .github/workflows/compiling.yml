@@ -106,8 +106,9 @@ jobs:
           name: Moo-DLL-Artifacts-Meson
           path: artifact\*
 
-  docker:
-    needs: config
+  docker_msvc:
+    name: Docker Image for Windows+MSVC
+    needs: windows
     runs-on: ubuntu-latest
 
     steps:
@@ -257,7 +258,7 @@ jobs:
           name: Moo-Dylib-Artifacts-macos
           path: artifact/*.*
 
-  test_unixbased:
+  test_unixbased_python:
     needs: unixbased
     runs-on: ubuntu-latest
     strategy:
@@ -310,11 +311,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run Tests
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Download SO Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: Moo-SO-Artifacts-${{ matrix.vector.jobname }}
+
+      - name: Create Runtime Environment
+        run: | 
+          mkdir runtime-${{ matrix.vector.api }}
+          cp api/python/* runtime-${{ matrix.vector.api }}/
+          cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.api }}/
+
+      - name: Run Python Tests
         run: |
-          echo "Running tests for Moo on ${{ matrix.vector.os }}"
-          assert true, "Not implemented"
-  
+          python3 runtime-${{ matrix.vector.api }}/test.py
+          echo "Python tests completed successfully."
 
   test_windows:
     needs: windows

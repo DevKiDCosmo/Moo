@@ -1,5 +1,7 @@
 # Moo もう
 
+A versatile, cross-platform math framework A high-performance mathematical library designed for seamless integration with nearly every programming language I enjoy, optimized for compatibility across all major operating systems. Whether you’re crunching numbers, modeling equations, or building something groundbreaking, this framework delivers the tools you need—fast, reliable, and everywhere.
+
 Moo is used for complex math calculations in a simple way. A library with millions of different formulars.
 
 # Installation
