@@ -32,9 +32,9 @@ jobs:
         run: |
           mkdir build
           xcopy src build\src /E /I /Y
-          copy CMakeLists.txt build\
+          copy cmakeLists.txt build\
 
-      - name: Compile C++ Code with CMAKE
+      - name: Compile C++ Code with cmake
         shell: cmd
         run: |
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
@@ -166,37 +166,37 @@ jobs:
     container: ${{ matrix.vector.image }}
     env:
       jobname: ${{ matrix.vector.jobname }}
-      CC: CMAKE
+      CC: cmake
       CI_JOB_IMAGE: ${{ matrix.vector.image }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build with CMAKE on ${{ matrix.vector.image }}
-        run: echo "Building with CMAKE on ${{ matrix.vector.image }}"
+      - name: Build with cmake on ${{ matrix.vector.image }}
+        run: echo "Building with cmake on ${{ matrix.vector.image }}"
 
       - name: Checking Matrix Variables
         run: |
           echo "Job Name: ${{ matrix.vector.jobname }}"
           echo "Operating System: ${{ matrix.vector.os }}"
-          echo "Compiler: CMAKE"
+          echo "Compiler: cmake"
           echo "Image: ${{ matrix.vector.image }}"
-          if [ -z "CMAKE" ]; then
+          if [ -z "cmake" ]; then
             echo "No compiler specified, defaulting to gcc"
             echo "CC: gcc"
             echo "cc=gcc" >> $GITHUB_ENV
-            echo "Using default compiler: CMAKE"
+            echo "Using default compiler: cmake"
           else
-            echo "Using compiler: CMAKE"
+            echo "Using compiler: cmake"
           fi
 
       - name: Update and Install Dependencies
         run: |
           if command -v apt-get > /dev/null; then
             apt-get update
-            apt-get install -y build-essential cmake make CMAKE
+            apt-get install -y build-essential cmake make cmake
             apt-get upgrade -y
           elif command -v apk > /dev/null; then
-            apk add --no-cache build-base cmake make CMAKE
+            apk add --no-cache build-base cmake make cmake
           elif command -v dnf > /dev/null; then
             dnf install -y gcc gcc-c++ cmake make clang
           fi
@@ -206,12 +206,12 @@ jobs:
           mkdir -p build
           mkdir -p build/src
           cp -r src/* build/src/
-          cp CMakeListsUNIX.txt build/CMakeLists.txt
+          cp cmakeListsUNIX.txt build/cmakeLists.txt
 
-      - name: Compile with CMake
+      - name: Compile with cmake
         run: |
           cd build
-          cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Release .
+          cmake -G "Unix Makefiles" -Dcmake_C_COMPILER=gcc -Dcmake_BUILD_TYPE=Release .
           cmake --build . --config Release
           ls .
 
@@ -246,13 +246,13 @@ jobs:
         run: |
           mkdir -p build
           cp -r src build/
-          cp CMakeListsMacOS.txt build/CMakeLists.txt
+          cp cmakeListsMacOS.txt build/cmakeLists.txt
 
 
-      - name: Compile with CMake
+      - name: Compile with cmake
         run: |
           cd build
-          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release .
+          cmake -G "Unix Makefiles" -Dcmake_BUILD_TYPE=Release .
           make
 
       - name: Copy Build Artifacts
@@ -320,12 +320,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Test with CMAKE on ${{ matrix.vector.os }}
-        run: echo "Testing with CMAKE on ${{ matrix.vector.os }}"
+      - name: Test with cmake on ${{ matrix.vector.os }}
+        run: echo "Testing with cmake on ${{ matrix.vector.os }}"
 
       - name: Run Tests
         run: |
-          echo "Running tests for Moo on ${{ matrix.vector.os }} with CMAKE"
+          echo "Running tests for Moo on ${{ matrix.vector.os }} with cmake"
           echo "Placeholder test: Always true"
           assert true, "Not implemented"
   
@@ -425,16 +425,16 @@ jobs:
     env:
       jobname: ${{ matrix.vector.jobname }}
       CI_JOB_OS: ${{ matrix.vector.os }}
-      CC: CMAKE
+      CC: cmake
     steps:
       - uses: actions/checkout@v4
 
-      - name: Test API with CMAKE on ${{ matrix.vector.os }}
-        run: echo "Testing API with CMAKE on ${{ matrix.vector.os }}"
+      - name: Test API with cmake on ${{ matrix.vector.os }}
+        run: echo "Testing API with cmake on ${{ matrix.vector.os }}"
 
       - name: Run API Tests
         run: |
-          echo "Running API tests for Moo on ${{ matrix.vector.os }} with CMAKE"
+          echo "Running API tests for Moo on ${{ matrix.vector.os }} with cmake"
           assert true, "Not implemented"
 
   test_macos_api:
