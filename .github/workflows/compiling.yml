@@ -88,7 +88,7 @@ jobs:
         shell: pwsh
         run: |
           cd meson
-          meson setup meson --vsenv -Dbuildtype=release
+          meson setup src --vsenv -Dbuildtype=release
 
       - name: Compile
         shell: pwsh
@@ -225,22 +225,22 @@ jobs:
         if: matrix.vector.cc != 'clang' # If nothing is defined, it defaults to gcc
         run: |
           cd build/src
-          gcc -Ofast -shared -o moofast.so -fPIC moo.hpp
-          gcc -O3 -shared -o mooO3.so -fPIC moo.hpp
-          gcc -Os -shared -o mooSize.so -fPIC moo.hpp
-          gcc -Og -shared -o mooDebug.so -fPIC moo.hpp
-          gcc -shared -o moo.so -fPIC moo.hpp
+          gcc -Ofast -shared -o moofast.so -fPIC library.cpp
+          gcc -O3 -shared -o mooO3.so -fPIC library.cpp
+          gcc -Os -shared -o mooSize.so -fPIC library.cpp
+          gcc -Og -shared -o mooDebug.so -fPIC library.cpp
+          gcc -shared -o moo.so -fPIC library.cpp
           ls .
 
       - name: Clang Build
         if: matrix.vector.cc == 'clang'
         run: |
           cd build/src
-          clang -Ofast -shared -o moofast.so -fPIC moo.hpp
-          clang -O3 -shared -o mooO3.so -fPIC moo.hpp
-          clang -Os -shared -o mooSize.so -fPIC moo.hpp
-          clang -Og -shared -o mooDebug.so -fPIC moo.hpp
-          clang -shared -o moo.so -fPIC moo.hpp
+          clang -Ofast -shared -o moofast.so -fPIC library.cpp
+          clang -O3 -shared -o mooO3.so -fPIC library.cpp
+          clang -Os -shared -o mooSize.so -fPIC library.cpp
+          clang -Og -shared -o mooDebug.so -fPIC library.cpp
+          clang -shared -o moo.so -fPIC library.cpp
           ls .
 
       - name: Copy Build Artifacts
@@ -278,10 +278,10 @@ jobs:
       - name: Compile with Clang
         run: |
           cd build/src
-          clang++ -shared -o moo.dylib moo.hpp
-          clang++ -shared -O3 -o mooO3.dylib moo.hpp
+          clang++ -shared -o moo.dylib library.cpp
+          clang++ -shared -O3 -o mooO3.dylib library.cpp
           clang++ -shared -O3 -Wall -Wextra -fvisibility=hidden -std=c++20 \
-            -o mooO3WW20.dylib moo.hpp
+            -o mooO3WW20.dylib library.cpp
 
           ls -lh moo.dylib
 
@@ -364,16 +364,16 @@ jobs:
     env:
       jobname: ${{ matrix.vector.jobname }}
       CI_JOB_OS: ${{ matrix.vector.os }}
-      CC: ${{ matrix.vector.compiler }}
+      CC: ${{ matrix.vector.cc }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Test with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}
-        run: echo "Testing with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}"
+      - name: Test with ${{ matrix.vector.cc }} on ${{ matrix.vector.os }}
+        run: echo "Testing with ${{ matrix.vector.cc }} on ${{ matrix.vector.os }}"
 
       - name: Run Tests
         run: |
-          echo "Running tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.compiler }}"
+          echo "Running tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.cc }}"
           echo "Placeholder test: Always true"
           assert true, "Not implemented"
   
@@ -406,7 +406,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
 
       - name: Download DLL
         uses: actions/download-artifact@v4
@@ -489,16 +488,16 @@ jobs:
     env:
       jobname: ${{ matrix.vector.jobname }}
       CI_JOB_OS: ${{ matrix.vector.os }}
-      CC: ${{ matrix.vector.compiler }}
+      CC: ${{ matrix.vector.cc }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Test API with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}
-        run: echo "Testing API with ${{ matrix.vector.compiler }} on ${{ matrix.vector.os }}"
+      - name: Test API with ${{ matrix.vector.cc }} on ${{ matrix.vector.os }}
+        run: echo "Testing API with ${{ matrix.vector.cc }} on ${{ matrix.vector.os }}"
 
       - name: Run API Tests
         run: |
-          echo "Running API tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.compiler }}"
+          echo "Running API tests for Moo on ${{ matrix.vector.os }} with ${{ matrix.vector.cc }}"
           assert true, "Not implemented"
 
   test_macos_api:
