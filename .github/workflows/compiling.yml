@@ -251,11 +251,12 @@ jobs:
           cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Release .
           cmake --build . --config Release
           ls .
+          tree src -L 2
 
       - name: Copy Build Artifacts
         run: |
           mkdir -p artifact
-          cp build/src/moo*.so artifact/
+          cp build/src/moo*.so artifact/          
           ls artifact
 
       - name: Upload Artifacts
