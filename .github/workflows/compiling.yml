@@ -221,8 +221,7 @@ jobs:
           mkdir -p build
           mkdir -p build/src
           cp -r src/* build/src/
-          cp CMakeListsUNIX.txt build/
-          mv build/CMakeListsUNIX.txt CMakeLists.txt
+          cp CMakeListsUNIX.txt build/CMakeLists.txt
 
       - name: GCC Build
         if: matrix.vector.cc != 'clang' # If nothing is defined, it defaults to gcc
