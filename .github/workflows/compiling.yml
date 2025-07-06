@@ -221,6 +221,8 @@ jobs:
           mkdir -p build
           mkdir -p build/src
           cp -r src/* build/src/
+          cp CMakeListsUNIX.txt build/
+          rename build/CMakeListsUNIX.txt CMakeLists.txt
 
       - name: GCC Build
         if: matrix.vector.cc != 'clang' # If nothing is defined, it defaults to gcc
@@ -242,6 +244,13 @@ jobs:
           clang -Os -shared -o mooSize.so -fPIC library.cpp
           clang -Og -shared -o mooDebug.so -fPIC library.cpp
           clang -shared -o moo.so -fPIC library.cpp
+          ls .
+
+      - name: Compile with CMake
+        run: |
+          cd build
+          cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Release .
+          cmake --build . --config Release
           ls .
 
       - name: Copy Build Artifacts
