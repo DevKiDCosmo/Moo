@@ -11,17 +11,11 @@ sources = [
 
 dll_export = ['-DEXPORTING_DLL']
 
-if meson.get_buildtype() == 'debug'
-  dll_export += ['-DDEBUG']
-  output_name = 'Moo'
-else
-  output_name = 'MooMeson'
-endif
+output_name = 'Moo'
 
 moo_lib = shared_library(
   output_name,
   sources,
-  cpp_args : dll_export,
   install : false,
   vs_module_defs : [],
 )
