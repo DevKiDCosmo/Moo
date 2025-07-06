@@ -111,11 +111,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Build Docker Image
-          run: assert true, "This is a placeholder for Docker build steps"
+      - name: Build Docker Image
+        run: assert true, "This is a placeholder for Docker build steps"
 
   unixbased:
     needs: config
@@ -137,7 +137,7 @@ jobs:
             os: ubuntu-latest
             cc: gcc
           - jobname: test-fedora
-            image:  fedora:latest
+            image: fedora:latest
             os: ubuntu-latest
             cc: gcc
           - jobname: test-ubuntu-clang
@@ -303,7 +303,7 @@ jobs:
     needs: unixbased
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 2
+      
       fail-fast: false
       matrix:
         vector:
@@ -396,21 +396,44 @@ jobs:
     needs: windows
     runs-on: windows-latest
 
+    strategy:
+      matrix:
+        vector:
+          - jobname: test-windows-api-python
+            os: windows-latest
+            api: python
+            precom: [ "pyton -m pip install --upgrade pip", "python -m pip install unittest", "python -m pip install pytest" ]
+            prebuild: true
+            extension: .py
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run API Tests
-        shell: cmd
+      - name: Setup Environment
+        if: matrix.vector.prebuild == true
         run: |
-          echo "Running API tests for Moo on Windows"
-          assert true, "This is a placeholder for actual API tests"
+
+      - name: Download DLL
+        uses: actions/download-artifact@v4
+        with:
+          name: Moo-DLL-Artifacts
+
+      - name: Create Runtime Environment
+        run: |
+          mkdir runtime-${{ matrix.vector.api }}
+          xcopy api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }} /E /I /Y
+          copy Moo.dll runtime-${{  matrix.vector.api}}\      
+
+      - name: Run Windows API Tests
+        run: |
+          ${{ matrix.vector.api }} runtime-${{ matrix.vector.api }}\test${{ matrix.vector.extension }}
+  
 
   test_unixbased_api:
     needs: unixbased
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 2
+      
       fail-fast: false
       matrix:
         vector:
@@ -533,7 +556,7 @@ jobs:
           path: unix-artifacts.tar.gz
 
   finishing:
-    needs: [test_windows, test_unixbased, test_macos, test_windows_api, test_unixbased_api, test_macos_api]
+    needs: [ test_windows, test_unixbased, test_macos, test_windows_api, test_unixbased_api, test_macos_api ]
     runs-on: windows-latest
 
     steps:
