@@ -218,26 +218,27 @@ jobs:
       - name: Compile with Gcc
         run: |
           cd build/src
-          #clang++ -dynamiclib -o moo.dylib moo.hpp
-          
-          gcc -c moo.hpp -o moo.o
-          gcc -dynamiclib -current_version 1.0  moo.o  -o moo.dylib
-          file moo.dylib 
-          otool -L moo.dylib
-          
+          clang++ -dynamiclib -o moo.dylib moo.hpp
+          clang++ -dynamiclib -O3 -o mooO3.dylib moo.hpp
+          clang++ -dynamiclib -O3 -Wall -Wextra -fvisibility=hidden -std=c++20 \
+            -install_name @rpath/moo.dylib \
+            -o mooO3WW20.dylib moo.hpp
+
           ls -lh moo.dylib
 
       - name: Copy Build Artifacts
         run: |
           mkdir -p artifact
           cp build/src/moo.dylib artifact/
+          cp build/src/mooO3.dylib artifact/
+          cp build/src/mooO3WW20.dylib artifact/
           ls artifact
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Moo-SO-Artifacts-macos
-          path: artifact/moo.dylib
+          path: artifact/*.*
 
   test_unixbased:
     needs: unixbased
