@@ -8,3 +8,7 @@
 - Invalid ELF Header error on Linux. Fix it. SOLVED :solved:
 - MacOS - Probably the same as Linux.
 - Testing API, DLL in C++ and Header files.
+
+
+# Solved
+Linux is working now partially. (1 from 16 os.)

@@ -251,8 +251,6 @@ jobs:
           cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Release .
           cmake --build . --config Release
           ls .
-          apt-get install -y tree
-          tree -L 2
 
       - name: Copy Build Artifacts
         run: |
