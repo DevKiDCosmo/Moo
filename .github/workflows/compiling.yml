@@ -74,7 +74,6 @@ jobs:
         run: |
           mkdir build
           xcopy src build\src /E /I /Y
-          copy meson.build build\
           tree build\src /F /A
 
       - name: Install Meson and Ninja
@@ -85,7 +84,6 @@ jobs:
       - name: Setup
         shell: pwsh
         run: |
-          cd build
           meson setup build --vsenv -Dbuildtype=release -Dperl=disabled -Dcredential_helpers=wincred
 
       - name: Compile
