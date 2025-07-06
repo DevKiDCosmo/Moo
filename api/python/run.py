@@ -1,5 +1,5 @@
 import moo
-import os
+
 
 # Create test script to verify the functionality of the moo module
 def test_moo():
