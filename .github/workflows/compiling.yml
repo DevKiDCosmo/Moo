@@ -74,6 +74,7 @@ jobs:
         run: |
           mkdir meson
           xcopy src meson\src /E /I /Y
+          copy meson.build meson\src\
           tree meson\src /F /A
 
       - name: Install Meson and Ninja
