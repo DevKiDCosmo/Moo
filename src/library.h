@@ -8,11 +8,18 @@
 #define MOO_LIBRARY_H
 
 #ifdef _WIN32
-#ifdef MOOLIB_EXPORTS
+  #ifdef MOOLIB_EXPORTS
     #define MOOLIB_API __declspec(dllexport)
-#else
-#define MOOLIB_API __declspec(dllimport)
-#endif
+  #else
+    #define MOOLIB_API __declspec(dllimport)
+  #endif
+#elif defined(__unix__) || defined(__APPLE__) || defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__DragonFly__) || defined(__sun) || defined(__CYGWIN__)
+  // Unix-based systems (Linux, macOS, BSD variants, Solaris, Cygwin)
+  #if defined(__GNUC__) && __GNUC__ >= 4
+    #define MOOLIB_API __attribute__((visibility("default")))
+  #else
+    #define MOOLIB_API
+  #endif
 #else
   #define MOOLIB_API
 #endif

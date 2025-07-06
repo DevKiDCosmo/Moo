@@ -12,8 +12,12 @@ sources = [
 dll_export = ['-DEXPORTING_DLL']
 
 # Platform-specific configuration
-if host_machine.system() == 'windows'
+host_system = host_machine.system()
+if host_system == 'windows'
   dll_export += ['-DMOOLIB_EXPORTS']
+elif host_system in ['linux', 'darwin', 'freebsd', 'openbsd', 'netbsd', 'dragonfly', 'sunos', 'cygwin']
+  # Unix-based systems
+  dll_export += ['-fvisibility=hidden']
 endif
 
 if get_option('buildtype') == 'debug'
