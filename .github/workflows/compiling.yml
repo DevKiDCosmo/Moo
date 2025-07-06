@@ -412,11 +412,13 @@ jobs:
       - name: Setup Environment
         if: matrix.vector.prebuild == true
         run: |
-          for %%C in (${{
-            join(matrix.vector.precom, '";"')
-          }}) do (
-            %%C
-          )
+          echo "Setting up environment for ${{ matrix.vector.api }}"
+          if [ -n "${{ matrix.vector.precom }}" ]; then
+              for cmd in "${{ matrix.vector.precom }}"; do
+              echo "Running pre-command: $cmd"
+              $cmd
+              done
+          fi
 
       - name: Download DLL
         uses: actions/download-artifact@v4
