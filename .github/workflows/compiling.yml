@@ -19,6 +19,7 @@ jobs:
           echo "No configuration needed for this job."
 
   windows:
+    name: Windows+MSVC
     runs-on: windows-latest
     needs: config
 
@@ -56,6 +57,45 @@ jobs:
         with:
           name: Moo-DLL-Artifacts
           path: D:\a\Moo\artifact
+
+  windows_meson:
+    name: Windows+Meson
+    runs-on: windows-latest
+    needs: config
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Build Environment
+        shell: cmd
+        run: |
+          mkdir build
+          copy src\*.* build\
+          copy CMakeLists.txt build\
+
+      - name: Install Meson and Ninja
+        shell: cmd
+        run: |
+          python -m pip install meson ninja
+
+      - name: Compile C++ Code with Meson
+        shell: cmd
+        run: |
+          meson setup build --buildtype=release --backend=ninja
+          meson compile -Cpp build
+
+      - name: Copy Build Artifacts
+        run: |
+          mkdir artifact
+          copy build\lib\Moo.dll artifact\
+          dir artifact
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Moo-DLL-Artifacts-Meson
+          path: artifact\*
 
   unixbased:
     needs: config
@@ -215,13 +255,12 @@ jobs:
           mkdir -p build
           cp -r src build/
 
-      - name: Compile with Gcc
+      - name: Compile with Clang
         run: |
           cd build/src
-          clang++ -dynamiclib -o moo.dylib moo.hpp
-          clang++ -dynamiclib -O3 -o mooO3.dylib moo.hpp
-          clang++ -dynamiclib -O3 -Wall -Wextra -fvisibility=hidden -std=c++20 \
-            -install_name @rpath/moo.dylib \
+          clang++ -shared -o moo.dylib moo.hpp
+          clang++ -shared -O3 -o mooO3.dylib moo.hpp
+          clang++ -shared -O3 -Wall -Wextra -fvisibility=hidden -std=c++20 \
             -o mooO3WW20.dylib moo.hpp
 
           ls -lh moo.dylib
@@ -248,12 +287,59 @@ jobs:
       fail-fast: false
       matrix:
         vector:
-          - jobname: test-ubuntu
-            os: ubuntu-latest
-            compiler: gcc
           - jobname: test-debian
-            os: debian-latest
-            compiler: gcc
+            image: debian:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-ubuntu
+            image: ubuntu:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-alpine
+            image: alpine:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-fedora
+            image: fedora:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-ubuntu-clang
+            image: ubuntu:latest
+            os: ubuntu-latest
+            cc: clang
+          - jobname: linux-sha256
+            image: ubuntu:rolling
+            cc: clang
+          - jobname: linux-reftable
+            image: ubuntu:rolling
+            cc: clang
+            cc_package: gcc-8
+          - jobname: linux-breaking-changes
+            cc: gcc
+            image: ubuntu:rolling
+          - jobname: linux-leaks
+            image: ubuntu:rolling
+            cc: gcc
+          - jobname: linux-reftable-leaks
+            image: ubuntu:rolling
+            cc: gcc
+          - jobname: linux-asan-ubsan
+            image: ubuntu:rolling
+            cc: clang
+          - jobname: linux-meson
+            image: ubuntu:rolling
+            cc: gcc
+          - jobname: linux-musl-meson
+            image: alpine:latest
+          # Supported until 2025-04-02.
+          - jobname: pedantic
+            image: fedora:latest
+          # A RHEL 8 compatible distro.  Supported until 2029-05-31.
+          - jobname: almalinux-8
+            image: almalinux:8
+          # Supported until 2026-08-31.
+          - jobname: debian-11
+            image: debian:11
     name: ${{ matrix.vector.jobname }} (${{ matrix.vector.os }})
     env:
       jobname: ${{ matrix.vector.jobname }}
@@ -308,12 +394,59 @@ jobs:
       fail-fast: false
       matrix:
         vector:
-          - jobname: test-ubuntu-api
+          - jobname: test-debian
+            image: debian:latest
             os: ubuntu-latest
-            compiler: gcc
-          - jobname: test-debian-api
-            os: debian-latest
-            compiler: gcc
+            cc: gcc
+          - jobname: test-ubuntu
+            image: ubuntu:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-alpine
+            image: alpine:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-fedora
+            image: fedora:latest
+            os: ubuntu-latest
+            cc: gcc
+          - jobname: test-ubuntu-clang
+            image: ubuntu:latest
+            os: ubuntu-latest
+            cc: clang
+          - jobname: linux-sha256
+            image: ubuntu:rolling
+            cc: clang
+          - jobname: linux-reftable
+            image: ubuntu:rolling
+            cc: clang
+            cc_package: gcc-8
+          - jobname: linux-breaking-changes
+            cc: gcc
+            image: ubuntu:rolling
+          - jobname: linux-leaks
+            image: ubuntu:rolling
+            cc: gcc
+          - jobname: linux-reftable-leaks
+            image: ubuntu:rolling
+            cc: gcc
+          - jobname: linux-asan-ubsan
+            image: ubuntu:rolling
+            cc: clang
+          - jobname: linux-meson
+            image: ubuntu:rolling
+            cc: gcc
+          - jobname: linux-musl-meson
+            image: alpine:latest
+          # Supported until 2025-04-02.
+          - jobname: pedantic
+            image: fedora:latest
+          # A RHEL 8 compatible distro.  Supported until 2029-05-31.
+          - jobname: almalinux-8
+            image: almalinux:8
+          # Supported until 2026-08-31.
+          - jobname: debian-11
+            image: debian:11
     name: ${{ matrix.vector.jobname }} (${{ matrix.vector.os }})
     env:
       jobname: ${{ matrix.vector.jobname }}
