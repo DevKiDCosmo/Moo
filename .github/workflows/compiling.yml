@@ -239,6 +239,7 @@ jobs:
           cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release .
           cmake --build . --config Release
           cd ..
+          brew install tree
           tree .
 
       - name: Copy Build Artifacts
