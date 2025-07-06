@@ -5,5 +5,5 @@
 - Adding more language for support.
 - Adding grammar
 - dll and Exports standarizing through all files. With MOO_API Thing. Checking what Compiler is used with #def
-- Invalid ELF Header error on Linux. Fix it.
-- MacOS - Probably the same as Linux.
+- ~~Invalid ELF Header error on Linux. Fix it.~~ ✅ FIXED - Cross-platform compatibility implemented
+- MacOS - Probably the same as Linux. ✅ SHOULD WORK - Same Unix-based approach
