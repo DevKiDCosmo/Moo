@@ -1,4 +1,4 @@
-project('Moo', 'cpp', default_options : ['cpp_std=c++26'])
+project('Moo', 'cpp', default_options : ['cpp_std=c++23'])
 
 srcdir = 'src'
 sources = [
@@ -11,7 +11,12 @@ sources = [
 
 dll_export = ['-DEXPORTING_DLL']
 
-if meson.get_buildtype() == 'debug'
+# Platform-specific configuration
+if host_machine.system() == 'windows'
+  dll_export += ['-DMOOLIB_EXPORTS']
+endif
+
+if get_option('buildtype') == 'debug'
   dll_export += ['-DDEBUG']
   output_name = 'Moo'
 else
@@ -23,8 +28,5 @@ moo_lib = shared_library(
   sources,
   cpp_args : dll_export,
   install : false,
-  vs_module_defs : [],
+  install_dir : 'lib'
 )
-
-moo_lib.set_output_dir(meson.project_build_root() / 'lib')
-moo_lib.set_rpath(meson.project_build_root() / 'lib')

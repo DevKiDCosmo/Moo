@@ -1,7 +1,7 @@
 #include "library.h"
 
+#ifdef _WIN32
 #include <windows.h>
-
 #include <iostream>
 
 BOOL APIENTRY DllMain(
@@ -28,3 +28,4 @@ BOOL APIENTRY DllMain(
     }
     return TRUE;
 }
+#endif // _WIN32

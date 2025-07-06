@@ -1,7 +1,9 @@
 #include <cstdint>
+#include <cstdlib>
 #include <limits>
 #include <algorithm>
 #include "../moo.hpp"
+#include "../library.h"
 
 
 void swap(int64_t& a, int64_t& b) {
@@ -91,27 +93,27 @@ int64_t moo::combination(int n, int k) {
 }
 
 extern "C" {
-__declspec(dllexport) int64_t* factable(int n) {
+MOOLIB_API int64_t* factable(int n) {
     return moo::factable(n);
 }
 
-__declspec(dllexport) void clearptr(const int64_t* ptr) {
+MOOLIB_API void clearptr(const int64_t* ptr) {
     moo::clearptr(ptr);
 }
 
-__declspec(dllexport) int64_t* genPerm(int n) {
+MOOLIB_API int64_t* genPerm(int n) {
     return moo::genPerm(n);
 }
 
-__declspec(dllexport) void freeptr(int64_t* ptr) {
+MOOLIB_API void freeptr(int64_t* ptr) {
     moo::freeptr(ptr);
 }
 
-__declspec(dllexport) void permutation(int n, int k) {
-    moo::permutation(n, k);
+MOOLIB_API int64_t permutation(int n, int k) {
+    return moo::permutation(n, k);
 }
 
-__declspec(dllexport) void combination(int n, int k) {
-    moo::combination(n, k);
+MOOLIB_API int64_t combination(int n, int k) {
+    return moo::combination(n, k);
 }
 }
