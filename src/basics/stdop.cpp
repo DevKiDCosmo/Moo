@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "../moo.hpp"
+#include "../export.h"
 
 double moo::absolute(double x) {
     if (x == 0) return 0;
@@ -50,18 +51,18 @@ int64_t moo::idiv(double n, double k) {
 // @formatter:off
 
 extern "C" {
-    __declspec(dllexport) double absolute(double x) { return moo::absolute(x); }
-    __declspec(dllexport) double min(double a, double b) { return moo::min(a, b); }
-    __declspec(dllexport) double max(double a, double b) { return moo::max(a, b); }
+    MOOLIB_API double absolute(double x) { return moo::absolute(x); }
+    MOOLIB_API double min(double a, double b) { return moo::min(a, b); }
+    MOOLIB_API double max(double a, double b) { return moo::max(a, b); }
 
-    __declspec(dllexport) int64_t gcd(int64_t a, int64_t b) { return moo::gcd(a, b); }
-    __declspec(dllexport) int64_t lcm(int64_t n, int64_t k) { return moo::lcm(n, k); }
-    __declspec(dllexport) double flmod(double a, double b) { return moo::flmod(a, b); }
-    __declspec(dllexport) int64_t mod(int64_t a, int64_t b) { return moo::mod(a, b); }
+    MOOLIB_API int64_t gcd(int64_t a, int64_t b) { return moo::gcd(a, b); }
+    MOOLIB_API int64_t lcm(int64_t n, int64_t k) { return moo::lcm(n, k); }
+    MOOLIB_API double flmod(double a, double b) { return moo::flmod(a, b); }
+    MOOLIB_API int64_t mod(int64_t a, int64_t b) { return moo::mod(a, b); }
 
-    __declspec(dllexport) double dfloor(double x) { return moo::floor(x); }
-    __declspec(dllexport) double dceil(double x) { return moo::ceil(x); }
+    MOOLIB_API double dfloor(double x) { return moo::floor(x); }
+    MOOLIB_API double dceil(double x) { return moo::ceil(x); }
 
-    __declspec(dllexport) int64_t idiv(double a, double b) { return moo::idiv(a,b); }
+    MOOLIB_API int64_t idiv(double a, double b) { return moo::idiv(a,b); }
 }
 // @formatter:on

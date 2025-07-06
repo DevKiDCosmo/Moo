@@ -3,20 +3,10 @@
 #include <vector>
 
 #include "moo.hpp"
+#include "export.h"
 
 #ifndef MOO_LIBRARY_H
 #define MOO_LIBRARY_H
-
-#ifdef _WIN32
-#ifdef MOOLIB_EXPORTS
-    #define MOOLIB_API __declspec(dllexport)
-#else
-#define MOOLIB_API __declspec(dllimport)
-#endif
-#else
-  #define MOOLIB_API
-#endif
-
 
 extern "C" {
 MOOLIB_API int64_t fac(int n);

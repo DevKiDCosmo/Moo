@@ -22,9 +22,9 @@ jobs:
     - name: Copy required files
       run: |
         mkdir testdir
-        copy api\moo.py testdir\
-        copy api\run.py testdir\
-        copy api\Moo.dll testdir\
+        copy api\python\moo.py testdir\
+        copy api\python\run.py testdir\
+        copy api\python\Moo.dll testdir\
 
     - name: Set up Python venv and install requirements
       run: |
