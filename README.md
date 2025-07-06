@@ -114,10 +114,9 @@ python3 test/dllst.py  # Original test for Windows
 
 ## Output Files
 
-- **Debug builds**: `libMoo.so` / `moo.dll` / `libMoo.dylib`
-- **Release builds**: `libMooMeson.so` / `MooMeson.dll` / `libMooMeson.dylib`
+- **All builds**: `libMoo.so.1.0.0` (with symlinks `libMoo.so.1` and `libMoo.so`) / `Moo.dll` / `libMoo.dylib`
 
-The libraries are built with proper symbol visibility for optimal performance and reduced binary size on Unix-based systems.
+The libraries are built with proper versioning and symbol visibility for optimal performance and reduced binary size on Unix-based systems.
 
 ## Cross-Platform Example
 
@@ -139,7 +138,7 @@ g++ -std=c++17 -o example_usage example_usage.cpp -ldl  # Linux/Unix
 cl example_usage.cpp  # Windows with MSVC
 
 # Copy library to current directory and run
-cp builddir/libMoo.so ./  # Linux
+cp builddir/libMoo.so ./  # Linux (automatically uses libMoo.so.1.0.0)
 # or copy builddir\Moo.dll .\  # Windows
 
 ./example_usage  # Linux/Unix

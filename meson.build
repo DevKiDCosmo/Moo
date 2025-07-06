@@ -24,15 +24,17 @@ endif
 
 if get_option('buildtype') == 'debug'
   dll_export += ['-DDEBUG']
-  output_name = 'Moo'
-else
-  output_name = 'MooMeson'
 endif
+
+# Use consistent library name
+output_name = 'Moo'
 
 moo_lib = shared_library(
   output_name,
   sources,
   cpp_args : dll_export,
   install : false,
-  install_dir : 'lib'
+  install_dir : 'lib',
+  soversion : '1',
+  version : '1.0.0'
 )
