@@ -218,7 +218,13 @@ jobs:
       - name: Compile with Clang
         run: |
           cd build/src
-          clang++ -dynamiclib -o moo.dylib moo.hpp
+          #clang++ -dynamiclib -o moo.dylib moo.hpp
+          
+          gcc -c moo.c -o moo.o
+          gcc -dynamiclib -current_version 1.0  moo.o  -o moo.dylib
+          file moo.dylib 
+          otool -L moo.dylib
+          
           ls -lh moo.dylib
 
       - name: Copy Build Artifacts
