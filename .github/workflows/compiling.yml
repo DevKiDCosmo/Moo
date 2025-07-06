@@ -497,7 +497,7 @@ jobs:
           path: unix-artifacts.tar.gz
 
   finishing:
-    needs: [ test_windows, test_unixbased, test_macos, test_windows_api, test_unixbased_api, test_macos_api ]
+    needs: [ test_windows, test_unixbased_python, test_macos, test_windows_api, test_unixbased_api, test_macos_api ]
     runs-on: windows-latest
 
     steps:
