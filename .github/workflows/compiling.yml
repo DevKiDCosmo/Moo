@@ -106,6 +106,17 @@ jobs:
           name: Moo-DLL-Artifacts-Meson
           path: artifact\*
 
+  docker:
+    needs: config
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Build Docker Image
+          run: assert true, "This is a placeholder for Docker build steps"
+
   unixbased:
     needs: config
     runs-on: ubuntu-latest

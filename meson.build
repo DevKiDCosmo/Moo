@@ -22,7 +22,6 @@ output_name = 'Moo'
 moo_lib = shared_library(
   output_name,
   sources,
-  cpp_args : dll_export,
   install : false,
   install_dir : 'lib',
   soversion : '1',

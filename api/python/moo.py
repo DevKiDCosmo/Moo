@@ -32,7 +32,7 @@ class moo:
         self.moo.idiv.argtypes = [ctypes.c_double, ctypes.c_double]
         return self.moo.idiv(ctypes.c_double(a), ctypes.c_double(b))
 
-    def floor(self, a: int) -> int:
+    def floor(self, a: float) -> int:
         """
         Calculate the floor division of two numbers.
         :param a: Dividend.
@@ -43,7 +43,7 @@ class moo:
         self.moo.dfloor.argtypes = [ctypes.c_double]
         return self.moo.dfloor(ctypes.c_double(a))
 
-    def ceil(self, a: int) -> int:
+    def ceil(self, a: float) -> int:
         """
         Calculate the ceiling division of two numbers.
         :param a: Dividend.
