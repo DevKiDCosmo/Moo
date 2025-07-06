@@ -179,12 +179,12 @@ jobs:
         run: |
           if command -v apt-get > /dev/null; then
             apt-get update
-            apt-get install -y build-essential cmake make ${{ matrix.vector.cc }}
+            apt-get install -y build-essential cmake make ${{ matrix.vector.cc }} musl
             apt-get upgrade -y
           elif command -v apk > /dev/null; then
-            apk add --no-cache build-base cmake make ${{ matrix.vector.cc }}
+            apk add --no-cache build-base cmake make ${{ matrix.vector.cc }} musl
           elif command -v dnf > /dev/null; then
-            dnf install -y gcc gcc-c++ cmake make clang
+            dnf install -y gcc gcc-c++ cmake make clang musl
           fi
 
       - name: Setup Build Environment
