@@ -13,13 +13,16 @@ dll_export = ['-DEXPORTING_DLL']
 
 output_name = 'Moo'
 
+# Platform-specific arguments
+extra_args = {}
+if host_machine.system() == 'windows'
+  extra_args += {'vs_module_defs': []}
+endif
+
 moo_lib = shared_library(
   output_name,
   sources,
   cpp_args : dll_export,
   install : false,
-  vs_module_defs : [],
+  kwargs : extra_args,
 )
-
-moo_lib.set_output_dir(meson.project_build_root() / 'lib')
-moo_lib.set_rpath(meson.project_build_root() / 'lib')

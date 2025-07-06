@@ -14,7 +14,8 @@
 #define MOOLIB_API __declspec(dllimport)
 #endif
 #else
-  #define MOOLIB_API
+  // Unix-based systems: use visibility attribute for better symbol control
+  #define MOOLIB_API __attribute__((visibility("default")))
 #endif
 
 

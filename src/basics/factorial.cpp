@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "../moo.hpp"
+#include "../library.h"
 
 int64_t moo::fac(int n) {
     if (n <= 1) return 1;
@@ -9,7 +10,7 @@ int64_t moo::fac(int n) {
 
 // @formatter:off
 extern "C" {
-    __declspec(dllexport) int64_t fac(const int n)
+    MOOLIB_API int64_t fac(const int n)
     {
         return moo::fac(n);
     }

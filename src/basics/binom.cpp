@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "../moo.hpp"
+#include "../library.h"
 
 int64_t moo::binom(int64_t n, int64_t k) {
     if (k == 0 || k == n) return 1;
@@ -10,7 +11,7 @@ int64_t moo::binom(int64_t n, int64_t k) {
 
 // @formatter:off
 extern "C" {
-    __declspec(dllexport) int64_t binom(int64_t n, int64_t k)
+    MOOLIB_API int64_t binom(int64_t n, int64_t k)
     {
         return moo::binom(n, k);
     }

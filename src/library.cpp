@@ -1,8 +1,10 @@
 #include "library.h"
 
-#include <windows.h>
-
 #include <iostream>
+
+// Windows-specific DLL entry point
+#ifdef _WIN32
+#include <windows.h>
 
 BOOL APIENTRY DllMain(
     HANDLE hModule,            // Handle to DLL module
@@ -28,3 +30,15 @@ BOOL APIENTRY DllMain(
     }
     return TRUE;
 }
+#else
+// Unix-based systems - shared library constructor/destructor
+__attribute__((constructor))
+void moo_library_init() {
+    std::cout << "Moo v1.0.0B library loaded" << std::endl;
+}
+
+__attribute__((destructor))
+void moo_library_fini() {
+    std::cout << "Moo v1.0.0B library unloaded" << std::endl;
+}
+#endif
