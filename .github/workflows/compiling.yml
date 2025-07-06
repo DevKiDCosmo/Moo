@@ -219,6 +219,7 @@ jobs:
       - name: Setup Build Environment
         run: |
           mkdir -p build
+          mkdir -p build/src
           cp -r src/* build/src/
 
       - name: GCC Build
