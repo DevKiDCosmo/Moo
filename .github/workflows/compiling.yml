@@ -258,6 +258,7 @@ jobs:
         run: |
           mkdir -p artifact
           cp build/src/moo*.so artifact/          
+          cp build/lib/libMoo.so artifact/
           ls artifact
 
       - name: Upload Artifacts
