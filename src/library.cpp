@@ -5,7 +5,7 @@
 #include <iostream>
 
 BOOL APIENTRY DllMain(
-    HANDLE hModule,            // Handle to DLL module
+    HMODULE hModule,           // Handle to DLL module
     DWORD  ul_reason_for_call, // Reason for calling function
     LPVOID lpReserved)         // Reserved
 {

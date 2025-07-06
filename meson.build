@@ -16,8 +16,10 @@ host_system = host_machine.system()
 if host_system == 'windows'
   dll_export += ['-DMOOLIB_EXPORTS']
 elif host_system in ['linux', 'darwin', 'freebsd', 'openbsd', 'netbsd', 'dragonfly', 'sunos', 'cygwin']
-  # Unix-based systems
-  dll_export += ['-fvisibility=hidden']
+  # Unix-based systems with symbol visibility
+  if get_option('default_library') == 'shared'
+    dll_export += ['-fvisibility=hidden']
+  endif
 endif
 
 if get_option('buildtype') == 'debug'

@@ -13,15 +13,15 @@
   #else
     #define MOOLIB_API __declspec(dllimport)
   #endif
-#elif defined(__unix__) || defined(__APPLE__) || defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__DragonFly__) || defined(__sun) || defined(__CYGWIN__)
+#else
   // Unix-based systems (Linux, macOS, BSD variants, Solaris, Cygwin)
   #if defined(__GNUC__) && __GNUC__ >= 4
+    #define MOOLIB_API __attribute__((visibility("default")))
+  #elif defined(__clang__)
     #define MOOLIB_API __attribute__((visibility("default")))
   #else
     #define MOOLIB_API
   #endif
-#else
-  #define MOOLIB_API
 #endif
 
 

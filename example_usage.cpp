@@ -25,7 +25,7 @@ int main() {
     // Determine library name based on platform
     std::string lib_name;
 #ifdef _WIN32
-    lib_name = "moo.dll";  // or MooMeson.dll for release
+    lib_name = "./Moo.dll";  // or ./MooMeson.dll for release
 #elif __APPLE__
     lib_name = "./libMoo.dylib";  // or ./libMooMeson.dylib for release
 #else
