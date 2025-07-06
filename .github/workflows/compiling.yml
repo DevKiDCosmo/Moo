@@ -258,7 +258,7 @@ jobs:
           name: Moo-Dylib-Artifacts-macos
           path: artifact/*.*
 
-  test_unixbased_python:
+  test_unixbased_api_python:
     needs: unixbased
     runs-on: ubuntu-latest
     strategy:
@@ -322,15 +322,16 @@ jobs:
           pattern: Moo-SO-Artifacts-${{ matrix.vector.jobname }}
 
       - name: Create Runtime Environment
-        run: | 
-          mkdir runtime-${{ matrix.vector.api }}
-          cp api/python/* runtime-${{ matrix.vector.api }}/
-          cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.api }}/
-
-      - name: Run Python Tests
         run: |
-          python3 runtime-${{ matrix.vector.api }}/test.py
-          echo "Python tests completed successfully."
+          mkdir runtime-${{ matrix.vector.jobname }}
+          cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.jobname }}/
+          cp api/python/*.* runtime-${{ matrix.vector.jobname }}/
+
+      - name: Run Unix API Tests
+        run: |
+          cd runtime-${{ matrix.vector.jobname }}
+          python3 -m unittest discover -s tests -p test.py
+          echo "Unix API tests completed successfully."
 
   test_windows:
     needs: windows
@@ -375,77 +376,6 @@ jobs:
       - name: Run Windows API Tests
         run: |
           ${{ matrix.vector.api }} runtime-${{ matrix.vector.api }}\test${{ matrix.vector.extension }}
-  
-
-  test_unixbased_api:
-    needs: unixbased
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        vector:
-          - jobname: test-debian
-            image: debian:latest
-            os: ubuntu-latest
-          - jobname: test-ubuntu
-            image: ubuntu:latest
-            os: ubuntu-latest
-          - jobname: test-alpine
-            image: alpine:latest
-            os: ubuntu-latest
-          - jobname: test-fedora
-            image: fedora:latest
-            os: ubuntu-latest
-          - jobname: linux-sha256
-            image: ubuntu:rolling
-          - jobname: linux-reftable
-            image: ubuntu:rolling
-            cc_package: gcc-8
-          - jobname: linux-breaking-changes
-            image: ubuntu:rolling
-          - jobname: linux-leaks
-            image: ubuntu:rolling
-          - jobname: linux-reftable-leaks
-            image: ubuntu:rolling
-          - jobname: linux-asan-ubsan
-            image: ubuntu:rolling
-          - jobname: linux-meson
-            image: ubuntu:rolling
-          - jobname: linux-musl-meson
-            image: alpine:latest
-          # Supported until 2025-04-02.
-          - jobname: pedantic
-            image: fedora:latest
-          # A RHEL 8 compatible distro.  Supported until 2029-05-31.
-          - jobname: almalinux-8
-            image: almalinux:8
-          # Supported until 2026-08-31.
-          - jobname: debian-11
-            image: debian:11
-        testvector:
-          - jobname: test-windows-api-python
-            api: python3
-            extension: .py
-    name: ${{ matrix.vector.jobname }} (${{ matrix.vector.os }})
-    env:
-      jobname: ${{ matrix.vector.jobname }}
-      CI_JOB_OS: ${{ matrix.vector.os }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download SO Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: Moo-SO-Artifacts-${{ matrix.vector.jobname }}
-
-      - name: Create Runtime Environment
-        run: | 
-          mkdir runtime-${{ matrix.vector.api }}
-          cp api/${{ matrix.testvector.api }}/* runtime-${{ matrix.vector.api }}/
-          cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.api }}/
-
-      # TODO: Conducting TESTs
 
   test_macos_api:
     needs: macos
@@ -497,7 +427,7 @@ jobs:
           path: unix-artifacts.tar.gz
 
   finishing:
-    needs: [ test_windows, test_unixbased_python, test_macos, test_windows_api, test_unixbased_api, test_macos_api ]
+    needs: [ test_windows, test_unixbased_api_python, test_macos, test_windows_api, test_macos_api ]
     runs-on: windows-latest
 
     steps:
