@@ -245,6 +245,12 @@ jobs:
           cp build/lib/libMoo.dylib artifact/
           ls artifact
 
+      - name: Debug Build Artifacts
+        run: |
+          echo "Debugging Moo dylib on macOS"
+          otool -L artifact/libMoo.dylib
+          nm -gU artifact/libMoo.dylib
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
