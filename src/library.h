@@ -7,21 +7,22 @@
 #ifndef MOO_LIBRARY_H
 #define MOO_LIBRARY_H
 
+// Platform detection and symbol visibility macros
 #ifdef _WIN32
-  #ifdef MOOLIB_EXPORTS
+  #ifdef MOOLIB_BUILDING
     #define MOOLIB_API __declspec(dllexport)
   #else
     #define MOOLIB_API __declspec(dllimport)
   #endif
-#else
+#elif defined(__GNUC__) || defined(__clang__)
   // Unix-based systems (Linux, macOS, BSD variants, Solaris, Cygwin)
-  #if defined(__GNUC__) && __GNUC__ >= 4
-    #define MOOLIB_API __attribute__((visibility("default")))
-  #elif defined(__clang__)
+  #ifdef MOOLIB_BUILDING
     #define MOOLIB_API __attribute__((visibility("default")))
   #else
     #define MOOLIB_API
   #endif
+#else
+  #define MOOLIB_API
 #endif
 
 
