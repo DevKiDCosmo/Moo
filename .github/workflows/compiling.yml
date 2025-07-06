@@ -31,7 +31,7 @@ jobs:
         shell: cmd
         run: |
           mkdir build
-          copy src\*.* build\
+          xcopy src build\src /E /I /Y
           copy CMakeLists.txt build\
 
       - name: Compile C++ Code with CMAKE
@@ -73,8 +73,9 @@ jobs:
         shell: cmd
         run: |
           mkdir build
-          copy src\*.* build\
+          xcopy src build\src /E /I /Y
           copy meson.build build\
+          tree build\src /F /A
 
       - name: Install Meson and Ninja
         shell: cmd
@@ -83,7 +84,9 @@ jobs:
 
       - name: Setup
         shell: pwsh
-        run: meson setup build --vsenv -Dbuildtype=release -Dperl=disabled -Dcredential_helpers=wincred
+        run: |
+          cd build
+          meson setup build --vsenv -Dbuildtype=release -Dperl=disabled -Dcredential_helpers=wincred
 
       - name: Compile
         shell: pwsh
