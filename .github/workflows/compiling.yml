@@ -68,13 +68,15 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
 
       - name: Setup Build Environment
         shell: cmd
         run: |
           mkdir meson
           xcopy src meson\src /E /I /Y
-          copy meson.build meson\src\
+          copy meson.build meson\
           tree meson\src /F /A
 
       - name: Install Meson and Ninja
@@ -86,7 +88,7 @@ jobs:
         shell: pwsh
         run: |
           cd meson
-          meson setup src --vsenv -Dbuildtype=release
+          meson setup meson --vsenv -Dbuildtype=release
 
       - name: Compile
         shell: pwsh
@@ -283,7 +285,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Moo-SO-Artifacts-macos
+          name: Moo-Dylib-Artifacts-macos
           path: artifact/*.*
 
   test_unixbased:
