@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.16)
+project(Moo LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+set(SOURCES
+    src/library.cpp
+    src/basics/factorial.cpp
+    src/basics/binom.cpp
+    src/basics/stdop.cpp
+    src/basics/permutation.cpp
+)
+
+add_library(Moo SHARED ${SOURCES})
+
+target_compile_definitions(Moo PRIVATE MOOLIB_EXPORTS)
+
+set_target_properties(Moo PROPERTIES
+    VERSION 1.0
+    SOVERSION 1
+    OUTPUT_NAME Moo
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    MACOSX_RPATH ON
+    INSTALL_NAME_DIR "@rpath"
+)

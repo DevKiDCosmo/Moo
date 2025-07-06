@@ -127,45 +127,30 @@ jobs:
           - jobname: test-debian
             image: debian:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-ubuntu
             image: ubuntu:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-alpine
             image: alpine:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-fedora
             image: fedora:latest
             os: ubuntu-latest
-            cc: gcc
-          - jobname: test-ubuntu-clang
-            image: ubuntu:latest
-            os: ubuntu-latest
-            cc: clang
           - jobname: linux-sha256
             image: ubuntu:rolling
-            cc: clang
           - jobname: linux-reftable
             image: ubuntu:rolling
-            cc: clang
             cc_package: gcc-8
           - jobname: linux-breaking-changes
-            cc: gcc
             image: ubuntu:rolling
           - jobname: linux-leaks
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-reftable-leaks
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-asan-ubsan
             image: ubuntu:rolling
-            cc: clang
           - jobname: linux-meson
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-musl-meson
             image: alpine:latest
           # Supported until 2025-04-02.
@@ -223,28 +208,6 @@ jobs:
           cp -r src/* build/src/
           cp CMakeListsUNIX.txt build/CMakeLists.txt
 
-      - name: GCC Build
-        if: matrix.vector.cc != 'clang' # If nothing is defined, it defaults to gcc
-        run: |
-          cd build/src
-          gcc -Ofast -shared -o moofast.so -fPIC library.cpp
-          gcc -O3 -shared -o mooO3.so -fPIC library.cpp
-          gcc -Os -shared -o mooSize.so -fPIC library.cpp
-          gcc -Og -shared -o mooDebug.so -fPIC library.cpp
-          gcc -shared -o moo.so -fPIC library.cpp
-          ls .
-
-      - name: Clang Build
-        if: matrix.vector.cc == 'clang'
-        run: |
-          cd build/src
-          clang -Ofast -shared -o moofast.so -fPIC library.cpp
-          clang -O3 -shared -o mooO3.so -fPIC library.cpp
-          clang -Os -shared -o mooSize.so -fPIC library.cpp
-          clang -Og -shared -o mooDebug.so -fPIC library.cpp
-          clang -shared -o moo.so -fPIC library.cpp
-          ls .
-
       - name: Compile with CMake
         run: |
           cd build
@@ -254,8 +217,7 @@ jobs:
 
       - name: Copy Build Artifacts
         run: |
-          mkdir -p artifact
-          cp build/src/moo*.so artifact/          
+          mkdir -p artifact      
           cp build/lib/libMoo.so artifact/
           ls artifact
 
@@ -284,23 +246,20 @@ jobs:
         run: |
           mkdir -p build
           cp -r src build/
+          cp CMakeListsMacOS.txt build/CMakeLists.txt
 
-      - name: Compile with Clang
+
+      - name: Compile with CMake
         run: |
-          cd build/src
-          clang++ -shared -o moo.dylib library.cpp
-          clang++ -shared -O3 -o mooO3.dylib library.cpp
-          clang++ -shared -O3 -Wall -Wextra -fvisibility=hidden -std=c++20 \
-            -o mooO3WW20.dylib library.cpp
-
-          ls -lh moo.dylib
+          cd build
+          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release .
+          make
+          ls -lh src/moo.dylib
 
       - name: Copy Build Artifacts
         run: |
           mkdir -p artifact
           cp build/src/moo.dylib artifact/
-          cp build/src/mooO3.dylib artifact/
-          cp build/src/mooO3WW20.dylib artifact/
           ls artifact
 
       - name: Upload Artifacts
@@ -320,45 +279,30 @@ jobs:
           - jobname: test-debian
             image: debian:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-ubuntu
             image: ubuntu:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-alpine
             image: alpine:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-fedora
             image: fedora:latest
             os: ubuntu-latest
-            cc: gcc
-          - jobname: test-ubuntu-clang
-            image: ubuntu:latest
-            os: ubuntu-latest
-            cc: clang
           - jobname: linux-sha256
             image: ubuntu:rolling
-            cc: clang
           - jobname: linux-reftable
             image: ubuntu:rolling
-            cc: clang
             cc_package: gcc-8
           - jobname: linux-breaking-changes
-            cc: gcc
             image: ubuntu:rolling
           - jobname: linux-leaks
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-reftable-leaks
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-asan-ubsan
             image: ubuntu:rolling
-            cc: clang
           - jobname: linux-meson
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-musl-meson
             image: alpine:latest
           # Supported until 2025-04-02.
@@ -444,45 +388,30 @@ jobs:
           - jobname: test-debian
             image: debian:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-ubuntu
             image: ubuntu:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-alpine
             image: alpine:latest
             os: ubuntu-latest
-            cc: gcc
           - jobname: test-fedora
             image: fedora:latest
             os: ubuntu-latest
-            cc: gcc
-          - jobname: test-ubuntu-clang
-            image: ubuntu:latest
-            os: ubuntu-latest
-            cc: clang
           - jobname: linux-sha256
             image: ubuntu:rolling
-            cc: clang
           - jobname: linux-reftable
             image: ubuntu:rolling
-            cc: clang
             cc_package: gcc-8
           - jobname: linux-breaking-changes
-            cc: gcc
             image: ubuntu:rolling
           - jobname: linux-leaks
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-reftable-leaks
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-asan-ubsan
             image: ubuntu:rolling
-            cc: clang
           - jobname: linux-meson
             image: ubuntu:rolling
-            cc: gcc
           - jobname: linux-musl-meson
             image: alpine:latest
           # Supported until 2025-04-02.

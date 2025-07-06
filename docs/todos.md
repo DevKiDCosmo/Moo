@@ -5,10 +5,10 @@
 - Adding more language for support.
 - Adding grammar
 - dll and Exports standarizing through all files. With MOO_API Thing. Checking what Compiler is used with #def
-- Invalid ELF Header error on Linux. Fix it. SOLVED :solved:
-- MacOS - Probably the same as Linux.
+- MacOS - USE CMAKE
 - Testing API, DLL in C++ and Header files.
 
 
 # Solved
-Linux is working now partially. (1 from 16 os.)
+Linux is working now (16 from 16 os.)
+From Debian 11. Tested on 06.07.2025
