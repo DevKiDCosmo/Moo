@@ -9,7 +9,7 @@ class moo:
         Initialize the moo class by loading the moo.dll file.
         This file should be located in the same directory as this script.
         """
-        if file != "moo.dll":
+        if file == "moo.dll":
             if platform == "linux" or platform == "linux2":
                 file = "libMoo.so"
             elif platform == "darwin":
