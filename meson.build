@@ -1,4 +1,4 @@
-project('Moo', 'cpp', default_options : ['cpp_std=c++26'])
+project('Moo', 'cpp', default_options : ['cpp_std=c++20'])
 
 srcdir = 'src'
 sources = [
