@@ -74,7 +74,7 @@ jobs:
         run: |
           mkdir build
           copy src\*.* build\
-          copy CMakeLists.txt build\
+          copy meson.build build\
 
       - name: Install Meson and Ninja
         shell: cmd
