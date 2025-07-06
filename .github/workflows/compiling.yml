@@ -215,12 +215,12 @@ jobs:
           mkdir -p build
           cp -r src build/
 
-      - name: Compile with Clang
+      - name: Compile with Gcc
         run: |
           cd build/src
           #clang++ -dynamiclib -o moo.dylib moo.hpp
           
-          gcc -c moo.c -o moo.o
+          gcc -c moo.hpp -o moo.o
           gcc -dynamiclib -current_version 1.0  moo.o  -o moo.dylib
           file moo.dylib 
           otool -L moo.dylib
