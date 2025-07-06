@@ -206,7 +206,9 @@ jobs:
       - name: Update and Install Dependencies
         run: |
           brew update
-          brew install cmake clang
+          brew upgrade
+          brew install cmake
+          xcode-select --install || true
 
       - name: Setup Build Environment
         run: |
