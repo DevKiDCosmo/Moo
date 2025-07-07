@@ -372,7 +372,7 @@ jobs:
         run: |
           mkdir runtime-${{ matrix.vector.api }}
           xcopy api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }} /E /I /Y
-          xcopy test\api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }}\test /E /I /Y
+          xcopy test\api\${{ matrix.vector.api }}\*.* runtime-${{ matrix.vector.api }}\test /E /I /Y
           copy Moo.dll runtime-${{ matrix.vector.api }}\      
 
       - name: Run Windows API Tests
@@ -399,7 +399,7 @@ jobs:
       - name: Create Runtime Environment
         run: |
           mkdir runtime-macos
-          cp Moo-Dylib-Artifacts-macos/libMoo.dylib runtime-macos/
+          cp libMoo.dylib runtime-macos/
           cp api/python/*.* runtime-macos/
           cp test/api/python/test.py runtime-macos/test.py
 
