@@ -326,7 +326,7 @@ jobs:
           mkdir runtime-${{ matrix.vector.jobname }}
           cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.jobname }}/
           cp api/python/*.* runtime-${{ matrix.vector.jobname }}/
-          cp test/api/python/*.* runtime-${{ matrix.vector.jobname }}/test.py
+          cp test/api/python/*.* runtime-${{ matrix.vector.jobname }}/
 
       - name: Run Unix API Tests
         run: |

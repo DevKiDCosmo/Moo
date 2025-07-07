@@ -2,6 +2,8 @@ import os
 import ctypes
 from sys import platform
 
+import commonmark.common
+
 
 class moo:
     def __init__(self, file="moo.dll"):
@@ -118,7 +120,7 @@ class moo:
         """
         self.moo.fac.restype = ctypes.c_int64
         self.moo.fac.argtypes = [ctypes.c_int64]
-        return self.moo.fac(ctypes.c_int(n))
+        return self.moo.fac(n)
 
     def binom(self, n: int, k: int) -> int:
         """
@@ -208,7 +210,7 @@ class moo:
 
         return result
 
-    def max(self, a: int, b: int) -> int:
+    def max(self, a: float, b: float) -> float:
         """
         Calculate the maximum of two numbers.
         :param a: First number.
@@ -217,9 +219,9 @@ class moo:
         """
         self.moo.max.restype = ctypes.c_double
         self.moo.max.argtypes = [ctypes.c_double, ctypes.c_double]
-        return self.moo.max(a, b)
+        return self.moo.max(ctypes.c_double(a), ctypes.c_double(b))
 
-    def min(self, a: int, b: int) -> int:
+    def min(self, a: float, b: float) -> float:
         """
         Calculate the minimum of two numbers.
         :param a: First number.
@@ -228,7 +230,7 @@ class moo:
         """
         self.moo.min.restype = ctypes.c_double
         self.moo.min.argtypes = [ctypes.c_double, ctypes.c_double]
-        return self.moo.min(a, b)
+        return self.moo.min(ctypes.c_double(a), ctypes.c_double(b))
 
     def pow(self, x: float, b: int) -> float:
         """
@@ -289,17 +291,17 @@ class moo:
         :param x: Number to calculate the square root of.
         :return: Square root of the number.
         """
-        self.moo.sqrt.restype = ctypes.c_double
-        self.moo.sqrt.argtypes = [ctypes.c_double]
-        return self.moo.sqrt(ctypes.c_double(x))
+        self.moo.dsqrt.restype = ctypes.c_double
+        self.moo.dsqrt.argtypes = [ctypes.c_double]
+        return self.moo.dsqrt(ctypes.c_double(x))
 
-    def ksqrt(self, x: float, k: int) -> float:
+    def ksqrt(self, x: float, k: float) -> float:
         """
         Calculate the k-th root of a number.
         :param x: Number to calculate the k-th root of.
         :param k: The degree of the root.
         :return: k-th root of the number.
         """
-        self.moo.ksqrt.restype = ctypes.c_double
-        self.moo.ksqrt.argtypes = [ctypes.c_double, ctypes.c_int]
-        return self.moo.ksqrt(ctypes.c_double(x), ctypes.c_int(k))
+        self.moo.dksqrt.restype = ctypes.c_double
+        self.moo.dksqrt.argtypes = [ctypes.c_double, ctypes.c_int]
+        return self.moo.dksqrt(ctypes.c_double(x), ctypes.c_int(k))
