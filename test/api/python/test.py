@@ -1,7 +1,9 @@
 import moo
-import pandas as pd
+import csv
 
-test_cases = pd.read_csv("test.csv", delimiter=";").values.tolist()
+with open("test.csv", newline="", encoding="utf-8") as csvfile:
+    reader = csv.reader(csvfile, delimiter=";")
+    test_cases = list(reader)
 
 def test_moo():
     passed = 0
@@ -13,12 +15,16 @@ def test_moo():
             failed += 1
             continue
         try:
-            result = func(*args)
-            if result == expected:
-                print(f"[{idx}] Test `{func_name}{args}` OK: got={result}, expected={expected}")
+            expected_val = eval(expected)
+            args_val = eval(args)
+            if not isinstance(args_val, (list, tuple)):
+                args_val = [args_val]
+            result = func(*args_val)
+            if result == expected_val:
+                print(f"[{idx}] Test `{func_name}{args_val}` OK: got={result}, expected={expected_val}")
                 passed += 1
             else:
-                print(f"[{idx}] Test `{func_name}{args}` FAILED: got={result}, expected={expected}")
+                print(f"[{idx}] Test `{func_name}{args_val}` FAILED: got={result}, expected={expected_val}")
                 failed += 1
         except Exception as e:
             print(f"[{idx}] Test `{func_name}{args}` EXCEPTION: {e}")
