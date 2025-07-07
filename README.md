@@ -1,3 +1,5 @@
+[![Compiling C++ Code](https://github.com/DevKiDCosmo/Moo/actions/workflows/compiling.yml/badge.svg)](https://github.com/DevKiDCosmo/Moo/actions/workflows/compiling.yml)
+
 # Moo もう
 
 A versatile, cross-platform math framework A high-performance mathematical library designed for seamless integration with nearly every programming language I enjoy, optimized for compatibility across all major operating systems. Whether you’re crunching numbers, modeling equations, or building something groundbreaking, this framework delivers the tools you need—fast, reliable, and everywhere.
