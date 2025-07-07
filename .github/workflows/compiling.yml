@@ -396,10 +396,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Download Dylib Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Moo-Dylib-Artifacts-macos
+
+      - name: Create Runtime Environment
+        run: |
+          mkdir runtime-macos
+          cp Moo-Dylib-Artifacts-macos/*.dylib runtime-macos/
+          cp api/python/*.* runtime-macos/
+
       - name: Run MacOS Tests
         run: |
-          echo "Running tests for Moo on MacOS"
-          assert true, "This is a placeholder for actual tests"
+          cd runtime-macos
+          python3 test.py
+          echo "MacOS tests completed successfully."
 
   packing_unixbased:
     needs: unixbased
