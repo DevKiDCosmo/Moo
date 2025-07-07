@@ -372,7 +372,7 @@ jobs:
         run: |
           mkdir runtime-${{ matrix.vector.api }}
           xcopy api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }} /E /I /Y
-          xcopy test\api\${{ matrix.vector.api }}\*.* runtime-${{ matrix.vector.api }}\test /E /I /Y
+          xcopy test\api\${{ matrix.vector.api }}\*.* runtime-${{ matrix.vector.api }} /E /I /Y
           copy Moo.dll runtime-${{ matrix.vector.api }}\      
 
       - name: Run Windows API Tests
