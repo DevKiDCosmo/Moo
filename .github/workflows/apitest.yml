@@ -71,3 +71,141 @@ jobs:
       - name: Run Executable
         run: |
           LuaTest.exe
+
+  test_unixbased_api_python:
+    runs-on: ubuntu-latest
+    strategy:
+
+      fail-fast: false
+      matrix:
+        vector:
+          - jobname: test-debian
+            image: debian:latest
+            os: ubuntu-latest
+          - jobname: test-ubuntu
+            image: ubuntu:latest
+            os: ubuntu-latest
+          - jobname: test-alpine
+            image: alpine:latest
+            os: ubuntu-latest
+          - jobname: test-fedora
+            image: fedora:latest
+            os: ubuntu-latest
+          - jobname: linux-sha256
+            image: ubuntu:rolling
+          - jobname: linux-reftable
+            image: ubuntu:rolling
+            cc_package: gcc-8
+          - jobname: linux-breaking-changes
+            image: ubuntu:rolling
+          - jobname: linux-leaks
+            image: ubuntu:rolling
+          - jobname: linux-reftable-leaks
+            image: ubuntu:rolling
+          - jobname: linux-asan-ubsan
+            image: ubuntu:rolling
+          - jobname: linux-meson
+            image: ubuntu:rolling
+          - jobname: linux-musl-meson
+            image: alpine:latest
+          # Supported until 2025-04-02.
+          - jobname: pedantic
+            image: fedora:latest
+          # A RHEL 8 compatible distro.  Supported until 2029-05-31.
+          - jobname: almalinux-8
+            image: almalinux:8
+          # Supported until 2026-08-31.
+          - jobname: debian-11
+            image: debian:11
+    name: ${{ matrix.vector.jobname }} (${{ matrix.vector.os }})
+    env:
+      jobname: ${{ matrix.vector.jobname }}
+      CI_JOB_OS: ${{ matrix.vector.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Download SO Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: Moo-SO-Artifacts-${{ matrix.vector.jobname }}
+
+      - name: Create Runtime Environment
+        run: |
+          mkdir runtime-${{ matrix.vector.jobname }}
+          cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.jobname }}/
+          cp api/python/*.* runtime-${{ matrix.vector.jobname }}/
+
+      - name: Run Unix API Tests
+        run: |
+          cd runtime-${{ matrix.vector.jobname }}
+          python3 test.py
+          echo "Unix API tests completed successfully."
+
+  test_windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Windows Tests
+        shell: cmd
+        run: |
+          echo "Running tests for Moo on Windows"
+          assert true, "This is a placeholder for actual tests"
+
+  test_windows_api:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        vector:
+          - jobname: test-windows-api-python
+            os: windows-latest
+            api: python
+            extension: .py
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download DLL
+        uses: actions/download-artifact@v4
+        with:
+          name: Moo-DLL-Artifacts
+
+      - name: Create Runtime Environment
+        run: |
+          mkdir runtime-${{ matrix.vector.api }}
+          xcopy api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }} /E /I /Y
+          copy Moo.dll runtime-${{ matrix.vector.api }}\      
+
+      - name: Run Windows API Tests
+        run: |
+          ${{ matrix.vector.api }} runtime-${{ matrix.vector.api }}\test${{ matrix.vector.extension }}
+
+  test_macos_api:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run MacOS API Tests
+        run: |
+          echo "Running API tests for Moo on MacOS"
+          assert true, "This is a placeholder for actual API tests"
+
+  test_macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run MacOS Tests
+        run: |
+          echo "Running tests for Moo on MacOS"
+          assert true, "This is a placeholder for actual tests"
