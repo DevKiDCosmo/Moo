@@ -326,6 +326,7 @@ jobs:
           mkdir runtime-${{ matrix.vector.jobname }}
           cp Moo-SO-Artifacts-${{ matrix.vector.jobname }}/*.so runtime-${{ matrix.vector.jobname }}/
           cp api/python/*.* runtime-${{ matrix.vector.jobname }}/
+          cp test/api/python/*.* runtime-${{ matrix.vector.jobname }}/test.py
 
       - name: Run Unix API Tests
         run: |
@@ -371,6 +372,7 @@ jobs:
         run: |
           mkdir runtime-${{ matrix.vector.api }}
           xcopy api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }} /E /I /Y
+          xcopy test\api\${{ matrix.vector.api }} runtime-${{ matrix.vector.api }}\test /E /I /Y
           copy Moo.dll runtime-${{ matrix.vector.api }}\      
 
       - name: Run Windows API Tests
@@ -378,18 +380,6 @@ jobs:
           ${{ matrix.vector.api }} runtime-${{ matrix.vector.api }}\test${{ matrix.vector.extension }}
 
   test_macos_api:
-    needs: macos
-    runs-on: macos-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run MacOS API Tests
-        run: |
-          echo "Running API tests for Moo on MacOS"
-          assert true, "This is a placeholder for actual API tests"
-
-  test_macos:
     needs: macos
     runs-on: macos-latest
     steps:
@@ -411,6 +401,7 @@ jobs:
           mkdir runtime-macos
           cp Moo-Dylib-Artifacts-macos/libMoo.dylib runtime-macos/
           cp api/python/*.* runtime-macos/
+          cp test/api/python/test.py runtime-macos/test.py
 
       - name: Run MacOS Tests
         run: |
@@ -444,7 +435,7 @@ jobs:
           path: unix-artifacts.tar.gz
 
   finishing:
-    needs: [ test_windows, test_unixbased_api_python, test_macos, test_windows_api, test_macos_api ]
+    needs: [ test_windows, test_unixbased_api_python, test_windows_api, test_macos_api ] # Adding more test with source porting
     runs-on: windows-latest
 
     steps:
