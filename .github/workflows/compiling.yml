@@ -409,7 +409,7 @@ jobs:
       - name: Create Runtime Environment
         run: |
           mkdir runtime-macos
-          cp Moo-Dylib-Artifacts-macos/*.dylib runtime-macos/
+          cp Moo-Dylib-Artifacts-macos/libMoo.dylib runtime-macos/
           cp api/python/*.* runtime-macos/
 
       - name: Run MacOS Tests
