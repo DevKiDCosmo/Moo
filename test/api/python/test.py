@@ -15,11 +15,11 @@ def test_moo():
 
     # Test floor division
     floor_result = math.floor(10.323)
-    print(f"Floor division of 10 by 3: {floor_result}")
+    print(f"Floor for 10.323: {floor_result}")
 
     # Test ceiling division
     ceil_result = math.ceil(10.43)
-    print(f"Ceiling division of 10 by 3: {ceil_result}")
+    print(f"Ceiling for 10.43: {ceil_result}")
 
     # Test GCD
     gcd_result = math.gcd(48, 18)

@@ -76,14 +76,7 @@ void moo::freeptr(int64_t* ptr) {
 
 int64_t moo::permutation(int n, int k) {
     if (n < 0 || k < 0 || k > n || n > 20) return -1;
-
-    int64_t fact = 1;
-    for (int i = n - k + 1; i <= n; ++i) {
-        if (fact > std::numeric_limits<int64_t>::max() / i) return -1;
-        fact *= i;
-    }
-
-    return fact;
+    return int64_t(fac(n) / fac(n - k));
 }
 
 int64_t moo::combination(int n, int k) {
