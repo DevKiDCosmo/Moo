@@ -2,9 +2,6 @@ import os
 import ctypes
 from sys import platform
 
-import commonmark.common
-
-
 class moo:
     def __init__(self, file="moo.dll"):
         """
