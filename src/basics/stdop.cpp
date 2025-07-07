@@ -158,24 +158,7 @@ double moo::sqrt(double x) {
 
 double moo::ksqrt(double x, double k) {
     if (x < 0 && static_cast<int64_t>(k) % 2 == 0) return 0;
-    if (k == 0) return 1;
-    if (x == 0) return 0;
-
-    double low = 0;
-    double high = x > 1 ? x : 1;
-    double mid;
-
-    while (high - low > 1e-15) {
-        mid = (low + high) / 2.0;
-        double mid_pow = moo::fpow(mid, k);
-        if (mid_pow < x) {
-            low = mid;
-        } else {
-            high = mid;
-        }
-    }
-
-    return (low + high) / 2.0;
+    return exp(1 / k * ln(x));
 }
 
 // @formatter:off
