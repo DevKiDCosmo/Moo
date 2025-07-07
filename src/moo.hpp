@@ -28,6 +28,8 @@ public:
     static int64_t  combination(int n, int k);
     static double   pow(double base, int64_t exp);
     static double   fpow(double base, double exp);
+    static double   sqrt(double x);
+    static double   ksqrt(double x, double k);
 
     static double ln(double x);
     static double log(double x, double base = 10.0);

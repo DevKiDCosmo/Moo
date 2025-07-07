@@ -282,3 +282,24 @@ class moo:
         self.moo.dexp.restype = ctypes.c_double
         self.moo.dexp.argtypes = [ctypes.c_double]
         return self.moo.dexp(ctypes.c_double(x))
+
+    def sqrt(self, x: float) -> float:
+        """
+        Calculate the square root of a number.
+        :param x: Number to calculate the square root of.
+        :return: Square root of the number.
+        """
+        self.moo.sqrt.restype = ctypes.c_double
+        self.moo.sqrt.argtypes = [ctypes.c_double]
+        return self.moo.sqrt(ctypes.c_double(x))
+
+    def ksqrt(self, x: float, k: int) -> float:
+        """
+        Calculate the k-th root of a number.
+        :param x: Number to calculate the k-th root of.
+        :param k: The degree of the root.
+        :return: k-th root of the number.
+        """
+        self.moo.ksqrt.restype = ctypes.c_double
+        self.moo.ksqrt.argtypes = [ctypes.c_double, ctypes.c_int]
+        return self.moo.ksqrt(ctypes.c_double(x), ctypes.c_int(k))

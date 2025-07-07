@@ -38,6 +38,8 @@ MOOLIB_API double   fpow(double base, double exp);
 MOOLIB_API double dexp(double x);
 MOOLIB_API double dlog(double x, double base);
 MOOLIB_API double ln(double x);
+MOOLIB_API double dsqrt(double x);
+MOOLIB_API double dksqrt(double x, double k);
 }
 
 #endif // MOO_LIBRARY_H
