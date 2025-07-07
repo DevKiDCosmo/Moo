@@ -28,6 +28,8 @@ public:
     static int64_t  combination(int n, int k);
     static double   pow(double base, int64_t exp);
     static double   fpow(double base, double exp);
+    static double   round(double x);
+    static double   roundk(double x, int k);
     static double   sqrt(double x);
     static double   ksqrt(double x, double k);
 

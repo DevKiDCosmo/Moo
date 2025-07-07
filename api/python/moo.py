@@ -302,3 +302,25 @@ class moo:
         self.moo.dksqrt.restype = ctypes.c_double
         self.moo.dksqrt.argtypes = [ctypes.c_double, ctypes.c_int]
         return self.moo.dksqrt(ctypes.c_double(x), ctypes.c_int(k))
+
+    def round(self, x: float) -> float:
+        """
+        Round a number to a specified number of decimal places.
+        :param x: Number to round.
+        :param decimals: Number of decimal places to round to (default is 0).
+        :return: Rounded number.
+        """
+        self.moo.round.restype = ctypes.c_double
+        self.moo.round.argtypes = [ctypes.c_double]
+        return self.moo.round(ctypes.c_double(x))
+
+    def roundk(self, x: float, k: int) -> float:
+        """
+        Round a number to a specified number of decimal places.
+        :param x: Number to round.
+        :param k: Number of decimal places to round to.
+        :return: Rounded number.
+        """
+        self.moo.roundk.restype = ctypes.c_double
+        self.moo.roundk.argtypes = [ctypes.c_double, ctypes.c_int]
+        return self.moo.roundk(ctypes.c_double(x), ctypes.c_int(k))

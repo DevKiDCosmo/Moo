@@ -52,7 +52,7 @@ double moo::pow(double base, int64_t exp) {
     if (base == 0 && exp <= 0) {
         return 1 / pow(base, -exp);
     }
-    if (exp == 0) return 1;              // Jede Zahl hoch 0 ist 1
+    if (exp == 0) return 1; // Jede Zahl hoch 0 ist 1
 
     bool    neg_exp = exp < 0;
     int64_t abs_exp = neg_exp ? -exp : exp;
@@ -120,7 +120,7 @@ double moo::fpow(double base, double exp) {
     if (base == 0 && exp <= 0) {
         return 1 / fpow(base, -exp);
     }
-    if (exp == 0) return 1;              // Jede Zahl hoch 0 ist 1
+    if (exp == 0) return 1; // Jede Zahl hoch 0 ist 1
 
     bool   neg_exp = exp < 0;
     double abs_exp = neg_exp ? -exp : exp;
@@ -136,12 +136,26 @@ double moo::fpow(double base, double exp) {
     return moo::exp(exp * moo::ln(base));
 }
 
+double moo::round(double x) {
+    if (x < 0) {
+        return static_cast<double>(static_cast<int64_t>(x - 0.5));
+    } else {
+        return static_cast<double>(static_cast<int64_t>(x + 0.5));
+    }
+}
+
+double moo::roundk(double x, int k) {
+    double factor = moo::pow(10.0, -k);
+    return moo::round(x * factor) / factor;
+}
+
+
 double moo::sqrt(double x) {
     if (x < 0) return 0;
     if (x == 0) return 0;
 
-    double low = 0;
-    double high = x;
+    double low  = 0;
+    double high = x < 1 ? 1 : x; // für x ∈ [0, 1)
     double mid;
 
     while (high - low > 1e-15) {
@@ -153,12 +167,29 @@ double moo::sqrt(double x) {
         }
     }
 
-    return (low + high) / 2.0;
+    double approx = (low + high) / 2.0;
+
+    double rounded = moo::round(approx);
+    if (moo::absolute(approx - rounded) < 1e-10) {
+        return rounded;
+    }
+
+    return approx;
 }
 
 double moo::ksqrt(double x, double k) {
     if (x < 0 && static_cast<int64_t>(k) % 2 == 0) return 0;
-    return exp(1 / k * ln(x));
+
+    double v = exp(1 / k * ln(x));
+
+    double approx = v;
+
+    double rounded = moo::round(approx);
+    if (moo::absolute(approx - rounded) < 1e-10) {
+        return rounded;
+    }
+
+    return v;
 }
 
 // @formatter:off
@@ -186,5 +217,7 @@ extern "C" {
 
     MOOLIB_API double dsqrt(double x) { return moo::sqrt(x); }
     MOOLIB_API double dksqrt(double x, double k) { return moo::ksqrt(x, k); }
+    MOOLIB_API double rounding(double x) { return moo::round(x); }
+    MOOLIB_API double roundk(double x, int k) { return moo::roundk(x, k); }
 }
 // @formatter:on

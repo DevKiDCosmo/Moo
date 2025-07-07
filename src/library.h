@@ -40,6 +40,8 @@ MOOLIB_API double dlog(double x, double base);
 MOOLIB_API double ln(double x);
 MOOLIB_API double dsqrt(double x);
 MOOLIB_API double dksqrt(double x, double k);
+MOOLIB_API double rounding(double x);
+MOOLIB_API double roundk(double x, int k);
 }
 
 #endif // MOO_LIBRARY_H

@@ -273,3 +273,7 @@ mod;7;[17,10];int64_t
 mod;8;[18,10];int64_t
 mod;0;[240,120];int64_t
 idiv;1;[12,7];double
+dsqrt;3;[9];double
+dksqrt;1.1892071150027212;[4,8];double
+rounding;3;[2.5];double
+roundk;2330;[2329, 2];double
