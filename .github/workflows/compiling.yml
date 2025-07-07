@@ -401,7 +401,7 @@ jobs:
           mkdir runtime-macos
           cp libMoo.dylib runtime-macos/
           cp api/python/*.* runtime-macos/
-          cp test/api/python/test.py runtime-macos/test.py
+          cp test/api/python/*.* runtime-macos/
 
       - name: Run MacOS Tests
         run: |
