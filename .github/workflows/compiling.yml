@@ -331,7 +331,12 @@ jobs:
       - name: Download und Entpacken der benötigten Lib
         run: |
           curl -L -o /tmp/musl-1.2.5.tar.gz https://git.musl-libc.org/cgit/musl/snapshot/musl-1.2.5.tar.gz
-          tar -xzf /tmp/musl-1.2.5.tar.gz -C runtime-${{ matrix.vector.jobname }}
+          tar -xzf /tmp/musl-1.2.5.tar.gz -C runtime-${{ matrix.vector.jobname }}/
+          cd runtime-${{ matrix.vector.jobname }}/musl-1.2.5
+          ./configure
+          make
+          make install
+
 
       - name: Run Unix API Tests
         run: |

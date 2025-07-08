@@ -324,3 +324,102 @@ class moo:
         self.moo.roundk.restype = ctypes.c_double
         self.moo.roundk.argtypes = [ctypes.c_double, ctypes.c_int]
         return self.moo.roundk(ctypes.c_double(x), ctypes.c_int(k))
+
+    def i(self):
+        """
+        Get the the nullptr as index for intervals.
+        :return: Imaginary unit (i) for intervals.
+        """
+        self.moo.i.restype = ctypes.pointer(ctypes.c_int(0))
+        return self.moo.i()
+
+    def interval_c(self, start: int, end: int, step: int, argCount: int, function, vars, out_count) -> list:
+        """
+        Ruft die C-API-Funktion interval_c auf.
+        :param start: Startwert des Intervalls.
+        :param end: Endwert des Intervalls.
+        :param step: Schrittweite.
+        :param argCount: Anzahl der Argumente für die Funktion.
+        :param function: Funktionszeiger (ctypes.CFUNCTYPE).
+        :param vars: Zeiger auf Variablen (ctypes.POINTER(ctypes.POINTER(ctypes.c_int64))).
+        :param out_count: Zeiger auf Ausgabewert (ctypes.POINTER(ctypes.c_int64)).
+        :return: Liste der Ergebnisse.
+        """
+        self.moo.interval_c.restype = ctypes.POINTER(ctypes.c_int64)
+        self.moo.interval_c.argtypes = [
+            ctypes.c_int64, ctypes.c_int64, ctypes.c_int64, ctypes.c_int64,
+            ctypes.CFUNCTYPE(ctypes.c_int64, *[ctypes.c_int64] * argCount),
+            ctypes.POINTER(ctypes.POINTER(ctypes.c_int64)),
+            ctypes.POINTER(ctypes.c_int64)
+        ]
+        ptr = self.moo.interval_c(
+            ctypes.c_int64(start), ctypes.c_int64(end), ctypes.c_int64(step), ctypes.c_int64(argCount),
+            function, vars, out_count
+        )
+        if not ptr:
+            raise ValueError("NULL pointer returned from interval_c function.")
+        result = [ptr[i] for i in range(out_count.contents.value)]
+        self.moo.freeptr.restype = None
+        self.moo.freeptr.argtypes = [ctypes.POINTER(ctypes.c_int64)]
+        self.moo.freeptr(ptr)
+        return result
+
+    def executefunc(self, name: str, params, param_count: int) -> float:
+        """
+        Führt eine Funktion mit Namen und Parametern aus.
+        :param name: Funktionsname.
+        :param params: Zeiger auf Parameter (ctypes.POINTER(ctypes.c_int64)).
+        :param param_count: Anzahl der Parameter.
+        :return: Ergebnis als float.
+        """
+        self.moo.executefunc.restype = ctypes.c_double
+        self.moo.executefunc.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_int64), ctypes.c_int64]
+        return self.moo.executefunc(name.encode('utf-8'), params, ctypes.c_int64(param_count))
+
+    def executedfunc(self, id: int, result: float):
+        """
+        Übergibt das Ergebnis einer ausgeführten Funktion.
+        :param id: Funktionsaufruf-ID.
+        :param result: Ergebniswert.
+        """
+        self.moo.executedfunc.restype = None
+        self.moo.executedfunc.argtypes = [ctypes.c_int64, ctypes.c_double]
+        self.moo.executedfunc(ctypes.c_int64(id), ctypes.c_double(result))
+
+    def execute_all_func_calls(self):
+        """
+        Liest alle Funktionsaufrufe aus und führt sie nativ aus.
+        :return: Liste der Ergebnisse der Funktionsaufrufe.
+        """
+        self.moo.get_all_func_calls.restype = ctypes.POINTER(ctypes.c_void_p)
+        self.moo.get_all_func_calls.argtypes = [ctypes.POINTER(ctypes.c_int64)]
+        out_count = ctypes.c_int64()
+        arr = self.moo.get_all_func_calls(ctypes.byref(out_count))
+        if not arr:
+            return []
+        FUNC_CALL_C = ctypes.Structure
+        FUNC_CALL_C._fields_ = [
+            ('id', ctypes.c_int64),
+            ('name', ctypes.c_char_p),
+            ('params', ctypes.POINTER(ctypes.c_int64)),
+            ('param_count', ctypes.c_int64)
+        ]
+        results = []
+        for i in range(out_count.value):
+            fc = ctypes.cast(arr[i], ctypes.POINTER(FUNC_CALL_C)).contents
+            params = [fc.params[j] for j in range(fc.param_count)]
+            func_name = fc.name.decode('utf-8')
+            # Funktionszeiger holen und ausführen
+            func = getattr(self.moo, func_name, None)
+            if func is not None:
+                # Annahme: alle Parameter sind int64 und Rückgabewert ist double
+                func.restype = ctypes.c_double
+                func.argtypes = [ctypes.c_int64] * fc.param_count
+                result = func(*[ctypes.c_int64(p) for p in params])
+                results.append({'id': fc.id, 'name': func_name, 'params': params, 'result': result})
+            else:
+                results.append({'id': fc.id, 'name': func_name, 'params': params, 'result': None})
+        self.moo.free_func_calls.restype = None
+        self.moo.free_func_calls.argtypes = [ctypes.POINTER(ctypes.c_void_p), ctypes.c_int64]
+        self.moo.free_func_calls(arr, out_count)
+        return results

@@ -117,21 +117,17 @@ double moo::ln(double x) {
 }
 
 double moo::fpow(double base, double exp) {
-    if (base == 0 && exp <= 0) {
-        return 1 / fpow(base, -exp);
+    if (base == 0) {
+        if (exp > 0) return 0;
+        return -1;
     }
-    if (exp == 0) return 1; // Jede Zahl hoch 0 ist 1
+    if (exp <= 0) return 1 / fpow(base, -exp);
+    if (exp == 0) return 1;
 
-    bool   neg_exp = exp < 0;
-    double abs_exp = neg_exp ? -exp : exp;
-    double result  = 1.0;
-    double b       = base;
-
-    if (static_cast<int64_t>(abs_exp) == abs_exp) {
-        return moo::pow(base, static_cast<int64_t>(abs_exp));
+    if (static_cast<int64_t>(exp) == exp) {
+        return moo::pow(base, static_cast<int64_t>(exp));
     }
 
-    // exp(exp * ln(base))
     if (base < 0) return 0;
     return moo::exp(exp * moo::ln(base));
 }
@@ -169,8 +165,7 @@ double moo::sqrt(double x) {
 
     double approx = (low + high) / 2.0;
 
-    double rounded = moo::round(approx);
-    if (moo::absolute(approx - rounded) < 1e-10) {
+    if (const double rounded = moo::round(approx); moo::absolute(approx - rounded) < 1e-10) {
         return rounded;
     }
 
@@ -180,12 +175,9 @@ double moo::sqrt(double x) {
 double moo::ksqrt(double x, double k) {
     if (x < 0 && static_cast<int64_t>(k) % 2 == 0) return 0;
 
-    double v = exp(1 / k * ln(x));
+    const double v = exp(1 / k * ln(x));
 
-    double approx = v;
-
-    double rounded = moo::round(approx);
-    if (moo::absolute(approx - rounded) < 1e-10) {
+    if (const double rounded = moo::round(v); moo::absolute(v - rounded) < 1e-10) {
         return rounded;
     }
 
