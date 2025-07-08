@@ -59,7 +59,7 @@ MOOLIB_API nullptr_t i() {
 MOOLIB_API int64_t* interval_c(
     int64_t   start, int64_t end, int64_t step, int64_t argCount,
     char*     func,
-    int64_t** vars,
+    int64_t** vars
     ) {
     if (!func || !vars) return nullptr;
 
