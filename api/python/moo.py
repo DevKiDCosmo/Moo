@@ -330,10 +330,9 @@ class moo:
         Get the the nullptr as index for intervals.
         :return: Imaginary unit (i) for intervals.
         """
-        self.moo.i.restype = ctypes.pointer(ctypes.c_int(0))
-        return self.moo.i()
+        return ctypes.c_void_p(0)
 
-    def interval_c(self, start: int, end: int, step: int, argCount: int, function, vars, out_count) -> list:
+    def interval(self, start: int, end: int, step: int, argCount: int, function: str, vars) -> list:
         """
         Ruft die C-API-Funktion interval_c auf.
         :param start: Startwert des Intervalls.
@@ -348,10 +347,13 @@ class moo:
         self.moo.interval_c.restype = ctypes.POINTER(ctypes.c_int64)
         self.moo.interval_c.argtypes = [
             ctypes.c_int64, ctypes.c_int64, ctypes.c_int64, ctypes.c_int64,
-            ctypes.CFUNCTYPE(ctypes.c_int64, *[ctypes.c_int64] * argCount),
+            ctypes.c_char_p,
             ctypes.POINTER(ctypes.POINTER(ctypes.c_int64)),
             ctypes.POINTER(ctypes.c_int64)
         ]
+
+        out_count = 1
+
         ptr = self.moo.interval_c(
             ctypes.c_int64(start), ctypes.c_int64(end), ctypes.c_int64(step), ctypes.c_int64(argCount),
             function, vars, out_count
