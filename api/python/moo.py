@@ -344,6 +344,16 @@ class moo:
         :param out_count: Zeiger auf Ausgabewert (ctypes.POINTER(ctypes.c_int64)).
         :return: Liste der Ergebnisse.
         """
+
+        # Construct vars to int64_t**
+        if not isinstance(vars, ctypes.POINTER(ctypes.POINTER(ctypes.c_int64))):
+            if isinstance(vars, list):
+                vars = (ctypes.POINTER(ctypes.c_int64) * len(vars))(*[ctypes.pointer(ctypes.c_int64(v)) for v in vars])
+            elif isinstance(vars, ctypes.POINTER(ctypes.c_int64)):
+                vars = ctypes.pointer(vars)
+            else:
+                raise TypeError("vars must be a list or ctypes.POINTER(ctypes.POINTER(ctypes.c_int64)).")
+
         self.moo.interval_c.restype = ctypes.POINTER(ctypes.c_int64)
         self.moo.interval_c.argtypes = [
             ctypes.c_int64, ctypes.c_int64, ctypes.c_int64, ctypes.c_int64,
@@ -352,15 +362,13 @@ class moo:
             ctypes.POINTER(ctypes.c_int64)
         ]
 
-        out_count = 1
-
         ptr = self.moo.interval_c(
             ctypes.c_int64(start), ctypes.c_int64(end), ctypes.c_int64(step), ctypes.c_int64(argCount),
-            function, vars, out_count
+            function, vars
         )
         if not ptr:
             raise ValueError("NULL pointer returned from interval_c function.")
-        result = [ptr[i] for i in range(out_count.contents.value)]
+        result = [ptr[i] for i in range(len(ptr))]
         self.moo.freeptr.restype = None
         self.moo.freeptr.argtypes = [ctypes.POINTER(ctypes.c_int64)]
         self.moo.freeptr(ptr)

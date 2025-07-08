@@ -60,9 +60,8 @@ MOOLIB_API int64_t* interval_c(
     int64_t   start, int64_t end, int64_t step, int64_t argCount,
     char*     func,
     int64_t** vars,
-    int64_t*  out_count
     ) {
-    if (!func || !vars || !out_count) return nullptr;
+    if (!func || !vars) return nullptr;
 
     std::vector<int64_t> result;
     try {
@@ -106,15 +105,12 @@ MOOLIB_API int64_t* interval_c(
             result.push_back(moo::executefunc(func, varValues));
         }
     } catch (...) {
-        *out_count = 0;
         return moo::i();
     }
 
     // Ergebnis-Array für C allokieren
-    *out_count = static_cast<int64_t>(result.size());
     auto* out  = static_cast<int64_t*>(malloc(result.size() * sizeof(int64_t)));
     if (!out) {
-        *out_count = 0;
         return nullptr;
     }
     std::copy(result.begin(), result.end(), out);
