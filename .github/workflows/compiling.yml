@@ -283,7 +283,7 @@ jobs:
             make
             make install
           fi
-          copy /usr/local/lib/libc.musl-x86_64.so.1 runtime-${{ matrix.vector.jobname }}/
+          copy /usr/local/musl/lib/libc.musl-x86_64.so.1 runtime-${{ matrix.vector.jobname }}/
 
 
       - name: Run Unix API Tests
