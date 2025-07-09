@@ -358,8 +358,7 @@ class moo:
         self.moo.interval_c.argtypes = [
             ctypes.c_int64, ctypes.c_int64, ctypes.c_int64, ctypes.c_int64,
             ctypes.c_char_p,
-            ctypes.POINTER(ctypes.POINTER(ctypes.c_int64)),
-            ctypes.POINTER(ctypes.c_int64)
+            ctypes.POINTER(ctypes.POINTER(ctypes.c_int64))
         ]
 
         ptr = self.moo.interval_c(

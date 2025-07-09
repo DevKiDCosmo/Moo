@@ -24,3 +24,10 @@ executefunc(const char* name, const int64_t* params, int64_t param_count);
 executedfunc(int64_t id, double result);
 get_all_func_calls(int64_t* out_count);
 free_func_calls(func_call_c* arr, int64_t count);
+
+
+Current Problem:
+
+How to time the execution. Interval -> execute function -> Interval done -> return value
+
+Intervals must await until function execution is done. This means that the function must be executed in a separate thread or...

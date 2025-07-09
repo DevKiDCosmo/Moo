@@ -1,4 +1,3 @@
-// src/utility/queue.cpp
 #include <vector>
 #include <mutex>
 #include <string>
