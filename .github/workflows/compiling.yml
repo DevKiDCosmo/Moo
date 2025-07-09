@@ -1,9 +1,9 @@
 name: Compiling C++ Code
 on:
   push:
-    branches: [ main ]
+    branches: [ WITHOUT-Intervals ]
   pull_request:
-    branches: [ main ]
+    branches: [ WITHOUT-Intervals ]
 
 jobs:
   config:
