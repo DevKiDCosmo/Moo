@@ -1,7 +1,9 @@
 #include "../moo.hpp"
 #include "../export.h"
+#include "../library.h"
 #include <iostream>
 #include <functional>
+#include <cstdlib>
 
 nullptr_t moo::i() {
     return nullptr;
@@ -57,11 +59,12 @@ MOOLIB_API nullptr_t i() {
 }
 
 MOOLIB_API int64_t* interval_c(
-    int64_t   start, int64_t end, int64_t step, int64_t argCount,
-    char*     func,
-    int64_t** vars
+    int64_t         start, int64_t end, int64_t step, int64_t argCount,
+    interval_func_t func,
+    int64_t**       vars,
+    int64_t*        out_count
     ) {
-    if (!func || !vars) return nullptr;
+    if (!func || !vars || !out_count) return nullptr;
 
     std::vector<int64_t> result;
     try {
@@ -90,29 +93,31 @@ MOOLIB_API int64_t* interval_c(
             throw std::invalid_argument("Interval fixpoint nullptr not found in vars.");
         }
 
-        std::vector<double>  result;
         std::vector<int64_t> varValues(argCount);
 
         // Initialisiere bekannte Variablen
         for (int64_t i = 0; i < argCount; ++i) {
-            if (vars[i] != moo::i()) {
+            if (vars[i] != nullptr) {
                 varValues[i] = *vars[i];
             }
         }
 
         for (int64_t i = start; i <= end; i += step) {
             varValues[iterationIndex] = i;
-            result.push_back(moo::executefunc(func, varValues));
+            result.push_back(func(varValues.data(), argCount));
         }
     } catch (...) {
-        return moo::i();
+        *out_count = 0;
+        return nullptr;
     }
 
     // Ergebnis-Array für C allokieren
     auto* out  = static_cast<int64_t*>(malloc(result.size() * sizeof(int64_t)));
     if (!out) {
+        *out_count = 0;
         return nullptr;
     }
+    *out_count = static_cast<int64_t>(result.size());
     std::copy(result.begin(), result.end(), out);
     return out;
 }
