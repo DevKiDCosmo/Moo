@@ -283,7 +283,8 @@ jobs:
             make
             make install
           fi
-
+          
+          pwd
           cp ./lib/libc.musl-x86_64.so.1 runtime-${{ matrix.vector.jobname }}/ || cp runtime-linux-breaking-changes/musl-1.2.5/lib/libc.musl-x86_64.so.1 runtime-${{ matrix.vector.jobname }}/
 
       - name: Run Unix API Tests
