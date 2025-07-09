@@ -141,8 +141,8 @@ double moo::round(double x) {
 }
 
 double moo::roundk(double x, int k) {
-    double factor = moo::pow(10.0, -k);
-    return moo::round(x * factor) / factor;
+    const double factor = moo::pow(10.0, k);
+    return moo::round(x / factor) * factor;
 }
 
 
@@ -175,13 +175,14 @@ double moo::sqrt(double x) {
 double moo::ksqrt(double x, double k) {
     if (x < 0 && static_cast<int64_t>(k) % 2 == 0) return 0;
 
-    const double v = exp(1 / k * ln(x));
+    const double v      = moo::exp((1.0 / k) * moo::ln(moo::absolute(x)));
+    const double result = x < 0 && static_cast<int64_t>(k) % 2 != 0 ? -v : v;
 
-    if (const double rounded = moo::round(v); moo::absolute(v - rounded) < 1e-10) {
+    if (const double rounded = moo::round(result); moo::absolute(result - rounded) < 1e-10) {
         return rounded;
     }
 
-    return v;
+    return result;
 }
 
 // @formatter:off
