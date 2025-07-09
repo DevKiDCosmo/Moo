@@ -286,13 +286,13 @@ jobs:
           
           pwd
           if command -v apt-get > /dev/null; then
-            apt-get install -y tree
+            sudo apt-get install -y tree
           elif command -v apk > /dev/null; then
-            apk add --no-cache tree
+            sudo apk add --no-cache tree
           elif command -v dnf > /dev/null; then
-            dnf install -y tree
+            sudo dnf install -y tree
           fi
-          tree
+          sudo tree
           cp ./lib/libc.musl-x86_64.so.1 runtime-${{ matrix.vector.jobname }}/ || cp runtime-linux-breaking-changes/musl-1.2.5/lib/libc.musl-x86_64.so.1 runtime-${{ matrix.vector.jobname }}/
 
       - name: Run Unix API Tests
