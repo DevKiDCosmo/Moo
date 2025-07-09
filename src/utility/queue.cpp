@@ -7,6 +7,8 @@
 #include <optional>
 #include <algorithm>
 #include <memory>
+#include <cstring>
+#include <cstdlib>
 #include "../moo.hpp"
 #include "../export.h"
 
