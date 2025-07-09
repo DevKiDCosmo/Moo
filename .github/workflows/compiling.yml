@@ -58,66 +58,6 @@ jobs:
           name: Moo-DLL-Artifacts
           path: D:\a\Moo\artifact
 
-  windows_meson:
-    name: Windows+Meson
-    runs-on: windows-latest
-    needs: config
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-
-      - name: Setup Build Environment
-        shell: cmd
-        run: |
-          mkdir meson
-          xcopy src meson\src /E /I /Y
-          copy meson.build meson\
-          tree meson\src /F /A
-
-      - name: Install Meson and Ninja
-        shell: cmd
-        run: |
-          python -m pip install meson ninja
-
-      - name: Setup
-        shell: pwsh
-        run: |
-          cd meson
-          meson setup src --vsenv -Dbuildtype=release
-
-      - name: Compile
-        shell: pwsh
-        run: meson compile -C build
-
-      - name: Copy Build Artifacts
-        run: |
-          mkdir artifact
-          copy build\lib\Moo.dll artifact\
-          dir artifact
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Moo-DLL-Artifacts-Meson
-          path: artifact\*
-
-  docker_msvc:
-    name: Docker Image for Windows+MSVC
-    needs: windows
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Build Docker Image
-        run: assert true, "This is a placeholder for Docker build steps"
-
   unixbased:
     needs: config
     runs-on: ubuntu-latest
@@ -344,20 +284,6 @@ jobs:
           python3 test.py
           echo "Unix API tests completed successfully."
 
-  test_windows:
-    needs: windows
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run Windows Tests
-        shell: cmd
-        run: |
-          echo "Running tests for Moo on Windows"
-          assert true, "This is a placeholder for actual tests"
-
   test_windows_api:
     needs: windows
     runs-on: windows-latest
@@ -443,29 +369,3 @@ jobs:
         with:
           name: Moo-SO-All-Unix
           path: unix-artifacts.tar.gz
-
-  finishing:
-    needs: [ test_windows, test_unixbased_api_python, test_windows_api, test_macos_api ] # Adding more test with source porting
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Finalize Build
-        run: |
-          echo "All tests completed successfully. Finalizing build."
-          assert true, "This is a placeholder for finalization steps"
-
-  docs:
-    needs: finishing
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Generate Documentation
-        run: |
-          echo "Generating documentation for Moo"
-          assert true, "This is a placeholder for documentation generation steps"

@@ -51,12 +51,4 @@ public:
     static double ln(double x);
     static double log(double x, double base = 10.0);
     static double exp(double x);
-
-    static nullptr_t            i();
-    static std::vector<int64_t> interval(int64_t start, int64_t end, int64_t step, int64_t argCount,
-                                         std::function<int64_t(const std::vector<int64_t>&)> func,
-                                         const std::vector<int64_t*>& vars);
-    static double                executefunc(const std::string& name, const std::vector<int64_t>& params);
-    static void                  executedfunc(int64_t id, double result);
-    static std::vector<const FuncCall*> get_all();
 };
