@@ -324,3 +324,33 @@ class moo:
         self.moo.roundk.restype = ctypes.c_double
         self.moo.roundk.argtypes = [ctypes.c_double, ctypes.c_int]
         return self.moo.roundk(ctypes.c_double(x), ctypes.c_int(k))
+
+    def sin(self, x: float) -> float:
+        """
+        Calculate the sine of an angle in radians.
+        :param x: Angle in radians.
+        :return: Sine of the angle.
+        """
+        self.moo.sin.restype = ctypes.c_double
+        self.moo.sin.argtypes = [ctypes.c_double]
+        return self.moo.sin(ctypes.c_double(x))
+
+    def cos(self, x: float) -> float:
+        """
+        Calculate the cosine of an angle in radians.
+        :param x: Angle in radians.
+        :return: Cosine of the angle.
+        """
+        self.moo.cos.restype = ctypes.c_double
+        self.moo.cos.argtypes = [ctypes.c_double]
+        return self.moo.cos(ctypes.c_double(x))
+
+    def tan(self, x: float) -> float:
+        """
+        Calculate the tangent of an angle in radians.
+        :param x: Angle in radians.
+        :return: Tangent of the angle.
+        """
+        self.moo.tan.restype = ctypes.c_double
+        self.moo.tan.argtypes = [ctypes.c_double]
+        return self.moo.tan(ctypes.c_double(x))

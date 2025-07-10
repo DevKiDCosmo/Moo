@@ -11,16 +11,6 @@
 
 class moo {
 public:
-    struct FuncCall {
-        int64_t                 id;
-        std::string             name;
-        std::vector<int64_t>    params;
-        std::optional<double>   result;
-        std::condition_variable cv;
-        bool                    done = false;
-        std::mutex              mtx;
-    };
-
     static double  absolute(double x);
     static double  min(double a, double b);
     static double  max(double a, double b);
@@ -51,4 +41,9 @@ public:
     static double ln(double x);
     static double log(double x, double base = 10.0);
     static double exp(double x);
+
+    static double sine(double x);
+    static double cosine(double x);
+    static double tangent(double x);
+
 };

@@ -42,6 +42,10 @@ MOOLIB_API double dsqrt(double x);
 MOOLIB_API double dksqrt(double x, double k);
 MOOLIB_API double rounding(double x);
 MOOLIB_API double roundk(double x, int k);
+
+MOOLIB_API double sine(double x);
+MOOLIB_API double cosine(double x);
+MOOLIB_API double tangent(double x);
 }
 
 #endif // MOO_LIBRARY_H
