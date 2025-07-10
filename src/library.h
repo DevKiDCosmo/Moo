@@ -42,25 +42,6 @@ MOOLIB_API double dsqrt(double x);
 MOOLIB_API double dksqrt(double x, double k);
 MOOLIB_API double rounding(double x);
 MOOLIB_API double roundk(double x, int k);
-
-// advance/interval.cpp
-MOOLIB_API nullptr_t i();
-typedef int64_t (*   interval_func_t)(const int64_t* args, int64_t argCount);
-MOOLIB_API int64_t*  interval_c(int64_t        start, int64_t  end, int64_t   step, int64_t argCount,
-                               interval_func_t func, int64_t** vars, int64_t* out_count);
-
-// utility/queue.cpp
-struct func_call_c {
-    int64_t  id;
-    char*    name;
-    int64_t* params;
-    int64_t  param_count;
-};
-
-MOOLIB_API double       executefunc(const char* name, const int64_t* params, int64_t param_count);
-MOOLIB_API void         executedfunc(int64_t id, double result);
-MOOLIB_API func_call_c* get_all_func_calls(int64_t* out_count);
-MOOLIB_API void         free_func_calls(func_call_c* arr, int64_t count);
 }
 
 #endif // MOO_LIBRARY_H
