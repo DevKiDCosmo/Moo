@@ -10,6 +10,8 @@ set(SOURCES
     src/basics/binom.cpp
     src/basics/stdop.cpp
     src/basics/permutation.cpp
+    src/trigonometry/numbers.cpp
+    src/trigonometry/trigonometry.cpp
 )
 
 add_library(Moo SHARED ${SOURCES})

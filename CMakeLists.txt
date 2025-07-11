@@ -15,7 +15,8 @@ add_library(Moo SHARED ${SOURCES}/library.cpp
         src/basics/binom.cpp
         src/basics/stdop.cpp
         src/basics/permutation.cpp
-        src/trigonometry/trigonometry.cpp)
+        src/trigonometry/trigonometry.cpp
+        src/trigonometry/numbers.cpp)
 
 # Optionally set properties (e.g., version, output name)
 

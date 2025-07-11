@@ -34,6 +34,41 @@ double moo::tangent(double x) {
     return sin_x / cos_x;
 }
 
+double moo::arcsine(double x) {
+    // Normalize x to the range [-1, 1]
+    if (x > 1) {
+        x = x - floor(x);
+    } else {
+        x = x < -1 ? x + ceil(x) : x;
+    }
+
+    double term = x;
+    double sum  = x;
+    int    n    = 1;
+    for (int i = 1; i <= 10; ++i) {
+        term *= (x * x * (2 * n - 1)) / ((2 * n) * (2 * n + 1));
+        sum += term;
+        n++;
+    }
+    return sum;
+}
+
+double moo::arccosine(double x) {
+    return moo::pi()/2 - arcsine(x);
+}
+
+double moo::arctangent(double x) {
+    double term = x;
+    double sum  = x;
+    int sign = -1;
+    for (int n = 1; n <= 10; ++n) {
+        term = pow(x, 2 * n + 1) / (2 * n + 1);
+        sum += sign * term;
+        sign *= -1;
+    }
+    return sum;
+}
+
 extern "C" {
 MOOLIB_API double sine(double x) {
     return moo::sine(x);
@@ -45,5 +80,9 @@ MOOLIB_API double cosine(double x) {
 
 MOOLIB_API double tangent(double x) {
     return moo::tangent(x);
+}
+
+MOOLIB_API double arcsine(double x) {
+    return moo::arcsine(x);
 }
 }

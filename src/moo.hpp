@@ -45,5 +45,9 @@ public:
     static double sine(double x);
     static double cosine(double x);
     static double tangent(double x);
+    static double arcsine(double x);
+    static double arccosine(double x);
+    static double arctangent(double x);
 
+    static double pi();
 };

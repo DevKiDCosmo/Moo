@@ -46,6 +46,9 @@ MOOLIB_API double roundk(double x, int k);
 MOOLIB_API double sine(double x);
 MOOLIB_API double cosine(double x);
 MOOLIB_API double tangent(double x);
+MOOLIB_API double arcsine(double x);
+
+MOOLIB_API double pi();
 }
 
 #endif // MOO_LIBRARY_H
