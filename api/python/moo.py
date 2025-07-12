@@ -333,7 +333,7 @@ class moo:
         """
         self.moo.sin.restype = ctypes.c_double
         self.moo.sin.argtypes = [ctypes.c_double]
-        return self.moo.sin(ctypes.c_double(x))
+        return self.moo.sine(ctypes.c_double(x))
 
     def cos(self, x: float) -> float:
         """
@@ -343,14 +343,74 @@ class moo:
         """
         self.moo.cos.restype = ctypes.c_double
         self.moo.cos.argtypes = [ctypes.c_double]
-        return self.moo.cos(ctypes.c_double(x))
+        return self.moo.cosine(ctypes.c_double(x))
 
     def tan(self, x: float) -> float:
         """
-        Calculate the tangent of an angle in radians.
+        Calculate the tangentgent of an angle in radians.
         :param x: Angle in radians.
-        :return: Tangent of the angle.
+        :return: tangentgent of the angle.
         """
-        self.moo.tan.restype = ctypes.c_double
-        self.moo.tan.argtypes = [ctypes.c_double]
-        return self.moo.tan(ctypes.c_double(x))
+        self.moo.tangent.restype = ctypes.c_double
+        self.moo.tangent.argtypes = [ctypes.c_double]
+        return self.moo.tangent(ctypes.c_double(x))
+
+    def arcsin(self, x: float) -> float:
+        """
+        Calculate the arcsine of a number.
+        :param x: Number to calculate the arcsine of.
+        :return: Arcsine of the number in radians.
+        """
+        self.moo.arcsine.restype = ctypes.c_double
+        self.moo.arcsine.argtypes = [ctypes.c_double]
+        return self.moo.arcsine(ctypes.c_double(x))
+
+    def arccos(self, x: float) -> float:
+        """
+        Calculate the arccosine of a number.
+        :param x: Number to calculate the arccosine of.
+        :return: Arccosine of the number in radians.
+        """
+        self.moo.arccosine.restype = ctypes.c_double
+        self.moo.arccosine.argtypes = [ctypes.c_double]
+        return self.moo.arccosine(ctypes.c_double(x))
+
+    def arctan(self, x: float) -> float:
+        """
+        Calculate the arctangentgent of a number.
+        :param x: Number to calculate the arctangentgent of.
+        :return: Arctangentgent of the number in radians.
+        """
+        self.moo.arctangentgent.restype = ctypes.c_double
+        self.moo.arctangentgent.argtypes = [ctypes.c_double]
+        return self.moo.arctangentgent(ctypes.c_double(x))
+
+    def sinh(self, x: float) -> float:
+        """
+        Calculate the hyperbolic sine of a number.
+        :param x: Number to calculate the hyperbolic sine of.
+        :return: Hyperbolic sine of the number.
+        """
+        self.moo.sinehyperbolic.restype = ctypes.c_double
+        self.moo.sinehyperbolic.argtypes = [ctypes.c_double]
+        return self.moo.sinehyperbolic(ctypes.c_double(x))
+
+    def cosh(self, x: float) -> float:
+        """
+        Calculate the hyperbolic cosine of a number.
+        :param x: Number to calculate the hyperbolic cosine of.
+        :return: Hyperbolic cosine of the number.
+        """
+        self.moo.cosinehyperbolic.restype = ctypes.c_double
+        self.moo.cosinehyperbolic.argtypes = [ctypes.c_double]
+        return self.moo.cosinehyperbolic(ctypes.c_double(x))
+
+    def tanh(self, x: float) -> float:
+        """
+        Calculate the hyperbolic tangentgent of a number.
+        :param x: Number to calculate the hyperbolic tangentgent of.
+        :return: Hyperbolic tangentgent of the number.
+        """
+        self.moo.tangenthyperbolic.restype = ctypes.c_double
+        self.moo.tangenthyperbolic.argtypes = [ctypes.c_double]
+        return self.moo.tangenthyperbolic(ctypes.c_double(x))

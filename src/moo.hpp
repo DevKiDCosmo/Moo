@@ -48,6 +48,9 @@ public:
     static double arcsine(double x);
     static double arccosine(double x);
     static double arctangent(double x);
+    static double cosinehyperbolic(double x);
+    static double tangenthyperbolic(double x);
+    static double sinehyperbolic(double x);
 
     static double pi();
 };
