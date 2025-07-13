@@ -414,3 +414,33 @@ class moo:
         self.moo.tangenthyperbolic.restype = ctypes.c_double
         self.moo.tangenthyperbolic.argtypes = [ctypes.c_double]
         return self.moo.tangenthyperbolic(ctypes.c_double(x))
+
+    def arcsinh(self, x: float) -> float:
+        """
+        Calculate the hyperbolic sine of a number.
+        :param x: Number to calculate the hyperbolic sine of.
+        :return: Hyperbolic sine of the number.
+        """
+        self.moo.arcsinehyperbolic.restype = ctypes.c_double
+        self.moo.arcsinehyperbolic.argtypes = [ctypes.c_double]
+        return self.moo.arcsinehyperbolic(ctypes.c_double(x))
+
+    def arccosh(self, x: float) -> float:
+        """
+        Calculate the hyperbolic cosine of a number.
+        :param x: Number to calculate the hyperbolic cosine of.
+        :return: Hyperbolic cosine of the number.
+        """
+        self.moo.arccosinehyperbolic.restype = ctypes.c_double
+        self.moo.arccosinehyperbolic.argtypes = [ctypes.c_double]
+        return self.moo.arccosinehyperbolic(ctypes.c_double(x))
+
+    def arctanh(self, x: float) -> float:
+        """
+        Calculate the hyperbolic tangentgent of a number.
+        :param x: Number to calculate the hyperbolic tangentgent of.
+        :return: Hyperbolic tangentgent of the number.
+        """
+        self.moo.arctangenthyperbolic.restype = ctypes.c_double
+        self.moo.arctangenthyperbolic.argtypes = [ctypes.c_double]
+        return self.moo.arctangenthyperbolic(ctypes.c_double(x))

@@ -50,8 +50,12 @@ MOOLIB_API double arcsine(double x);
 MOOLIB_API double arccosine(double x);
 MOOLIB_API double arctangent(double x);
 MOOLIB_API double sinehyperbolix(double x);
-MOOLIB_API double cosinehyperbolix(double x);
-MOOLIB_API double tangenthyperbolix(double x);
+MOOLIB_API double cosinehyperbolic(double x);
+MOOLIB_API double tangenthyperbolic(double x);
+MOOLIB_API double arcsinehyperbolic(double x);
+MOOLIB_API double arccosinehyperbolic(double x);
+MOOLIB_API double arctangenthyperbolic(double x);
+MOOLIB_API double normalizer(double x);
 
 MOOLIB_API double pi();
 }

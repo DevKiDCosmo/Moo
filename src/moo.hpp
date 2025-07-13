@@ -45,11 +45,15 @@ public:
     static double sine(double x);
     static double cosine(double x);
     static double tangent(double x);
+    static double normalizer(double x);
     static double arcsine(double x);
     static double arccosine(double x);
     static double arctangent(double x);
     static double cosinehyperbolic(double x);
     static double tangenthyperbolic(double x);
+    static double arcsinehyperbolic(double x);
+    static double arccosinehyperbolic(double x);
+    static double arctangenthyperbolic(double x);
     static double sinehyperbolic(double x);
 
     static double pi();

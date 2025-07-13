@@ -34,13 +34,17 @@ double moo::tangent(double x) {
     return sin_x / cos_x;
 }
 
-double moo::arcsine(double x) {
+double moo::normalizer(double x) {
     // Normalize x to the range [-1, 1]
     if (x > 1) {
-        x = x - floor(x);
+        return x - floor(x);
     } else {
-        x = x < -1 ? x + ceil(x) : x;
+        return x < -1 ? x + ceil(x) : x;
     }
+}
+
+double moo::arcsine(double x) {
+    x = moo::normalizer(x);
 
     double term = x;
     double sum  = x;
@@ -95,6 +99,24 @@ double moo::tangenthyperbolic(double x) {
     return sinh_x / cosh_x;
 }
 
+double moo::arcsinehyperbolic(double x) {
+    x = moo::normalizer(x);
+    return log(x + sqrt(x * x + 1));
+}
+
+double moo::arccosinehyperbolic(double x) {
+    x = moo::normalizer(x);
+    return moo::log(x + sqrt(x * x - 1));
+}
+
+double moo::arctangenthyperbolic(double x) {
+    x = moo::normalizer(x);
+    if (x == 1) {
+        return std::numeric_limits<double>::infinity(); // Handle the case where x is 1
+    }
+    return 0.5 * log((1 + x) / (1 - x));
+}
+
 extern "C" {
 MOOLIB_API double sine(double x) {
     return moo::sine(x);
@@ -124,11 +146,27 @@ MOOLIB_API double sinehyperbolix(double x) {
     return moo::sinehyperbolic(x);
 }
 
-MOOLIB_API double cosinehyperbolix(double x) {
+MOOLIB_API double cosinehyperbolic(double x) {
     return moo::cosinehyperbolic(x);
 }
 
-MOOLIB_API double tangenthyperbolix(double x) {
+MOOLIB_API double tangenthyperbolic(double x) {
     return moo::tangenthyperbolic(x);
+}
+
+MOOLIB_API double arcsinehyperbolic(double x) {
+    return moo::arcsinehyperbolic(x);
+}
+
+MOOLIB_API double arccosinehyperbolic(double x) {
+    return moo::arccosinehyperbolic(x);
+}
+
+MOOLIB_API double arctangenthyperbolic(double x) {
+    return moo::arctangenthyperbolic(x);
+}
+
+MOOLIB_API double normalizer(double x) {
+    return moo::normalizer(x);
 }
 }
