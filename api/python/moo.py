@@ -444,3 +444,31 @@ class moo:
         self.moo.arctangenthyperbolic.restype = ctypes.c_double
         self.moo.arctangenthyperbolic.argtypes = [ctypes.c_double]
         return self.moo.arctangenthyperbolic(ctypes.c_double(x))
+
+    def primefac(self, x:float) -> list:
+        """
+        Calculate the prime factors of a number.
+        :param x: Number to calculate the prime factors of.
+        :return: List of prime factors of the number.
+        """
+        self.moo.primefac.restype = ctypes.POINTER(ctypes.c_int64)
+        self.moo.primefac.argtypes = [ctypes.c_double]
+
+        ptr = self.moo.primefac(ctypes.c_double(x))
+        if not ptr:
+            raise ValueError("NULL pointer returned from primefac function.")
+
+        result = []
+        i = 0
+        while True:
+            value = ptr[i]
+            if value == 0:
+                break
+            result.append(value)
+            i += 1
+
+        self.moo.clearptr.restype = None
+        self.moo.clearptr.argtypes = [ctypes.POINTER(ctypes.c_int64)]
+        self.moo.clearptr(ptr)
+
+        return result

@@ -57,7 +57,8 @@ MOOLIB_API double arccosinehyperbolic(double x);
 MOOLIB_API double arctangenthyperbolic(double x);
 MOOLIB_API double normalizer(double x);
 
-MOOLIB_API double pi();
+MOOLIB_API double* primefac(double x);
+MOOLIB_API double  pi();
 }
 
 #endif // MOO_LIBRARY_H

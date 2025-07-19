@@ -56,5 +56,6 @@ public:
     static double arctangenthyperbolic(double x);
     static double sinehyperbolic(double x);
 
-    static double pi();
+    static double* primefac(double x);
+    static double  pi();
 };
